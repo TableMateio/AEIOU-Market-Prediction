@@ -1,0 +1,50 @@
+---
+description: Context of the project
+globs:
+alwaysApply: true
+---
+
+
+# AEIOU - News-Driven Market Prediction Engine
+
+## What Is This?
+
+**AEIOU** is an experimental system that goes beyond simple stock prediction to understand **how news creates investor beliefs and drives market behavior**. Instead of just predicting if a stock will go up or down, it aims to understand *why* by mapping the causal chains from:
+
+**News Event** → **Investor Interpretation** → **Expected Business Impact** → **Stock Movement**
+
+## The Core Innovation
+
+Most prediction systems look for correlations in data. AEIOU tries to model the **human reasoning process** that drives markets:
+
+- **How do investors interpret news?** (Is it believable? From a credible source?)
+- **What business outcomes do they expect?** (Revenue growth? Margin expansion?)
+- **How do different investor types react?** (Retail vs institutional, momentum vs fundamental)
+- **When do narratives persist vs fade?** (Distinguishing hype from real value)
+
+## Current Status: Phase 1 - Data Foundation
+
+We're currently in **Week 1** of development, focusing on validating core assumptions:
+- Can we reliably connect news timestamps to market movements?
+- Do our data sources capture enough information for causal analysis?
+- Are our fundamental assumptions about investor behavior testable?
+
+## Key Documents
+
+- **[Lean Development Strategy.md](./Lean%20Development%20Strategy.md)** - Our build-test-learn approach with phase-by-phase validation todos
+- **[Research.md](./Research.md)** - 236-page comprehensive analysis of existing approaches and academic literature
+- **[PRD.md](./PRD.md)** - Detailed product requirements and enhanced system vision
+- **[Hypotheses.md](./Hypotheses.md)** - 7 core testable hypotheses underlying the project
+- **[Plan of Action.md](./Plan%20of%20Action.md)** - High-level development roadmap
+
+## The Vision
+
+Rather than another black-box predictor, AEIOU aims to become an **"epistemic rating agency"** for markets - helping distinguish between:
+- **Perceived Value** (market narratives and hype)
+- **Proven Value** (genuine business fundamentals)
+
+Success means building a system that not only predicts market movements but *explains* them in terms of investor psychology and causal business logic.
+
+---
+
+*For technical implementation details, see the individual README files. For development progress and next steps, check the Lean Development Strategy.*

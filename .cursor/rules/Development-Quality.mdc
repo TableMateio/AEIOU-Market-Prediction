@@ -1,0 +1,96 @@
+---
+description: Development quality standards and architecture principles
+globs:
+alwaysApply: true
+---
+
+# Development Quality & Architecture Standards
+
+## 🏗️ Core Architecture Principles
+
+**RULE #1: Abstract Smart, Not Hard-Coded**
+- Build modular, configurable systems from day one
+- Use configuration files/objects instead of hard-coded values
+- Design for multiple data sources, not just Alpha Vantage
+- Create reusable components that can handle different stocks, not just Apple
+
+**RULE #2: No Hacky Code or Quick Scripts**
+- Every piece of code should be production-ready, even in Phase 1
+- Use proper error handling, logging, and validation
+- Write code as if it will scale to handle 1000+ stocks
+- No "quick and dirty" solutions - they become permanent
+
+**RULE #3: Clean Separation of Concerns**
+- **Data Layer**: Clean abstractions for different APIs (Alpha Vantage, Yahoo, etc.)
+- **Business Logic**: Pure functions for causal analysis, separate from data fetching
+- **Validation Layer**: Reusable validation logic separate from specific tests
+- **UI Layer**: Clean interfaces that don't know about underlying data sources
+
+**RULE #4: Configuration-Driven Development**
+- Stock symbols, API keys, thresholds should be configurable
+- Easy to switch between test/production data sources
+- Feature flags for different analysis modes
+- All validation criteria should be adjustable parameters
+
+## 📁 Suggested Project Structure
+```
+src/
+  ├── config/           # All configuration files
+  ├── data/            
+  │   ├── sources/     # Abstracted API clients (AlphaVantage, Yahoo, etc.)
+  │   ├── models/      # Data models and schemas
+  │   └── storage/     # Airtable and other storage abstractions
+  ├── analysis/
+  │   ├── causal/      # Causal chain extraction logic
+  │   ├── validation/  # Reusable validation functions
+  │   └── patterns/    # Pattern matching algorithms
+  ├── services/        # Business logic services
+  ├── utils/           # Shared utilities
+  └── api/             # Express routes and controllers
+tests/
+tools/                 # Development and validation tools
+docs/                  # Generated documentation
+```
+
+## 🔧 Technical Standards
+
+**Code Quality**:
+- Use TypeScript for better maintainability
+- Implement proper error handling with custom error classes
+- Add comprehensive logging with structured data
+- Write unit tests for all business logic
+
+**Data Handling**:
+- Never hardcode API endpoints or stock symbols
+- Use environment variables for sensitive data
+- Implement retry logic and rate limiting
+- Cache expensive operations intelligently
+
+**Extensibility**:
+- Design APIs to handle multiple stocks simultaneously
+- Create plugin architecture for different analysis methods
+- Make it easy to add new data sources
+- Build for horizontal scaling from the start
+
+## ❌ Anti-Patterns to Avoid
+
+- Single-use scripts that can't be reused
+- Hard-coded stock symbols or API endpoints
+- Copy-paste code for similar operations
+- Mixing data fetching with business logic
+- No error handling or validation
+- Magic numbers without explanation
+- Tight coupling between components
+
+## ✅ Quality Checklist
+
+Before committing any code, ensure:
+- [ ] Configurable parameters are in config files
+- [ ] Functions are pure and testable
+- [ ] Error handling is comprehensive
+- [ ] Code works for multiple stocks, not just test case
+- [ ] Logging provides useful debugging information
+- [ ] No magic numbers or hard-coded values
+- [ ] Components can be easily swapped or extended
+
+Remember: **We're building a system, not a collection of scripts.** Every line of code should contribute to a maintainable, scalable architecture that can evolve as we learn.

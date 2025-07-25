@@ -1,0 +1,89 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Project Status Tracker - AEIOU News-Driven Market Prediction
+
+## 🎯 Current Status: **Phase 1 - Data Foundation**
+**Started**: [DATE TO BE FILLED]  
+**Current Week**: Week 1 - Data Reality Check  
+**Overall Progress**: 0% Complete  
+
+---
+
+## 📊 Phase Progress Overview
+
+### ✅ **Planning Phase** - COMPLETE
+- [x] Project description and vision defined
+- [x] Comprehensive research completed (236-page analysis)
+- [x] Core concepts and assumptions documented
+- [x] 7 testable hypotheses formulated
+- [x] 180+ business factors catalogued
+- [x] Technology stack identified
+- [x] Lean development strategy created
+
+### 🔄 **Phase 1: Data Foundation** - IN PROGRESS
+**Goal**: Verify our data sources can actually support causal analysis
+
+#### Week 1: Data Reality Check - 0% Complete
+**Critical Assumption Tests**:
+- [ ] **NEWS TIMING PRECISION**: Can we reliably correlate news timestamps to market movements?
+- [ ] **NEWS COVERAGE COMPLETENESS**: Are we missing critical information?
+- [ ] **STOCK DATA ACCURACY**: Is intraday data precise enough?
+
+**Build Minimum**:
+- [ ] Simple data ingestion script (Alpha Vantage + one backup source)
+- [ ] Basic timestamp alignment between news and price data
+- [ ] Manual verification dashboard for 20 events
+
+**Success Criteria**: 
+- [ ] News-to-price correlation visible in >70% of major events
+- [ ] Timestamp accuracy within 30 minutes
+
+#### Week 2: Manual Causal Chain Validation - NOT STARTED
+- [ ] Manual causal chain extraction testing
+- [ ] Inter-annotator agreement measurement
+- [ ] Sufficient information validation
+
+### ⏳ **Phase 2: NLP Pipeline** - NOT STARTED
+- Week 3: GPT-4 Consistency Testing
+- Week 4: Historical Pattern Validity
+
+### ⏳ **Phase 3: Belief & Perception Modeling** - NOT STARTED
+- Week 5-6: Believability Scoring
+- Week 7: Investor Archetype Assumptions
+
+### ⏳ **Phase 4: Prediction Engine** - NOT STARTED
+- Week 8-9: Prediction Accuracy Testing
+
+### ⏳ **Phase 5: Reflexivity & Meta-Learning** - NOT STARTED
+- Week 10+: Adaptation Testing
+
+---
+
+## 🎯 Current Focus
+
+### This Week's Priority
+**Week 1: Data Reality Check**
+
+**Next Action Items**:
+1. Set up Alpha Vantage API access
+2. Pull 10 major Apple events from last year
+3. Validate news timestamp precision
+4. Check news coverage completeness for iPhone 15 launch
+5. Cross-validate stock data accuracy
+
+### Key Decisions Pending
+- [ ] Choose backup data source (if Alpha Vantage insufficient)
+- [ ] Define "major event" criteria for testing
+- [ ] Set up development environment
+
+---
+
+## 🚨 Risk Monitoring
+
+### Current Risks
+- **Data Quality Unknown**: Haven't validated Alpha Vantage reliability yet
+- **No API Access**: Need to set up data
