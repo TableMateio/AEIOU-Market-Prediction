@@ -13,6 +13,8 @@ apiRouter.get('/', (req, res) => {
         endpoints: {
             health: '/health',
             config: '/config',
+            test: '/test',
+            'test-usage': '/test/usage',
             // TODO: Add more endpoints as we build them
             // data: '/data',
             // analysis: '/analysis',
@@ -44,6 +46,35 @@ apiRouter.get('/config', (req, res) => {
         });
     }
 });
+
+// Test endpoint for system validation
+import TestService from '@services/testService';
+import { asyncHandler } from '@utils/errorHandler';
+
+apiRouter.get('/test', asyncHandler(async (req, res) => {
+    const testService = new TestService();
+    const results = await testService.runSystemTest();
+
+    res.json({
+        success: results.overall,
+        message: results.overall ?
+            'All systems operational! AEIOU is ready for Phase 1 validation.' :
+            'Some systems failed. Check logs for details.',
+        testResults: results,
+        timestamp: new Date().toISOString()
+    });
+}));
+
+apiRouter.get('/test/usage', asyncHandler(async (req, res) => {
+    const testService = new TestService();
+    await testService.checkApiUsage();
+
+    res.json({
+        success: true,
+        message: 'API usage information logged. Check console for details.',
+        timestamp: new Date().toISOString()
+    });
+}));
 
 // Placeholder for future route modules
 // TODO: Add these as we build the features
