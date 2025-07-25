@@ -1,17 +1,11 @@
 import axios, { AxiosInstance } from 'axios';
 import { AppConfig } from '@config/app';
 import { createLogger, logPerformanceAsync } from '@utils/logger';
-import { DataSourceError, RateLimitError, throwError } from '@utils/errorHandler';
+import { DataSourceError, RateLimitError } from '@utils/errorHandler';
 import { StockData, NewsEvent } from '@data/models';
 
 const config = AppConfig.getInstance();
 const logger = createLogger('AlphaVantageClient');
-
-interface AlphaVantageResponse<T> {
-    data: T;
-    rateLimitRemaining: number;
-    rateLimitReset: Date;
-}
 
 interface TimeSeriesData {
     'Meta Data': {
@@ -70,7 +64,6 @@ interface NewsItem {
 export class AlphaVantageClient {
     private static instance: AlphaVantageClient;
     private client: AxiosInstance;
-    private rateLimitQueue: Array<{ resolve: () => void; reject: (error: Error) => void }> = [];
     private requestCount = 0;
     private windowStart = Date.now();
     private readonly maxRequestsPerWindow: number;
@@ -301,11 +294,12 @@ export class AlphaVantageClient {
         const results: StockData[] = [];
 
         for (const [timestamp, values] of Object.entries(timeSeries)) {
-            const open = parseFloat(values['1. open']);
-            const high = parseFloat(values['2. high']);
-            const low = parseFloat(values['3. low']);
-            const close = parseFloat(values['4. close']);
-            const volume = parseInt(values['5. volume']);
+            const dataPoint = values as DailyDataPoint;
+            const open = parseFloat(dataPoint['1. open']);
+            const high = parseFloat(dataPoint['2. high']);
+            const low = parseFloat(dataPoint['3. low']);
+            const close = parseFloat(dataPoint['4. close']);
+            const volume = parseInt(dataPoint['5. volume']);
 
             results.push({
                 stockSymbol: symbol,

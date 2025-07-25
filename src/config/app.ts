@@ -131,7 +131,7 @@ export class AppConfig {
                 newsCoverageThreshold: envVars.NEWS_COVERAGE_THRESHOLD,
             },
             stockAnalysis: {
-                defaultStockSymbols: envVars.DEFAULT_STOCK_SYMBOLS.split(',').map(s => s.trim()),
+                defaultStockSymbols: envVars.DEFAULT_STOCK_SYMBOLS.split(',').map((s: string) => s.trim()),
                 marketHours: {
                     start: envVars.MARKET_HOURS_START,
                     end: envVars.MARKET_HOURS_END,

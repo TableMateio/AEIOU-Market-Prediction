@@ -7,7 +7,7 @@ const logger = createLogger('ErrorHandler');
 export class AppError extends Error {
     public readonly statusCode: number;
     public readonly isOperational: boolean;
-    public readonly errorCode?: string;
+    public readonly errorCode: string | undefined;
 
     constructor(
         message: string,
@@ -25,14 +25,14 @@ export class AppError extends Error {
 }
 
 export class ValidationError extends AppError {
-    constructor(message: string, details?: any) {
+    constructor(message: string, _details?: any) {
         super(message, 400, true, 'VALIDATION_ERROR');
         this.name = 'ValidationError';
     }
 }
 
 export class DataSourceError extends AppError {
-    constructor(message: string, source: string, originalError?: Error) {
+    constructor(message: string, source: string, _originalError?: Error) {
         super(`Data source error (${source}): ${message}`, 502, true, 'DATA_SOURCE_ERROR');
         this.name = 'DataSourceError';
     }
@@ -124,7 +124,7 @@ export const errorHandler = (
     error: Error,
     req: Request,
     res: Response,
-    next: NextFunction
+    _next: NextFunction
 ): void => {
     const requestId = req.headers['x-request-id'] as string;
 
@@ -147,8 +147,8 @@ export const errorHandler = (
 
     // Determine response details
     const statusCode = error instanceof AppError ? error.statusCode : 500;
-    const includeStack = process.env.NODE_ENV === 'development';
-    const showErrorDetails = isOperationalError(error) || process.env.NODE_ENV === 'development';
+    const includeStack = process.env['NODE_ENV'] === 'development';
+    const showErrorDetails = isOperationalError(error) || process.env['NODE_ENV'] === 'development';
 
     // Format response
     const errorResponse = formatErrorResponse(
@@ -184,7 +184,7 @@ export const setupGlobalErrorHandlers = (): void => {
         }, 1000);
     });
 
-    process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
+    process.on('unhandledRejection', (reason: any, _promise: Promise<any>) => {
         logger.error('Unhandled Rejection', {
             reason: reason instanceof Error ? reason.message : String(reason),
             stack: reason instanceof Error ? reason.stack : undefined,

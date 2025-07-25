@@ -1,15 +1,11 @@
 import Airtable from 'airtable';
 import { AppConfig } from '@config/app';
 import { createLogger } from '@utils/logger';
-import { DataSourceError, throwError } from '@utils/errorHandler';
+import { DataSourceError } from '@utils/errorHandler';
 import {
     NewsEvent,
     StockData,
-    CausalChain,
-    ValidationResult,
-    BusinessFactor,
-    InvestorBelief,
-    ExpectedImpact
+    ValidationResult
 } from '@data/models';
 
 const config = AppConfig.getInstance();

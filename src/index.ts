@@ -1,16 +1,16 @@
+// Load environment variables first
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import dotenv from 'dotenv';
 import { createLogger } from '@utils/logger';
 import { AppConfig } from '@config/app';
 import { errorHandler, setupGlobalErrorHandlers } from '@utils/errorHandler';
 import { apiRouter } from '@api/index';
 import AirtableStorage from '@data/storage/airtable';
 import AlphaVantageClient from '@data/sources/alphaVantage';
-
-// Load environment variables
-dotenv.config();
 
 // Setup global error handlers
 setupGlobalErrorHandlers();
@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', apiRouter);
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
     res.json({
         status: 'healthy',
         timestamp: new Date().toISOString(),

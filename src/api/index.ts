@@ -5,7 +5,7 @@ const logger = createLogger('API');
 export const apiRouter = Router();
 
 // API status endpoint
-apiRouter.get('/', (req, res) => {
+apiRouter.get('/', (_req, res) => {
     res.json({
         success: true,
         message: 'AEIOU Market Prediction API v1',
@@ -24,14 +24,14 @@ apiRouter.get('/', (req, res) => {
 });
 
 // Configuration endpoint (for debugging/monitoring)
-apiRouter.get('/config', (req, res) => {
+apiRouter.get('/config', (_req, res) => {
     // Only show non-sensitive config in development
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env['NODE_ENV'] === 'development') {
         res.json({
             success: true,
             config: {
-                environment: process.env.NODE_ENV,
-                logLevel: process.env.LOG_LEVEL || 'info',
+                environment: process.env['NODE_ENV'],
+                logLevel: process.env['LOG_LEVEL'] || 'info',
                 // Add other non-sensitive config as needed
             },
         });
@@ -51,7 +51,7 @@ apiRouter.get('/config', (req, res) => {
 import TestService from '@services/testService';
 import { asyncHandler } from '@utils/errorHandler';
 
-apiRouter.get('/test', asyncHandler(async (req, res) => {
+apiRouter.get('/test', asyncHandler(async (_req, res) => {
     const testService = new TestService();
     const results = await testService.runSystemTest();
 
@@ -65,7 +65,7 @@ apiRouter.get('/test', asyncHandler(async (req, res) => {
     });
 }));
 
-apiRouter.get('/test/usage', asyncHandler(async (req, res) => {
+apiRouter.get('/test/usage', asyncHandler(async (_req, res) => {
     const testService = new TestService();
     await testService.checkApiUsage();
 
