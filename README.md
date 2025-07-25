@@ -134,6 +134,22 @@ The application **will not start** without these required environment variables:
 3. **Data Validation**: Test news timestamp precision and coverage
 4. **Manual Verification**: Build dashboard for reviewing correlations
 
+## 🔗 Repository & Collaboration
+
+**GitHub Repository**: https://github.com/TableMateio/AEIOU-Market-Prediction
+
+### Git Workflow
+- Follow structured commit messages with emojis and context
+- Commit frequently (every 30 minutes during active development)
+- Push to remote regularly to ensure code safety
+- See [Git Practices](.cursor/rules/Git-Practices.mdc) for detailed guidelines
+
+### Contributing
+- Create feature branches for significant changes
+- Always test before merging to main
+- Document configuration changes in commit messages
+- Keep `.env.example` updated but never commit real API keys
+
 ---
 
 *This is an experimental research project focused on understanding market psychology through news analysis.* 

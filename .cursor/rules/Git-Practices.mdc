@@ -1,0 +1,131 @@
+---
+description: Git development practices and version control standards
+globs:
+alwaysApply: true
+---
+
+# Git Development Practices & Version Control Standards
+
+## 🔄 Commit Practices
+
+**RULE #1: Commit Early and Often**
+- Make commits after completing each logical unit of work
+- Commit at least every 30 minutes during active development
+- Never let uncommitted work sit for more than 1 hour
+- Use meaningful commit messages with context
+
+**RULE #2: Structured Commit Messages**
+Use this format for all commits:
+```
+🔥 [TYPE] Brief description - [CONTEXT]
+
+✅ What was implemented:
+- Specific feature or fix implemented
+- Key components added or modified
+- Important configuration changes
+
+📋 Next steps:
+- What should be tackled next
+- Any blockers or dependencies
+- Testing or validation needed
+
+🎯 Impact: How this moves us toward Phase goals
+```
+
+**Commit Types:**
+- 🚀 `FEAT` - New features
+- 🐛 `FIX` - Bug fixes  
+- 📚 `DOCS` - Documentation
+- 🔧 `CONFIG` - Configuration changes
+- ⚡ `PERF` - Performance improvements
+- 🧪 `TEST` - Testing additions
+- ♻️ `REFACTOR` - Code refactoring
+- 🔒 `SECURITY` - Security updates
+
+## 🔒 Security Practices
+
+**RULE #3: Never Commit Sensitive Data**
+- Always check `.gitignore` covers:
+  - `.env` files
+  - API keys
+  - Database credentials
+  - Personal tokens
+  - Any configuration with secrets
+- Use `git status` before every commit
+- If sensitive data is accidentally committed, immediately rotate keys
+
+**RULE #4: Environment File Management**
+- Keep `.env.example` updated with required variables
+- Document all environment variables in README
+- Use descriptive placeholder values (not real keys)
+- Never commit actual values to version control
+
+## 📈 Branch Strategy
+
+**RULE #5: Development Flow**
+- `main` branch is always deployable
+- Create feature branches for significant changes: `feature/validation-service`
+- Create hotfix branches for urgent fixes: `hotfix/rate-limit-bug`
+- Merge to main only after testing
+
+**RULE #6: Push Frequency**
+- Push to remote at least every 2-3 commits
+- Always push before ending work session
+- Push immediately after completing major milestones
+- Use `git push origin main` regularly
+
+## 📝 Documentation in Commits
+
+**RULE #7: Comprehensive Commit Context**
+- Explain WHY the change was made, not just what
+- Reference relevant todos or issues
+- Include performance implications
+- Note any breaking changes
+- Document new dependencies
+
+**RULE #8: Progress Tracking**
+- Update README with current status after major features
+- Commit documentation changes with code changes
+- Keep project status synchronized with code reality
+- Include links to external resources (Airtable base, API docs)
+
+## 🚀 Repository Maintenance
+
+**Current Repository**: https://github.com/TableMateio/AEIOU-Market-Prediction
+
+**Regular Maintenance Tasks**:
+- Keep dependencies updated monthly
+- Review and clean up old branches
+- Update documentation with new learnings
+- Tag releases at major milestones
+- Monitor repository security alerts
+
+## ⚡ Quick Commands Reference
+
+```bash
+# Daily workflow
+git status                    # Check current state
+git add .                     # Stage changes
+git commit -m "🔥 [TYPE] Description"  # Commit with standard format
+git push origin main          # Push to remote
+
+# Branch management
+git checkout -b feature/name  # Create new feature branch
+git merge feature/name        # Merge completed feature
+git branch -d feature/name    # Delete merged branch
+
+# Emergency procedures
+git reset --soft HEAD~1       # Undo last commit (keep changes)
+git reset --hard HEAD~1       # Undo last commit (lose changes)
+git push --force-with-lease   # Force push safely
+```
+
+## 🎯 Integration with AEIOU Workflow
+
+- **Phase Completion**: Tag major phase completions (`v1.0-phase1-complete`)
+- **Validation Results**: Commit validation test results with data
+- **Configuration Updates**: Document all API key rotations
+- **Architecture Changes**: Detailed commits for major structural changes
+- **Performance Data**: Include benchmark results in commit messages
+
+Remember: **Git history tells the story of our learning process. Make it a good story.**
