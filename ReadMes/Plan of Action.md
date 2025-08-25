@@ -1,84 +1,295 @@
-Plan of Action
+# AEIOU Development Plan - Dual-Layer Belief Engine Implementation
 
-Plan of Action for Building a Stock Prediction Model Based on News Analysis
+## 🎯 Overview
+This plan implements a sophisticated dual-layer system that models both business causal chains and belief formation mathematics, moving far beyond simple sentiment analysis to epistemic market prediction.
 
-⸻
+---
 
-Phase 1: Data Collection and Preparation
-1.Gather Historical News Data (Focus on Apple)
-•Use news APIs like Alpha Vantage, Koyfin, Seeking Alpha, or Benzinga to collect articles related to Apple over the last 3-5 years.
-•Action: Set up automated scripts to pull all relevant articles, including timestamps, from news aggregators.
-•Goal: Create a dataset of news headlines and full articles for further analysis.
-2.Collect Historical Stock Data
-•Use financial data APIs such as IEX Cloud or Yahoo Finance to collect intra-day stock prices, volume, and other relevant metrics for Apple.
-•Action: For each news event, gather stock price data for 7-14 days before and after the news release.
-•Goal: Create a dataset that links stock price movements with specific news events.
-3.Label and Organize Data
-•Action: Organize data by linking each news article to the corresponding stock movement.
-•Goal: Label each article’s impact (positive/negative/neutral) and key factors such as product launches, regulations, or earnings.
+## 📊 **Phase 1: Data Foundation & Dual-Layer Architecture (Weeks 1-4)**
 
-⸻
+### Week 1: Data Reality Check & Schema Implementation
+**Goal**: Validate data sources and establish dual-layer data architecture
 
-Phase 2: Preprocessing and Initial Analysis
-1.Relevance Filtering and Summarization
-•Use GPT-3.5 or other NLP models to filter irrelevant articles and summarize the core points of each article.
-•Action: Develop a script that removes duplicate or repetitive articles, focusing on those that reveal new information.
-•Goal: Streamline the dataset by keeping only significant articles.
-2.Feature Extraction and Annotation
-•Action: Use NLP models to extract features (e.g., product launches, AI features, market expansions) and annotate key factors driving stock movement.
-•Goal: Create a feature-rich dataset, linking business events to stock movements.
-3.Sentiment Analysis
-•Apply sentiment analysis to the news data to assess the tone of the coverage (positive, negative, neutral).
-•Action: Implement sentiment analysis models to label the sentiment and assess its correlation with stock price movements.
-•Goal: Quantify how the tone of news coverage influences stock movements.
+**1.1 Alpha Vantage MCP Integration** ✅ COMPLETE
+- Set up Alpha Vantage MCP server for real-time news data
+- Validate news timestamp precision vs market movements
+- Test news coverage completeness (iPhone 15 launch comparison)
 
-⸻
+**1.2 Airtable Linked Record Schema** 
+- [ ] Create 5 linked tables: News Events, Sources, Authors, Topics, Tickers
+- [ ] Implement source credibility scoring system
+- [ ] Set up belief factor JSON storage with validation
+- [ ] Test linked record relationships and data integrity
 
-Phase 3: Building and Training Prediction Models
-1.Identify High-Impact News Factors
-•Action: Use historical data to identify which types of news have the largest impact on stock prices (e.g., product releases, legal battles, market trends).
-•Goal: Prioritize features that drive stock movement for model training.
-2.Train Machine Learning Models
-•Use machine learning tools (e.g., TensorFlow, PyTorch) to train models that predict stock movements based on past data.
-•Action: Train regression or decision tree models to predict the direction and magnitude of stock price changes.
-•Goal: Build a predictive model that identifies stock movements from news factors with high accuracy.
-3.Test on Historical Data
-•Action: Back-test the model using the past 3-5 years of data to assess accuracy.
-•Goal: Validate the model’s ability to predict stock movements based on historical news and stock data.
+**1.3 Initial Data Validation**
+- [ ] Pull 10 major Apple events from last year via Alpha Vantage MCP
+- [ ] Manually extract business causal chains (2-5 steps each)
+- [ ] Score belief factors for each chain step
+- [ ] Validate timestamp correlation with price movements
 
-⸻
+**Success Criteria**: 
+✅ News-price correlation >70%, Airtable schema functional, Manual extraction achievable
 
-Phase 4: Evaluation and Optimization
-1.Refine Predictions with Real-Time Data
-•Action: Incorporate real-time news articles and stock data to test the system’s ability to make timely predictions.
-•Goal: Assess how early the model can predict stock movements after news events are published.
-2.Improve Accuracy Through Iteration
-•Use insights from real-time performance to adjust the model.
-•Action: Tune hyperparameters, experiment with different models, and add additional news categories (e.g., federal financial trends).
-•Goal: Increase the model’s prediction accuracy and responsiveness.
+---
 
-⸻
+### Week 2: Manual Annotation Framework
+**Goal**: Establish human-in-the-loop validation for both layers
 
-Phase 5: Deployment and Scalability
-1.Create Automated Pipelines
-•Action: Automate the ingestion of new articles, sentiment analysis, and stock predictions using tools like Apache Airflow for data pipelines.
-•Goal: Ensure continuous, real-time analysis of news articles and stock predictions.
-2.Scale to Multiple Companies
-•Once successful with Apple, expand the model to predict stock movements for other companies.
-•Action: Use the same approach to analyze multiple stocks, adjusting factors relevant to different industries.
-•Goal: Scale the system to make predictions for a wider range of companies.
+**2.1 Business Causal Chain Annotation**
+- [ ] Build annotation tool for multi-step business reasoning
+- [ ] Create business mechanism taxonomy (partnership_leverage, feature_driven_refresh, etc.)
+- [ ] Test inter-annotator agreement on chain structure (target: >70%)
+- [ ] Classify chains into reusable patterns
 
-⸻
+**2.2 Belief Factor Scoring Framework**
+- [ ] Implement 10-dimensional belief scoring interface
+- [ ] Test scoring consistency across multiple annotators (target: <30% variance)
+- [ ] Validate belief factor independence via factor analysis
+- [ ] Correlate belief scores with market reaction magnitude
 
-Tools and Resources Needed
-•News Data API: Seeking Alpha, Benzinga, Alpha Vantage
-•Financial Data API: Yahoo Finance, IEX Cloud
-•Cloud Computing: AWS, Google Cloud, Azure
-•Machine Learning Frameworks: TensorFlow, PyTorch
-•NLP Models: GPT-3.5/GPT-4
-•Data Pipeline Management: Apache Airflow, Prefect
-•Database: MongoDB, PostgreSQL
+**2.3 Dual-Layer Integration Testing**
+- [ ] Test business chain complexity vs belief certainty correlation
+- [ ] Validate familiar patterns get higher believability scores
+- [ ] Measure layer interaction effects
 
-⸻
+**Success Criteria**: 
+✅ Chain extraction >70% consistency, Belief scoring <30% variance, Meaningful layer correlation
 
-This step-by-step plan of action focuses on proving the model’s ability to predict stock movements based on news and allows for real-time decision-making with continuous improvement.
+---
+
+### Week 3: Pattern Matching & Historical Validation
+**Goal**: Validate business pattern reusability assumption
+
+**3.1 Historical Pattern Database**
+- [ ] Classify 50+ historical events into business pattern types
+- [ ] Build pattern similarity matching algorithm
+- [ ] Test pattern-based predictions vs event-specific matching
+- [ ] Validate pattern outcome correlation across time periods
+
+**3.2 Source Credibility Impact Validation**
+- [ ] Find identical news across multiple sources (Reuters vs Seeking Alpha)
+- [ ] Measure belief factor variance for same content/different sources
+- [ ] Test source credibility independent impact on market reactions
+- [ ] Build dynamic credibility scoring based on prediction accuracy
+
+**Success Criteria**: 
+✅ Pattern matching >65% accuracy, Source credibility shows measurable impact
+
+---
+
+### Week 4: Temporal Dynamics & Investor Archetypes
+**Goal**: Model belief evolution and investor differentiation
+
+**4.1 Belief Decay Curve Modeling**
+- [ ] Track belief factor evolution over 30+ days post-event
+- [ ] Fit exponential decay curves to belief evolution patterns
+- [ ] Test decay curve predictions vs actual belief persistence
+- [ ] Model attention half-life vs belief half-life differences
+
+**4.2 Investor Archetype Detection**
+- [ ] Analyze trading volume signatures by time-of-day
+- [ ] Compare immediate vs delayed reaction patterns
+- [ ] Test retail vs institutional belief processing differences
+- [ ] Build archetype-specific reaction probability models
+
+**Success Criteria**: 
+✅ Decay curves R² >0.7, Clear investor archetype clustering
+
+---
+
+## 🧠 **Phase 2: NLP Pipeline & Automation (Weeks 5-8)**
+
+### Week 5: GPT-4 Causal Chain Extraction
+**Goal**: Automate business causal chain extraction with consistency validation
+
+**5.1 GPT-4 Chain Extraction Pipeline**
+- [ ] Develop GPT-4 prompts for multi-step business reasoning
+- [ ] Test extraction consistency (same input → similar output >80%)
+- [ ] Validate against human annotation (agreement >75%)
+- [ ] Implement hallucination detection for spurious causality
+
+**5.2 Business Mechanism Classification**
+- [ ] Train GPT-4 to classify business mechanisms automatically
+- [ ] Test mechanism taxonomy coverage (>90% of chain steps)
+- [ ] Validate mechanism impact range predictions
+- [ ] Build automated pattern type classification
+
+**Success Criteria**: 
+✅ GPT consistency >80%, Human agreement >75%, Mechanism coverage >90%
+
+---
+
+### Week 6: Automated Belief Factor Scoring
+**Goal**: Automate belief factor extraction with mathematical validation
+
+**6.1 GPT-4 Belief Scoring Pipeline**
+- [ ] Develop prompts for 10-dimensional belief factor scoring
+- [ ] Test scoring consistency and validate against human annotation
+- [ ] Implement source credibility weighting in belief formation
+- [ ] Build automated believability score calculation
+
+**6.2 Mathematical Validation Framework**
+- [ ] Test factor independence via correlation analysis
+- [ ] Validate factor composability (combined > individual performance)
+- [ ] Implement statistical significance testing for factor importance
+- [ ] Build confidence intervals for belief factor predictions
+
+**Success Criteria**: 
+✅ Automated scoring matches human annotation >75%, Factor independence validated
+
+---
+
+### Week 7: Vector Similarity & Pattern Matching
+**Goal**: Implement mathematical pattern matching using combined vectors
+
+**7.1 Combined Vector Representation**
+- [ ] Build combined vectors: [business_pattern + belief_factors]
+- [ ] Implement cosine similarity matching for historical analogs
+- [ ] Test weighted combination (60% business, 40% belief)
+- [ ] Validate vector similarity vs content similarity performance
+
+**7.2 Historical Analog Database**
+- [ ] Build searchable database of 100+ historical events with vectors
+- [ ] Implement similarity search with configurable weighting
+- [ ] Test analog quality correlation with prediction accuracy
+- [ ] Build analog confidence scoring system
+
+**Success Criteria**: 
+✅ Vector similarity >15% improvement over content similarity
+
+---
+
+### Week 8: Integration & Backtesting
+**Goal**: Integrate all components and validate system performance
+
+**8.1 End-to-End Pipeline**
+- [ ] Integrate: News → Chain Extraction → Belief Scoring → Pattern Matching → Prediction
+- [ ] Test pipeline on 50+ historical events not used in training
+- [ ] Measure overall system accuracy vs baselines
+- [ ] Validate temporal prediction decay (1-day vs 1-week vs 1-month)
+
+**8.2 Performance Validation**
+- [ ] Backtest dual-layer system vs sentiment-only baseline
+- [ ] Test prediction accuracy across different market conditions
+- [ ] Validate statistical significance of improvement
+- [ ] Measure false positive/negative rates
+
+**Success Criteria**: 
+✅ System accuracy >65%, >10% improvement over baselines, Statistical significance p<0.05
+
+---
+
+## 🚀 **Phase 3: Real-Time Implementation & Reflexivity (Weeks 9-12)**
+
+### Week 9: Real-Time Processing Pipeline
+**Goal**: Implement live news processing with immediate prediction generation
+
+**9.1 Real-Time Data Pipeline**
+- [ ] Set up live Alpha Vantage news feed integration
+- [ ] Implement real-time causal chain extraction
+- [ ] Build immediate belief factor scoring
+- [ ] Create real-time pattern matching and prediction
+
+**9.2 Performance Monitoring**
+- [ ] Track prediction accuracy in real-time
+- [ ] Monitor system latency and reliability
+- [ ] Implement error handling and fallback mechanisms
+- [ ] Build prediction confidence scoring
+
+---
+
+### Week 10: Passive Cohort Detection
+**Goal**: Detect and predict activation of passive belief cohorts
+
+**10.1 Passive Cohort Identification**
+- [ ] Implement attention/volume mismatch detection
+- [ ] Build passive cohort size estimation algorithms
+- [ ] Test activation trigger identification
+- [ ] Validate activation prediction accuracy (target: >60%)
+
+**10.2 Multi-Horizon Prediction**
+- [ ] Implement 1-day, 3-day, 1-week, 1-month prediction models
+- [ ] Test prediction decay patterns
+- [ ] Validate temporal accuracy degradation
+- [ ] Build confidence intervals for each time horizon
+
+---
+
+### Week 11: Pattern Degradation Detection
+**Goal**: Implement system reflexivity to detect when patterns stop working
+
+**11.1 Pattern Lifecycle Tracking**
+- [ ] Monitor prediction accuracy decay over time
+- [ ] Detect when successful patterns become ineffective
+- [ ] Implement pattern retirement and replacement
+- [ ] Build adaptive weighting based on recent performance
+
+**11.2 Overfitting Detection**
+- [ ] Monitor training vs test accuracy gaps
+- [ ] Implement early stopping for pattern degradation
+- [ ] Build alerts for systematic accuracy decline
+- [ ] Create model retraining triggers
+
+---
+
+### Week 12: System Integration & Production Readiness
+**Goal**: Finalize system and prepare for production deployment
+
+**12.1 Production Pipeline**
+- [ ] Optimize system performance and reliability
+- [ ] Implement comprehensive logging and monitoring
+- [ ] Build user interface for prediction exploration
+- [ ] Create API endpoints for external access
+
+**12.2 Validation & Documentation**
+- [ ] Complete end-to-end system validation
+- [ ] Document all components and processes
+- [ ] Create user guides and API documentation
+- [ ] Prepare for potential Supabase migration
+
+---
+
+## 📊 **Success Metrics Summary**
+
+| Phase | Week | Key Metric | Success Threshold |
+|-------|------|------------|------------------|
+| 1 | 1-2 | Human annotation agreement | >70% chains, <30% belief variance |
+| 1 | 3-4 | Pattern matching accuracy | >65% vs random |
+| 2 | 5-6 | GPT automation accuracy | >75% vs human annotation |
+| 2 | 7-8 | System integration performance | >65% accuracy, >10% vs baseline |
+| 3 | 9-10 | Real-time prediction accuracy | Maintained performance |
+| 3 | 11-12 | Pattern degradation detection | Early warning system functional |
+
+---
+
+## 🚨 **Kill/Pivot Criteria**
+
+**Stop Development If**:
+- Human causal chain agreement <60% (Week 2)
+- Belief factors show no independence or predictive power (Week 2-3)
+- GPT automation accuracy <60% vs human annotation (Week 5-6)
+- System accuracy consistently <55% (Week 8)
+
+**Pivot Scenarios**:
+- **Causal chains work, beliefs don't** → Focus on business logic only
+- **Beliefs work, chains don't** → Enhanced sentiment analysis
+- **Both work but can't combine** → Parallel prediction systems
+- **Apple-only success** → Specialized Apple prediction tool
+
+---
+
+## 🎯 **Resource Requirements**
+
+**Technical Infrastructure**:
+- Alpha Vantage Pro API subscription
+- Airtable Pro subscription (initial) → Supabase (scaling)
+- GPT-4 API access for automated processing
+- Vector database (Pinecone/Weaviate) for similarity search
+
+**Human Resources**:
+- 2-3 annotators for manual validation (Weeks 1-4)
+- Business domain expert for mechanism validation
+- Statistical validation consultant for mathematical framework
+
+**Expected Timeline**: 12 weeks to production-ready dual-layer belief engine
+**Expected Accuracy**: >65% directional prediction, >10% improvement over sentiment baselines
