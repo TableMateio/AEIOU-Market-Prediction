@@ -2,13 +2,22 @@ PRD 1
 
 **Product Requirements Document (PRD)**
 
-**Project Name:** Narrative Signal — Phase 1 MVP
-**Goal:** Build an MVP of a stock movement prediction system that models how investor beliefs are formed in response to news, tracks the causal impact of those beliefs on expected business outcomes, and distinguishes perceived vs real value to predict market reaction with epistemic rigor.
+**Project Name:** AEIOU Belief Engine — Phase 1 MVP
+**Goal:** Build an MVP that models how news creates investor beliefs through atomic factor decomposition, tracking the mathematical formation of market psychology to predict stock movements with epistemic rigor. The system distinguishes between perception artifacts (news) and business reality, modeling belief states as mathematical vectors rather than simple sentiment scores.
 
 ---
 
 ## I. Summary
-Narrative Signal is an inference engine that models how news creates investor beliefs about business consequences, and how those beliefs shape capital flows. The system maps cause-effect chains from news → belief → expected business impact → stock movement, distinguishing short-term narrative spikes from long-term value. MVP will focus on a small subset of companies and event types, while establishing the data backbone and belief modeling layer.
+AEIOU is a dual-layer inference engine that models both **business causality chains** and **belief formation** about those chains. It recognizes that investors don't just react to news—they extrapolate multi-step business consequences and form beliefs about each step. The system maps:
+
+**Reality** → **Journalist Perception** → **News Article** → **Investor Business Reasoning** → **Causal Chain Extraction** → **Belief Formation Per Chain Step** → **Market Action**
+
+**Key Innovation**: The system decomposes investor reasoning into:
+1. **Business Causal Chains**: Multi-step business logic (e.g., tech release → refresh cycle → revenue growth → market share gain)
+2. **Belief Factors Per Step**: Each business step gets scored across 10 belief dimensions (intensity, certainty, duration, etc.)
+3. **Historical Analog Matching**: Match causal patterns (not just events) to predict outcomes
+
+Example: "Apple AI release" might be unique, but "tech release → forced refresh cycle" has happened 30+ times and can be mathematically modeled.
 
 ---
 
@@ -27,74 +36,191 @@ Narrative Signal is an inference engine that models how news creates investor be
    - Optional: intraday data for precise reaction analysis
 4. **Ingest financial health data** (Morningstar API)
    - Revenue, net income, margins, etc.
-5. **Store all data** in PostgreSQL (initial), structured for causal chaining
-   - `news_articles`, `stock_prices`, `financials`, `narrative_threads`
+5. **Store all data** in linked Airtable schema (Phase 1) → Supabase (scaling)
+   - `News Events` (main table with belief vectors)
+   - `News Sources` (credibility scoring, bias detection)
+   - `Authors` (expertise mapping, track record)
+   - `Topics` (attention factors, market impact potential)
+   - `Tickers` (volatility, news sensitivity)
 
-#### Step 2: News-Belief-Price Causal Chains
-**Goal:** Build structured chains from news to expected business outcomes to market reaction
+#### Step 2: Business Causal Chain Extraction + Belief Formation
+**Goal:** Extract multi-step business reasoning chains AND model beliefs about each step
 
-1. For each article, use GPT to extract:
-   - **Event Type** (e.g., product launch, lawsuit, executive exit)
-   - **Affected Business Area** (e.g., growth driver, trust signal, cost center)
-   - **Forecasted Business Consequence** (e.g., revenue dip, margin expansion)
-   - **Investor Interpretation** (bullish/bearish, believable/unbelievable)
-2. Store as structured causal paths:
-   ```json
+1. **Business Causal Chain Extraction:**
+   ```typescript
+   // Example: Apple AI Partnership News
    {
-     "event": "Product Launch",
-     "belief": "Will drive upgrade cycle",
-     "business_impact": "Revenue up",
-     "investor_reaction": "Price up (1-day)"
+     "causal_chain": [
+       {
+         "step": 1,
+         "business_logic": "AI integration into iOS/macOS",
+         "mechanism": "partnership_leverage",
+         "raw_impact": 0.15,  // 15% capability boost
+         "timeframe": "6_months"
+       },
+       {
+         "step": 2, 
+         "business_logic": "enhanced user experience → upgrade demand",
+         "mechanism": "feature_driven_refresh",
+         "raw_impact": 0.08,  // 8% sales boost
+         "timeframe": "12_months"
+       },
+       {
+         "step": 3,
+         "business_logic": "market share gain vs competitors",
+         "mechanism": "competitive_advantage",
+         "raw_impact": 0.05,  // 5% market share
+         "timeframe": "18_months"
+       }
+     ]
    }
    ```
 
-#### Step 3: Narrative Arc Tracker
-**Goal:** Track narrative evolution over time
+2. **Belief Formation Per Chain Step:**
+   ```typescript
+   // Each step gets belief dimensions
+   {
+     "step_1_beliefs": {
+       "intensity_belief": 0.80,      // Strong belief in AI integration
+       "duration_belief": 0.90,       // Long-lasting capability
+       "certainty_level": 0.75,       // Moderate confidence
+       "hope_vs_fear": 0.70,         // Optimistic
+       "doubt_factor": 0.30          // Some skepticism about execution
+     },
+     "step_2_beliefs": {
+       "intensity_belief": 0.65,      // Moderate belief in upgrade cycle
+       "duration_belief": 0.40,       // Shorter-term effect
+       "certainty_level": 0.50,       // Lower confidence
+       "hope_vs_fear": 0.75,         // Very optimistic
+       "doubt_factor": 0.45          // Higher doubt about consumer response
+     }
+   }
+   ```
 
-1. Cluster articles into evolving "narrative threads"
-2. Assign lifespan, amplification decay curve, belief-shift points
-3. Link investor reaction not to single headlines, but to cumulative belief formed across the arc
+3. **Historical Pattern Matching**: Match causal chain patterns (not just events) to historical analogs
 
-#### Step 4: Analog Finder + Credence Estimator
-**Goal:** Search for past narratives with similar causal paths
+#### Step 3: Temporal Belief Dynamics
+**Goal:** Model how belief factors evolve and decay over time
 
-1. Use vector DB (Pinecone/Weaviate) + event type ontology
-2. Retrieve similar causal chains based on:
-   - Event type
-   - Business area affected
-   - Investor segment likely to react
-   - Degree of belief credibility (e.g., from market reaction, volatility, follow-on coverage)
+1. Track belief factor evolution across multiple time horizons:
+   ```typescript
+   {
+     "belief_half_life": 14,           // Days until 50% belief decay
+     "attention_decay_rate": 0.15,     // Daily attention decrease
+     "persistence_probability": 0.30,  // Chance of sustained coverage
+     "amplification_curve": [0.9, 0.7, 0.4, 0.2] // Days 1-4 attention
+   }
+   ```
 
-#### Step 5: Belief Propagation Model
-**Goal:** Predict if this belief will hold, spread, or collapse
+2. Model belief interaction effects between factors
+3. Distinguish memory vs fresh belief formation
+4. Track passive investor cohorts (who don't react initially)
 
-1. Simulate belief lifespan using:
-   - Similar past cases
-   - Price + volume + news recurrence decay curves
-   - Type of investor affected (retail/institutional/quant)
-2. Assign:
-   - **Belief Strength** (probability it will persist)
-   - **Impact Vector** (expected business outcome class: margin, churn, etc.)
-   - **Market Reaction Type** (short spike, long build, fade-out)
+#### Step 4: Causal Chain Pattern Matching + Belief Similarity
+**Goal:** Find historical analogs using both business logic patterns AND belief similarities
 
-#### Step 6: Prediction + Explanation Output
-**Goal:** Provide not just a label, but a reasoning chain
+1. **Business Pattern Matching:**
+   ```typescript
+   // Match causal chain structures
+   {
+     "pattern_type": "feature_driven_refresh",
+     "chain_structure": ["capability_boost", "ux_improvement", "upgrade_demand"],
+     "historical_matches": [
+       {
+         "event": "iPhone Face ID introduction",
+         "similarity": 0.85,
+         "outcome": "12% sales boost in next quarter"
+       },
+       {
+         "event": "M1 chip release", 
+         "similarity": 0.78,
+         "outcome": "15% market share gain"
+       }
+     ]
+   }
+   ```
 
-1. Output:
-   - Predicted direction (up/down/neutral)
-   - Confidence score (based on analogs + believability)
-   - Reasoning chain (narrative → business impact → forecast → market reaction)
-   - Belief classification (e.g., perceived hype, probable truth, lagging belief)
+2. **Belief Vector Similarity:**
+   ```typescript
+   belief_similarity = cosine_similarity(
+     current_step_beliefs,
+     historical_step_beliefs
+   )
+   ```
 
-#### Step 7: Evaluation + Reflexivity Loop
-**Goal:** Track belief accuracy and system integrity
+3. **Combined Scoring:** Business pattern similarity (0.6 weight) + Belief similarity (0.4 weight)
 
-1. Monitor real price movement + earnings vs prediction
-2. Update belief validity scores
-3. Add failed predictions to inverse log:
-   - Was the logic bad?
-   - Did market disbelieve?
-   - Did real results contradict the narrative?
+#### Step 5: Investor Archetype Belief Processing
+**Goal:** Model how different investor types process the same belief information
+
+1. Separate belief processing by investor archetype:
+   ```typescript
+   {
+     "institutional": {
+       "reaction_probability": 0.75,
+       "reaction_magnitude": 0.40,
+       "time_to_action": 1,          // days
+       "belief_persistence": 0.60,
+       "credibility_weighting": 0.90 // High source credibility focus
+     },
+     "retail": {
+       "reaction_probability": 0.85,
+       "reaction_magnitude": 0.70,
+       "time_to_action": 0.5,
+       "belief_persistence": 0.30,
+       "credibility_weighting": 0.40 // Lower source discrimination
+     }
+   }
+   ```
+
+2. Model counterfactual scenarios and belief surprise factors
+3. Detect passive belief cohorts (who form beliefs but don't trade)
+
+#### Step 6: Mathematical Prediction with Belief Decomposition
+**Goal:** Generate predictions with full mathematical audit trail
+
+1. Output comprehensive belief-based prediction:
+   ```typescript
+   {
+     "predicted_direction": "up",
+     "confidence_interval": [0.65, 0.85],
+     "belief_vector_similarity": 0.82,
+     "dominant_factors": ["revenue_growth", "market_expansion"],
+     "investor_archetype_reactions": {
+       "institutional": {"direction": "up", "magnitude": 0.40},
+       "retail": {"direction": "up", "magnitude": 0.70}
+     },
+     "temporal_prediction": {
+       "1_day": 0.75,
+       "1_week": 0.45,
+       "1_month": 0.20
+     },
+     "mathematical_audit_trail": [
+       "Source credibility (0.90) × belief intensity (0.75) = 0.675",
+       "Business factor magnitude (0.08) × certainty (0.80) = 0.064",
+       "Combined belief strength: 0.72"
+     ]
+   }
+   ```
+
+#### Step 7: Belief Factor Validation and System Learning
+**Goal:** Validate belief factors against market outcomes and improve the system
+
+1. Mathematical validation framework:
+   - Track accuracy of individual belief factors vs outcomes
+   - Measure belief factor stability over time
+   - Validate belief vector combinations vs single factors
+   - Test belief decay curves against actual attention patterns
+
+2. Pattern degradation detection:
+   - Monitor if successful belief patterns stop working
+   - Detect when market "learns" about our patterns
+   - Track overfitting to historical data
+
+3. Continuous belief calibration:
+   - Update source credibility scores based on prediction accuracy
+   - Refine belief factor weightings based on outcomes
+   - Improve investor archetype detection algorithms
 
 #### Step 8: Testing Interface
 **Goal:** Let users explore the system with transparency

@@ -1,0 +1,229 @@
+# Atomic Factor Decomposition - Granular Belief Modeling
+
+## 🎯 Core Principle: Every Business Factor = Magnitude × Multi-Dimensional Belief Structure
+
+**RULE: No Vague Composite Scores**
+- Every factor must decompose to atomic components
+- Each component has a clear measurement scale (0-1)
+- Belief dimensions apply to EVERY business factor
+- All factors are programmatically combinable
+
+---
+
+## 🧮 Universal Belief Dimension Framework
+
+Every business factor gets scored across these dimensions:
+
+```typescript
+interface AtomicBeliefDimensions {
+  // Core belief strength
+  intensity_belief: number;     // 0-1: How strongly they believe the magnitude
+  duration_belief: number;      // 0-1: How long they think it will last
+  certainty_level: number;      // 0-1: Confidence in their assessment
+  
+  // Emotional spectrum
+  hope_vs_fear: number;        // 0-1: 0=pure fear, 0.5=neutral, 1=pure hope
+  doubt_factor: number;        // 0-1: Skepticism about the outcome
+  
+  // Predictability assessment
+  predictability: number;       // 0-1: How predictable this factor is
+  clarity_score: number;        // 0-1: How clear the implications are
+  
+  // Impact perception
+  impact_feeling: number;       // 0-1: How "big" this feels (psychological magnitude)
+  durability_score: number;    // 0-1: How permanent/lasting the effect is
+  sensitivity: number;          // 0-1: How sensitive to external conditions
+}
+```
+
+---
+
+## 📊 Example: Layoffs Event - Proper Atomic Decomposition
+
+### Raw News:
+*"Apple announces 10% workforce reduction affecting primarily retail and services divisions due to slowing iPhone sales."*
+
+### Atomic Factor Breakdown:
+
+**1. COST_REDUCTION Factor**
+```typescript
+const cost_reduction = {
+  raw_business_magnitude: 0.08,  // 8% estimated cost reduction
+  
+  belief_dimensions: {
+    intensity_belief: 0.85,      // Strong belief 8% will be achieved
+    duration_belief: 0.70,       // Believe savings will last ~2 years
+    certainty_level: 0.75,       // High confidence in cost math
+    hope_vs_fear: 0.25,         // More fear than hope (0.25 = fearful)
+    doubt_factor: 0.30,          // Moderate doubt about full realization
+    predictability: 0.80,        // Cost cutting is predictable
+    clarity_score: 0.85,         // Very clear what cost reduction means
+    impact_feeling: 0.60,        // Feels like meaningful but not huge
+    durability_score: 0.65,      // May erode over time with hiring
+    sensitivity: 0.40            // Not very sensitive to externals
+  },
+  
+  // Derived calculation
+  weighted_belief_strength: 0.62  // Composite of all dimensions
+};
+```
+
+**2. KNOWLEDGE_LOSS Factor**
+```typescript
+const knowledge_loss = {
+  raw_business_magnitude: 0.15,  // 15% capability reduction estimate
+  
+  belief_dimensions: {
+    intensity_belief: 0.70,      // Believe significant knowledge will be lost
+    duration_belief: 0.90,       // Knowledge loss feels permanent
+    certainty_level: 0.65,       // Moderate confidence (hard to quantify)
+    hope_vs_fear: 0.80,         // High fear about losing critical expertise
+    doubt_factor: 0.25,          // Low doubt this will happen
+    predictability: 0.45,        // Hard to predict which knowledge gets lost
+    clarity_score: 0.30,         // Unclear exactly what capabilities affected
+    impact_feeling: 0.75,        // Feels like big impact on innovation
+    durability_score: 0.85,      // Knowledge loss is very durable
+    sensitivity: 0.20            // Not sensitive to external conditions
+  },
+  
+  weighted_belief_strength: 0.62
+};
+```
+
+**3. EXECUTION_CAPABILITY Factor**
+```typescript
+const execution_capability = {
+  raw_business_magnitude: -0.20, // 20% reduced execution capacity
+  
+  belief_dimensions: {
+    intensity_belief: 0.60,      // Moderate belief in execution impact
+    duration_belief: 0.55,       // Think it's temporary-ish
+    certainty_level: 0.40,       // Low confidence (hard to measure execution)
+    hope_vs_fear: 0.70,         // Fear about execution problems
+    doubt_factor: 0.50,          // Significant doubt about magnitude
+    predictability: 0.25,        // Execution capability very unpredictable
+    clarity_score: 0.20,         // Very unclear what "execution" means
+    impact_feeling: 0.65,        // Feels impactful but fuzzy
+    durability_score: 0.40,      // May recover as teams rebuild
+    sensitivity: 0.85            // Highly sensitive to market demands
+  },
+  
+  weighted_belief_strength: 0.45
+};
+```
+
+**4. MARKET_PERCEPTION Factor**
+```typescript
+const market_perception = {
+  raw_business_magnitude: -0.05, // 5% negative market positioning
+  
+  belief_dimensions: {
+    intensity_belief: 0.80,      // Strong belief this looks bad
+    duration_belief: 0.30,       // Think market will forget quickly
+    certainty_level: 0.70,       // Confident about immediate perception hit
+    hope_vs_fear: 0.75,         // Fear about looking weak
+    doubt_factor: 0.35,          // Some doubt about lasting impact
+    predictability: 0.60,        // Market reactions somewhat predictable
+    clarity_score: 0.75,         // Clear that layoffs = weakness signal
+    impact_feeling: 0.50,        // Moderate psychological impact
+    durability_score: 0.25,      // Market perception changes quickly
+    sensitivity: 0.90            // Very sensitive to other news/performance
+  },
+  
+  weighted_belief_strength: 0.51
+};
+```
+
+---
+
+## 🧬 Factor Interaction Framework
+
+**Correlation Mapping Between Factors:**
+```typescript
+const factor_interactions = {
+  cost_reduction_vs_knowledge_loss: -0.80,    // High negative correlation
+  knowledge_loss_vs_execution: 0.75,          // High positive correlation  
+  execution_vs_market_perception: 0.60,       // Moderate positive correlation
+  cost_reduction_vs_market_perception: -0.30  // Weak negative correlation
+};
+```
+
+**Temporal Dynamics:**
+```typescript
+const temporal_belief_decay = {
+  cost_reduction: {
+    belief_half_life_days: 180,    // Belief in savings fades over 6 months
+    attention_half_life_days: 14   // Media attention fades in 2 weeks
+  },
+  knowledge_loss: {
+    belief_half_life_days: 720,    // Belief in knowledge loss lasts 2 years
+    attention_half_life_days: 30   // Attention lasts about a month
+  },
+  execution_capability: {
+    belief_half_life_days: 90,     // Execution concerns fade in 3 months
+    attention_half_life_days: 21   // Attention lasts 3 weeks
+  },
+  market_perception: {
+    belief_half_life_days: 45,     // Perception impact fades quickly
+    attention_half_life_days: 7    // Very short attention span
+  }
+};
+```
+
+---
+
+## 🎪 Complete Belief Vector Assembly
+
+```typescript
+interface CompleteMathematicalBeliefVector {
+  event_id: string;
+  timestamp: Date;
+  
+  // Individual factor vectors
+  factors: {
+    cost_reduction: AtomicFactor;
+    knowledge_loss: AtomicFactor;
+    execution_capability: AtomicFactor;
+    market_perception: AtomicFactor;
+  };
+  
+  // Cross-factor interactions
+  factor_correlations: CorrelationMatrix;
+  
+  // Temporal dynamics
+  belief_decay_curves: DecayCurveSet;
+  
+  // Aggregate calculations
+  overall_business_impact: number;        // Weighted sum of factor magnitudes
+  overall_belief_strength: number;        // Weighted sum of belief strengths
+  overall_fear_vs_hope: number;          // Aggregate emotional tone
+  overall_certainty: number;             // Aggregate confidence level
+  overall_durability: number;            // How long effects will last
+  
+  // Market prediction outputs
+  predicted_immediate_reaction: number;   // 1-day price impact
+  predicted_sustained_impact: number;     // 30-day price impact
+  confidence_interval: [number, number]; // Prediction uncertainty
+};
+```
+
+---
+
+## 🔬 Validation: Each Factor Must Pass Tests
+
+**Atomicity Test:**
+- Can this factor be measured independently? ✓
+- Does it have clear business meaning? ✓
+- Can belief dimensions be scored objectively? ✓
+
+**Composability Test:**
+- Can this combine mathematically with other factors? ✓
+- Are interactions well-defined? ✓
+- Does temporal decay make sense? ✓
+
+**Predictive Test:**
+- Does this factor correlate with market outcomes? [TO BE TESTED]
+- Do belief dimensions improve prediction vs raw magnitude? [TO BE TESTED]
+- Can this factor be validated against historical data? [TO BE TESTED]
+
+This framework ensures every "soft" concept becomes a precise, testable, combinable mathematical component.

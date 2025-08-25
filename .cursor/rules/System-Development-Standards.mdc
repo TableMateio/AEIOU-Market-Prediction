@@ -1,0 +1,319 @@
+# System Development Standards - AEIOU Belief Engine
+
+## 🏗️ CORE PRINCIPLE: Apple-Level Organization
+
+**RULE #1: Everything Has a Clear Home**
+- Every file, function, and data structure must have an obvious, logical location
+- If you pause to think "where does this belong?" - create the proper structure first
+- Folder names must be self-explanatory to someone seeing the project for the first time
+- No "misc", "temp", or "utils" folders - everything gets a proper categorization
+
+**RULE #2: Self-Documenting Structure**
+- Directory structure tells the story of the system
+- File names describe their exact purpose and scope
+- Each module has a clear, single responsibility
+- Comments explain WHY, not WHAT (code should be self-evident)
+
+**RULE #3: Mathematical Decomposition First**
+- Break every concept into the smallest measurable components
+- Convert qualitative concepts into quantitative factors (0-1 scales, probabilities)
+- Each factor must be independently testable and combinable
+- Build up complexity from simple, validated building blocks
+
+---
+
+## 📁 Required Project Structure
+
+```
+src/
+├── belief/                     # Core belief modeling system
+│   ├── factors/               # Individual belief factors (attention, sentiment, etc.)
+│   │   ├── attention.ts       # Attention measurement (0-1 scale)
+│   │   ├── sentiment.ts       # Sentiment strength (-1 to 1)
+│   │   ├── prevalence.ts      # Message prevalence (frequency * reach)
+│   │   ├── duration.ts        # Half-life calculations
+│   │   ├── catastrophification.ts # Catastrophe amplification factor
+│   │   ├── associations.ts    # Ripple effect connections
+│   │   ├── certainty.ts       # Confidence/doubt scoring
+│   │   └── index.ts          # Factor composition engine
+│   ├── decomposition/         # Mathematical breakdown logic
+│   │   ├── newsBreakdown.ts   # News → atomic components
+│   │   ├── eventCategorization.ts # Event → mathematical factors
+│   │   ├── businessImpact.ts  # Business logic → numerical impact
+│   │   └── beliefSynthesis.ts # Combine factors into belief states
+│   ├── ontology/              # Structured classification systems
+│   │   ├── eventTypes.ts      # Standardized event taxonomy
+│   │   ├── businessFactors.ts # Core business impact categories
+│   │   ├── beliefTypes.ts     # Types of market beliefs
+│   │   └── correlationMaps.ts # Factor relationship definitions
+│   └── models/               # Data models for belief tracking
+│       ├── BeliefState.ts    # Core belief state structure
+│       ├── FactorScore.ts    # Individual factor measurements
+│       └── BeliefVector.ts   # Mathematical belief representation
+├── analysis/                  # Analysis engines
+│   ├── counterfactual/       # Alternative scenario modeling
+│   ├── memory/               # Context and history tracking
+│   ├── passive/              # Non-reaction detection
+│   └── reflexivity/          # System self-awareness
+├── data/
+│   ├── sources/              # External data connections
+│   ├── processing/           # Data transformation pipelines
+│   └── validation/           # Data quality assurance
+├── testing/
+│   ├── belief/               # Belief factor validation tests
+│   ├── decomposition/        # Mathematical accuracy tests
+│   └── integration/          # End-to-end system tests
+└── documentation/
+    ├── examples/             # Worked examples of decomposition
+    ├── ontology/             # Classification documentation
+    └── validation/           # Test result documentation
+```
+
+---
+
+## 🔢 Mathematical Decomposition Methodology
+
+### RULE #4: Atomic Decomposition Process
+
+**Step 1: Identify Core Event**
+```
+Example: "Apple announces 10% workforce reduction"
+→ Core Event: LAYOFFS
+→ Mathematical Representation: layoff_magnitude = 0.1 (10%)
+```
+
+**Step 2: Extract Business Logic Components**
+```
+Layoffs (magnitude: 0.1) →
+├── cost_reduction = layoff_magnitude * avg_salary_cost = 0.1 * X
+├── efficiency_risk = layoff_magnitude * knowledge_loss_factor = 0.1 * Y  
+├── execution_capability = 1 - (layoff_magnitude * critical_role_factor)
+└── market_perception = sentiment_factor * magnitude * timing_factor
+```
+
+**Step 3: Assign Belief Factors (0-1 scales)**
+```
+Belief Factors for Layoffs Event:
+├── attention_level = 0.8        # High visibility
+├── sentiment_strength = -0.6    # Negative sentiment
+├── message_prevalence = 0.7     # Widely reported
+├── message_frequency = 0.9      # Repeated coverage
+├── duration_half_life = 14      # Days until 50% attention decay
+├── catastrophification = 0.4    # Moderate disaster framing
+├── association_strength = 0.6   # Connected to other cost-cutting
+├── certainty_level = 0.9        # High confidence it happened
+├── doubt_factor = 0.2          # Low skepticism
+└── conditional_probability = 0.3 # Depends on broader economic conditions
+```
+
+**Step 4: Mathematical Belief Vector**
+```typescript
+interface LayoffBeliefVector {
+  event_magnitude: number;        // 0.1 (10% reduction)
+  attention: number;              // 0.8
+  sentiment: number;              // -0.6
+  prevalence: number;             // 0.7
+  frequency: number;              // 0.9
+  half_life_days: number;         // 14
+  catastrophification: number;    // 0.4
+  associations: number;           // 0.6
+  certainty: number;              // 0.9
+  doubt: number;                  // 0.2
+  conditionality: number;         // 0.3
+  
+  // Derived calculations
+  overall_belief_strength: number;  // Weighted combination
+  predicted_duration: number;       // Based on half_life + factors
+  market_impact_vector: number[];   // [short_term, medium_term, long_term]
+}
+```
+
+---
+
+## 🧮 Example: Mathematical News Decomposition
+
+### Input News Article:
+*"Apple Inc. announced plans to reduce its workforce by 10% amid concerns about slowing iPhone sales and increased competition in the AI space. The layoffs will primarily affect retail and services divisions."*
+
+### Step-by-Step Decomposition:
+
+**1. Event Classification**
+```typescript
+const eventClassification = {
+  primary_type: 'workforce_reduction',
+  magnitude: 0.10,
+  affected_divisions: ['retail', 'services'],
+  stated_reasons: ['declining_sales', 'competition'],
+  urgency_indicator: 'immediate'
+};
+```
+
+**2. Business Impact Factors**
+```typescript
+const businessImpacts = {
+  cost_structure: {
+    immediate_savings: 0.08,     // 8% cost reduction estimate
+    severance_costs: 0.02,      // 2% one-time cost
+    net_benefit: 0.06           // 6% net positive
+  },
+  operational_risk: {
+    knowledge_loss: 0.15,       // 15% capability reduction risk
+    execution_delay: 0.25,      // 25% project delay risk
+    customer_impact: 0.10       // 10% service degradation risk
+  },
+  strategic_implications: {
+    market_position: -0.05,     // Slight weakness signal
+    innovation_capacity: -0.08,  // Reduced R&D capability
+    financial_stability: 0.03   // Improved cost management
+  }
+};
+```
+
+**3. Belief Formation Factors**
+```typescript
+const beliefFactors = {
+  attention: {
+    media_coverage_volume: 0.85,
+    social_media_mentions: 0.70,
+    analyst_coverage: 0.90,
+    overall_attention: 0.82
+  },
+  sentiment: {
+    immediate_reaction: -0.60,
+    analyst_sentiment: -0.40,
+    retail_sentiment: -0.70,
+    weighted_sentiment: -0.57
+  },
+  credibility: {
+    source_reliability: 0.95,   // Official company announcement
+    information_completeness: 0.80,
+    verification_level: 1.0,
+    overall_credibility: 0.92
+  },
+  temporal_dynamics: {
+    half_life_estimate: 12,     // Days
+    frequency_spike: 0.90,      // Initial coverage intensity
+    decay_rate: 0.15,          // Daily attention decrease
+    persistence_probability: 0.30 // Chance of sustained coverage
+  }
+};
+```
+
+**4. Market Perception Modeling**
+```typescript
+const marketPerception = {
+  investor_segments: {
+    institutional: {
+      reaction_probability: 0.75,
+      reaction_magnitude: 0.40,
+      time_to_action: 1, // days
+      belief_persistence: 0.60
+    },
+    retail: {
+      reaction_probability: 0.85,
+      reaction_magnitude: 0.70,
+      time_to_action: 0.5, // days
+      belief_persistence: 0.30
+    },
+    algorithmic: {
+      reaction_probability: 0.95,
+      reaction_magnitude: 0.80,
+      time_to_action: 0.1, // days
+      belief_persistence: 0.10
+    }
+  },
+  counterfactual_scenarios: {
+    no_layoffs: { probability: 0.20, market_impact: 0.0 },
+    larger_layoffs: { probability: 0.30, market_impact: -0.15 },
+    different_divisions: { probability: 0.25, market_impact: -0.08 }
+  }
+};
+```
+
+---
+
+## 🔧 Implementation Rules
+
+**RULE #5: Every Factor Must Be**
+- Independently measurable (can be calculated from data)
+- Composable (can combine with other factors)
+- Testable (can validate against market outcomes)
+- Bounded (has clear min/max values)
+- Interpretable (business meaning is clear)
+
+**RULE #6: Code Organization Standards**
+- One factor per file, one file per factor
+- All factors implement the same interface (`BeliefFactor`)
+- Configuration files for weights and thresholds
+- Separate calculation logic from data access
+- Test files mirror source structure exactly
+
+**RULE #7: Documentation Requirements**
+- Every factor calculation documented with examples
+- All mathematical formulas explained in business terms
+- Worked examples for each major decomposition
+- Clear validation criteria for each component
+
+---
+
+## 🧪 Validation Framework
+
+**RULE #8: Everything Gets Tested**
+- Unit tests for each individual factor
+- Integration tests for factor combinations
+- Validation against historical market data
+- A/B testing for factor weightings
+- Continuous monitoring of prediction accuracy
+
+**RULE #9: Mathematical Verification**
+- All calculations must be reproducible
+- Edge cases must be handled explicitly
+- Numerical stability must be verified
+- Results must be interpretable by humans
+
+---
+
+## 📊 Example Factor Implementation
+
+```typescript
+// src/belief/factors/attention.ts
+export interface AttentionMeasurement {
+  media_volume: number;      // 0-1 scale
+  social_mentions: number;   // 0-1 scale  
+  analyst_coverage: number;  // 0-1 scale
+  search_trends: number;     // 0-1 scale
+  overall_score: number;     // Weighted combination
+}
+
+export class AttentionCalculator {
+  private static weights = {
+    media: 0.30,
+    social: 0.25,
+    analyst: 0.35,
+    search: 0.10
+  };
+
+  static calculate(inputs: RawAttentionData): AttentionMeasurement {
+    // Normalize each input to 0-1 scale
+    const normalized = this.normalize(inputs);
+    
+    // Calculate weighted combination
+    const overall = (
+      normalized.media * this.weights.media +
+      normalized.social * this.weights.social +
+      normalized.analyst * this.weights.analyst +
+      normalized.search * this.weights.search
+    );
+
+    return {
+      media_volume: normalized.media,
+      social_mentions: normalized.social,
+      analyst_coverage: normalized.analyst,
+      search_trends: normalized.search,
+      overall_score: Math.max(0, Math.min(1, overall))
+    };
+  }
+}
+```
+
+This framework ensures every component is mathematically precise, organizationally clear, and systematically testable.

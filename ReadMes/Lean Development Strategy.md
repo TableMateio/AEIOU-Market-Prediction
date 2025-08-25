@@ -30,6 +30,8 @@
 **🎯 Goal**: Verify our data sources can actually support causal analysis
 
 **Critical Assumption Tests**:
+
+**DATA QUALITY LAYER**:
 - [ ] **NEWS TIMING PRECISION**: Can we reliably correlate news timestamps to market movements?
   - Pull 10 major Apple events from last year
   - Check if Alpha Vantage news timestamps align with first price movements
@@ -40,10 +42,26 @@
   - Compare Alpha Vantage coverage vs manual Bloomberg/Reuters search
   - Test: Do we capture at least 80% of major announcements?
 
-- [ ] **STOCK DATA ACCURACY**: Is intraday data precise enough?
-  - Cross-validate Alpha Vantage vs Yahoo Finance for 5 trading days
-  - Check: Do we have minute-level data during news events?
-  - Test: Can we identify the 30-minute window when news "hit" the market?
+**BUSINESS CAUSAL CHAIN LAYER**:
+- [ ] **CAUSAL CHAIN EXTRACTION**: Can we reliably decompose news into business logic steps?
+  - Take 10 major events, manually extract multi-step business chains
+  - Test: Do 3 humans agree >70% on chain structure?
+  - Example: "AI partnership" → "capability boost → UX improvement → upgrade demand"
+
+- [ ] **BUSINESS PATTERN MATCHING**: Do business patterns repeat across different events?
+  - Identify 5 "feature_driven_refresh" patterns from 2020-2022
+  - Find similar patterns in 2023 events
+  - Test: Do pattern matches predict outcomes better than random?
+
+**BELIEF FORMATION LAYER**:
+- [ ] **BELIEF FACTOR EXTRACTION**: Can we measure atomic belief dimensions reliably?
+  - Extract belief factors (intensity, certainty, duration) from 20 events
+  - Test: Inter-annotator agreement >60% on belief scoring?
+  - Validate: Do belief factors correlate with market reaction magnitude?
+
+- [ ] **SOURCE CREDIBILITY IMPACT**: Does source credibility affect beliefs independent of content?
+  - Find same event covered by Reuters vs Seeking Alpha
+  - Test: Different belief factor scores for same content/different sources?
 
 **Build Minimum**:
 - [ ] Simple data ingestion script (Alpha Vantage + one backup source)
@@ -53,31 +71,50 @@
 **Success Criteria**: 
 ✅ News-to-price correlation visible in >70% of major events
 ✅ Timestamp accuracy within 30 minutes
+✅ Business causal chains extractable from >80% of major events
+✅ Belief factors show variance across different events/sources
 ❌ If we can't reliably connect news to price movements, STOP and fix data pipeline
+❌ If causal chains are too vague or belief factors are random, PIVOT to simpler approach
 
-### Week 2: Manual Causal Chain Validation
-**🎯 Goal**: Test if humans can reliably extract causal chains before automating
+### Week 2: Dual-Layer Manual Validation
+**🎯 Goal**: Test if humans can reliably extract both business chains AND belief factors
 
-**Critical Assumption Tests**:
-- [ ] **CAUSAL CHAIN CONSISTENCY**: Do different humans extract similar chains?
+**BUSINESS CAUSAL CHAIN VALIDATION**:
+- [ ] **CAUSAL CHAIN CONSISTENCY**: Do different humans extract similar multi-step chains?
   - Take 5 major Apple events
-  - Have 3 people manually extract causal chains
-  - Test: >60% overlap in identified causal links?
+  - Have 3 people extract complete business chains (2-5 steps each)
+  - Test: >70% overlap in chain structure and step identification?
 
-- [ ] **SUFFICIENT INFORMATION**: Do news articles contain enough detail?
-  - Manually analyze 10 events that moved stock >5%
-  - Test: Can you trace a logical path from news to business impact?
-  - RED FLAG: If most chains require external knowledge not in articles
+- [ ] **BUSINESS PATTERN CLASSIFICATION**: Can humans identify reusable patterns?
+  - Have annotators classify chains into pattern types
+  - Test: Do similar events generate similar pattern classifications?
+  - Build initial taxonomy: feature_driven_refresh, partnership_leverage, etc.
+
+**BELIEF FORMATION VALIDATION**:
+- [ ] **BELIEF FACTOR SCORING CONSISTENCY**: Do humans score belief dimensions similarly?
+  - Take same 5 events, have annotators score 10 belief dimensions
+  - Test: <30% variance in belief factor scores across annotators?
+  - Focus on: intensity_belief, certainty_level, believability_score
+
+- [ ] **BELIEF-BUSINESS CORRELATION**: Do belief factors correlate with business impact?
+  - Compare belief scores with actual business chain magnitude
+  - Test: Higher certainty correlates with stronger business impacts?
+
+**DUAL-LAYER INTEGRATION**:
+- [ ] **LAYER INTERACTION**: Do business chains and belief factors interact meaningfully?
+  - Test: Do complex chains get lower certainty scores?
+  - Test: Do familiar patterns get higher believability scores?
 
 **Build Minimum**:
-- [ ] Manual annotation tool for causal chains
-- [ ] Standardized format for chain documentation
-- [ ] Inter-annotator agreement measurement
+- [ ] Dual-layer annotation tool (chains + beliefs)
+- [ ] Standardized format for both layers
+- [ ] Statistical correlation analysis between layers
 
 **Success Criteria**:
-✅ Manual causal chain extraction achievable with >60% consistency
-✅ Clear patterns emerge across similar event types
-❌ If humans can't agree on chains, GPT-4 will be worse
+✅ Business chain extraction >70% consistency
+✅ Belief factor scoring <30% variance
+✅ Meaningful correlation between layers
+❌ If either layer fails consistency tests
 
 ---
 
