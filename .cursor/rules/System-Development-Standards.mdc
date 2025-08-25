@@ -1,5 +1,49 @@
 # System Development Standards - AEIOU Belief Engine
 
+## 🚨 CRITICAL: FILE ORGANIZATION DISCIPLINE
+
+**RULE #0: ZERO TOLERANCE FOR FILE CLUTTER**
+- **NEVER** create temporary files in root directory
+- **NEVER** dump test files directly in `src/testing/` without proper organization
+- **ALWAYS** create proper folder structure BEFORE creating files
+- **ALWAYS** delete temporary/debugging files after use
+- **VIOLATION CONSEQUENCES**: Manual cleanup + rules update required
+
+### Test File Organization Rules:
+```
+src/testing/
+├── infrastructure/          # Setup & connection tests
+│   ├── airtable/           # Airtable-specific tests
+│   ├── alphavantage/       # Alpha Vantage tests
+│   └── database/           # Database tests
+├── phase1/                 # Phase 1 validation tests
+│   ├── week1/              # Week 1 specific tests
+│   ├── week2/              # Week 2 specific tests
+│   └── validation/         # Phase 1 validation scripts
+├── belief/                 # Belief factor tests
+├── decomposition/          # Mathematical accuracy tests
+└── integration/            # End-to-end system tests
+```
+
+### Documentation File Rules:
+```
+docs/
+├── setup/                  # Setup and configuration docs
+├── archive/                # Old/deprecated versions
+├── api/                    # API documentation
+└── validation/             # Test results and validation docs
+
+ReadMes/                    # Core project documentation only
+├── PRD.md                  # Product Requirements
+├── Hypotheses.md           # Core hypotheses
+├── Core Concepts.md        # Fundamental concepts
+└── [other core docs]       # Essential project docs only
+```
+
+**ENFORCEMENT**: Any file in wrong location = immediate cleanup required
+
+---
+
 ## 🏗️ CORE PRINCIPLE: Apple-Level Organization
 
 **RULE #1: Everything Has a Clear Home**
