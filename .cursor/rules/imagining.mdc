@@ -1,0 +1,24 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+we're building a universal business event and belief decomposition engine.
+
+yeah we're trying to build the types of dimensions about commentary and believe about a business, as well as the types of dimensions about a business spoken about.
+
+so it's less about the language and more about what it informs. all of this is to build our case studies that discuss basically what people are believing about an event and their rationales about the aftermath. sometimes they're real time, soemtimes they're reflective, and sometimes they're predictive. some times they're reflective of a day ago or two hours ago, and sometimes of the past 6 months. the same is true of the next week or next year. i need to figure out the structure of each of these situations and then how we can make them topics that continue. for example there may be a meta topic of AI and Apple's enhancements with AI's, and then everyday there are updates that people believe will reflect on one thing or another. like them considering to purchase some other company to advance in AI might be seen as an AI boost. We want to know that, but we also want to create a cascading idea of the known and imagined effects of such a thing. like what are the ripples of that that will effect business, and what are the steps that we can treat as their own case study. this is helpful because when we've done this with 10,000 articles over 10 years, and in all of the past we can see the corelates, then when they were discussing a possible Beats acquisition we could see all of the effects, and when they discussed a possible new technology they were adding, it also broke down to have some of the same business impacts even if the topic of AI vs health tech for example seem different. this is the goal. to break it down into truer bits and interpolate so that we can relate it to other things with the same interpolation even if on the cover they look different. there is more fervor around AI then there is health tech, so we'd have different universal factors for things like belief, fear, etc... the human elements, allowing us to know that whatever we saw for the health tech happening that had similar effects on business, we might expect it to be more intense here and more volatile because its larger fear elements.
+
+
+It feels like I'm not really sure how to do that in a small, lean way. I can only think of how to do that by going all in and giving our best pass at it. 
+
+I'm open to hearing ways to do that in a more lean way (among all the other things I mentioned). Feel free to create to-do lists for all the stuff I'm mentioning, and then we can get started on figuring them out one tough thing is that I see you saying things like, "Can you find correlation between major app events and stock price changes?" The stock moves every day, and it might not be that it happens, say, in the second half of releases—a news article. Some types of articles might be more correlated based on real news. 
+
+Similarly, when real news comes out, there might be movement right after. Similarly, some news articles will be in response to real events that have happened. It's actually right after a movement that a piece of news comes out, which is kind of tough.
+
+There might be some exploration to do around that from the get-go and categorizing these different types of articles: what's reflective on the past versus about the future, what's an announcement of a news thing versus a meta analysis on what traders are doing.
+
+Both are useful: the meta analysis helps me figure out why stock moved in the past, and I can still break them down into those basic business event units. I can just reflectively see how they were correlated, and then when one of those events happens (or something that would trigger a secondary or tertiary event), I can guess that the same kind of movement will happen.
+
+I need to figure out a way to map all this—a system for mapping these sorts of things—and then for doing what I imagine is multivariate analysis and machine learning to figure out all the factors. 
