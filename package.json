@@ -23,6 +23,8 @@
     "license": "MIT",
     "dependencies": {
         "@anthropic-ai/sdk": "^0.60.0",
+        "@felores/airtable-mcp-server": "^0.3.0",
+        "@supabase/supabase-js": "^2.56.0",
         "@types/cheerio": "^0.22.35",
         "@types/uuid": "^10.0.0",
         "airtable": "^0.12.2",

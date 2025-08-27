@@ -7,6 +7,12 @@ import {
     StockData,
     ValidationResult
 } from '@data/models';
+import { DatabaseInterface } from './databaseInterface';
+import {
+    ArticleTaxonomy,
+    BusinessCausalChain,
+    BeliefFactors
+} from '../../belief/ontology/KnowledgeStructures';
 
 const config = AppConfig.getInstance();
 const logger = createLogger('AirtableStorage');
@@ -148,7 +154,7 @@ const TABLE_SCHEMAS = {
     }
 };
 
-export class AirtableStorage {
+export class AirtableStorage implements DatabaseInterface {
     private static instance: AirtableStorage;
     private tablesInitialized = false;
 
@@ -162,7 +168,7 @@ export class AirtableStorage {
     }
 
     // Initialize tables and schema (call this once at startup)
-    public async initializeTables(): Promise<void> {
+    public async initialize(): Promise<void> {
         if (this.tablesInitialized) {
             return;
         }
@@ -342,6 +348,125 @@ export class AirtableStorage {
         } catch (error) {
             logger.error('Failed to create validation result', { error, result });
             throw new DataSourceError('Failed to create validation result', 'airtable', error as Error);
+        }
+    }
+
+    // Additional methods to implement DatabaseInterface
+    public async updateNewsEventWithProcessedData(
+        eventId: string,
+        processedData: {
+            taxonomy?: ArticleTaxonomy;
+            businessChains?: BusinessCausalChain[];
+            beliefFactors?: BeliefFactors;
+            patternType?: string;
+        }
+    ): Promise<NewsEvent> {
+        try {
+            const updateFields: any = {};
+
+            if (processedData.beliefFactors) {
+                updateFields.beliefFactors = JSON.stringify(processedData.beliefFactors);
+            }
+
+            if (processedData.businessChains) {
+                updateFields.businessChains = JSON.stringify(processedData.businessChains);
+            }
+
+            if (processedData.patternType) {
+                updateFields.patternType = processedData.patternType;
+            }
+
+            // Mark as processed
+            updateFields.processed = true;
+
+            const records = await base(config.airtableConfig.tables.newsEvents).update([{
+                id: eventId,
+                fields: updateFields
+            }]);
+
+            return this.mapNewsEventRecord(records[0]);
+        } catch (error) {
+            logger.error('Failed to update news event with processed data', { error, eventId });
+            throw new DataSourceError('Failed to update news event', 'airtable', error as Error);
+        }
+    }
+
+    public async batchCreateNewsEvents(events: Omit<NewsEvent, 'id' | 'createdAt' | 'updatedAt'>[]): Promise<NewsEvent[]> {
+        const results: NewsEvent[] = [];
+
+        // Airtable batch size limit is 10
+        const batchSize = 10;
+        for (let i = 0; i < events.length; i += batchSize) {
+            const batch = events.slice(i, i + batchSize);
+
+            try {
+                const records = await base(config.airtableConfig.tables.newsEvents).create(
+                    batch.map(event => ({
+                        fields: {
+                            headline: event.headline,
+                            summary: event.summary,
+                            source: event.source,
+                            sourceCredibility: event.sourceCredibility,
+                            publishedAt: event.publishedAt.toISOString(),
+                            discoveredAt: event.discoveredAt.toISOString(),
+                            stockSymbol: event.stockSymbol,
+                            eventType: event.eventType,
+                            sentiment: event.sentiment,
+                            sentimentScore: event.sentimentScore,
+                            relevanceScore: event.relevanceScore,
+                            url: event.url || '',
+                            content: event.content || '',
+                            tags: event.tags,
+                            rawData: event.rawData ? JSON.stringify(event.rawData) : '',
+                        }
+                    }))
+                );
+
+                const mappedRecords = records.map(this.mapNewsEventRecord);
+                results.push(...mappedRecords);
+
+                logger.info(`Batch created ${records.length} news events`);
+            } catch (error) {
+                logger.error(`Failed to create batch of news events`, { error, batchSize: batch.length });
+                // Continue with next batch
+            }
+        }
+
+        return results;
+    }
+
+    public async getValidationResults(filters?: {
+        newsEventId?: string;
+        testType?: string;
+        limit?: number;
+    }): Promise<ValidationResult[]> {
+        try {
+            const selectOptions: any = {
+                maxRecords: filters?.limit || 100,
+                sort: [{ field: 'testDate', direction: 'desc' }]
+            };
+
+            let filterFormula = '';
+            if (filters?.newsEventId) {
+                filterFormula = `{newsEventId} = '${filters.newsEventId}'`;
+            }
+            if (filters?.testType) {
+                const separator = filterFormula ? ' AND ' : '';
+                filterFormula += `${separator}{validationType} = '${filters.testType}'`;
+            }
+
+            if (filterFormula) {
+                selectOptions.filterByFormula = filterFormula;
+            }
+
+            const records = await base(config.airtableConfig.tables.validationResults)
+                .select(selectOptions)
+                .all();
+
+            return records.map(this.mapValidationResultRecord);
+        } catch (error) {
+            logger.error('Failed to get validation results', { error, filters });
+            throw new DataSourceError('Failed to get validation results', 'airtable', error as Error);
         }
     }
 

@@ -1,144 +1,72 @@
-import Joi from 'joi';
+import dotenv from 'dotenv';
+import { createLogger } from '@utils/logger';
 
-interface IAppConfig {
-    environment: 'development' | 'production' | 'test';
-    port: number;
-    logLevel: 'error' | 'warn' | 'info' | 'debug';
-    logFormat: 'json' | 'simple';
+// Load environment variables
+dotenv.config();
+
+const logger = createLogger('AppConfig');
+
+export interface SupabaseConfig {
+    projectUrl: string;
+    apiKey: string;
+    serviceRoleKey?: string;
+    dbPassword?: string;
 }
 
-interface IApiConfig {
-    alphaVantage: {
-        apiKey: string;
-        baseUrl: string;
-        rateLimitWindowMs: number;
-        rateLimitMaxRequests: number;
-    };
-    yahooFinance: {
-        apiKey?: string;
-        baseUrl: string;
-    };
-}
-
-interface IAirtableConfig {
+export interface AirtableConfig {
     apiKey: string;
     baseId: string;
-    tables: {
-        newsEvents: string;
-        stockData: string;
-        causalChains: string;
-        validationResults: string;
-    };
 }
 
-interface IValidationConfig {
+export interface RateLimitConfig {
+    windowMs: number;
+    maxRequests: number;
+}
+
+export interface ValidationConfig {
     minCorrelationThreshold: number;
-    timestampAccuracyThresholdMinutes: number;
+    timestampAccuracyMinutes: number;
     newsCoverageThreshold: number;
 }
 
-interface IStockAnalysisConfig {
-    defaultStockSymbols: string[];
-    marketHours: {
-        start: string;
-        end: string;
-        timezone: string;
-    };
-}
-
-// Validation schema for environment variables
-const envSchema = Joi.object({
-    NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
-    PORT: Joi.number().port().default(3000),
-
+export interface AppConfiguration {
+    nodeEnv: string;
+    port: number;
+    
     // API Keys
-    ALPHA_VANTAGE_API_KEY: Joi.string().required(),
-    YAHOO_FINANCE_API_KEY: Joi.string().optional(),
-
-    // Airtable
-    AIRTABLE_API_KEY: Joi.string().required(),
-    AIRTABLE_BASE_ID: Joi.string().required(),
-
-    // Rate Limiting
-    API_RATE_LIMIT_WINDOW_MS: Joi.number().default(900000), // 15 minutes
-    API_RATE_LIMIT_MAX_REQUESTS: Joi.number().default(25),
-
+    alphaVantageApiKey: string;
+    yahooFinanceApiKey?: string;
+    anthropicApiKey?: string;
+    openaiApiKey?: string;
+    
+    // Database configurations
+    supabaseConfig: SupabaseConfig;
+    airtableConfig: AirtableConfig;
+    
+    // Rate limiting
+    rateLimitConfig: RateLimitConfig;
+    
     // Logging
-    LOG_LEVEL: Joi.string().valid('error', 'warn', 'info', 'debug').default('info'),
-    LOG_FORMAT: Joi.string().valid('json', 'simple').default('json'),
-
-    // Validation Thresholds
-    MIN_CORRELATION_THRESHOLD: Joi.number().min(0).max(1).default(0.7),
-    TIMESTAMP_ACCURACY_THRESHOLD_MINUTES: Joi.number().default(30),
-    NEWS_COVERAGE_THRESHOLD: Joi.number().min(0).max(1).default(0.8),
-
-    // Stock Analysis
-    DEFAULT_STOCK_SYMBOLS: Joi.string().default('AAPL,MSFT,GOOGL'),
-    MARKET_HOURS_START: Joi.string().default('09:30'),
-    MARKET_HOURS_END: Joi.string().default('16:00'),
-    TIMEZONE: Joi.string().default('America/New_York'),
-}).unknown();
+    logLevel: string;
+    logFormat: string;
+    
+    // Validation thresholds
+    validationConfig: ValidationConfig;
+    
+    // Stock analysis
+    defaultStockSymbols: string[];
+    marketHoursStart: string;
+    marketHoursEnd: string;
+    timezone: string;
+}
 
 export class AppConfig {
     private static instance: AppConfig;
-    private readonly config: {
-        app: IAppConfig;
-        api: IApiConfig;
-        airtable: IAirtableConfig;
-        validation: IValidationConfig;
-        stockAnalysis: IStockAnalysisConfig;
-    };
+    private config: AppConfiguration;
 
     private constructor() {
-        const { error, value: envVars } = envSchema.validate(process.env);
-
-        if (error) {
-            throw new Error(`Config validation error: ${error.message}`);
-        }
-
-        this.config = {
-            app: {
-                environment: envVars.NODE_ENV,
-                port: envVars.PORT,
-                logLevel: envVars.LOG_LEVEL,
-                logFormat: envVars.LOG_FORMAT,
-            },
-            api: {
-                alphaVantage: {
-                    apiKey: envVars.ALPHA_VANTAGE_API_KEY,
-                    baseUrl: 'https://www.alphavantage.co/query',
-                    rateLimitWindowMs: envVars.API_RATE_LIMIT_WINDOW_MS,
-                    rateLimitMaxRequests: envVars.API_RATE_LIMIT_MAX_REQUESTS,
-                },
-                yahooFinance: {
-                    apiKey: envVars.YAHOO_FINANCE_API_KEY,
-                    baseUrl: 'https://yfapi.net',
-                },
-            },
-            airtable: {
-                apiKey: envVars.AIRTABLE_API_KEY,
-                baseId: envVars.AIRTABLE_BASE_ID,
-                tables: {
-                    newsEvents: 'News Events',
-                    stockData: 'Stock Data',
-                    causalChains: 'Causal Chains',
-                    validationResults: 'Validation Results',
-                },
-            },
-            validation: {
-                minCorrelationThreshold: envVars.MIN_CORRELATION_THRESHOLD,
-                timestampAccuracyThresholdMinutes: envVars.TIMESTAMP_ACCURACY_THRESHOLD_MINUTES,
-                newsCoverageThreshold: envVars.NEWS_COVERAGE_THRESHOLD,
-            },
-            stockAnalysis: {
-                defaultStockSymbols: envVars.DEFAULT_STOCK_SYMBOLS.split(',').map((s: string) => s.trim()),
-                marketHours: {
-                    start: envVars.MARKET_HOURS_START,
-                    end: envVars.MARKET_HOURS_END,
-                    timezone: envVars.TIMEZONE,
-                },
-            },
-        };
+        this.config = this.loadConfiguration();
+        this.validateConfiguration();
     }
 
     public static getInstance(): AppConfig {
@@ -148,41 +76,132 @@ export class AppConfig {
         return AppConfig.instance;
     }
 
-    // Getters for different config sections
-    public get environment(): 'development' | 'production' | 'test' {
-        return this.config.app.environment;
+    public get supabaseConfig(): SupabaseConfig {
+        return this.config.supabaseConfig;
+    }
+
+    public get airtableConfig(): AirtableConfig {
+        return this.config.airtableConfig;
+    }
+
+    public get rateLimitConfig(): RateLimitConfig {
+        return this.config.rateLimitConfig;
+    }
+
+    public get validationConfig(): ValidationConfig {
+        return this.config.validationConfig;
+    }
+
+    public get nodeEnv(): string {
+        return this.config.nodeEnv;
     }
 
     public get port(): number {
-        return this.config.app.port;
+        return this.config.port;
     }
 
-    public get logLevel(): string {
-        return this.config.app.logLevel;
+    public get alphaVantageApiKey(): string {
+        return this.config.alphaVantageApiKey;
     }
 
-    public get logFormat(): string {
-        return this.config.app.logFormat;
+    public get defaultStockSymbols(): string[] {
+        return this.config.defaultStockSymbols;
     }
 
-    public get apiConfig(): IApiConfig {
-        return this.config.api;
+    private loadConfiguration(): AppConfiguration {
+        return {
+            nodeEnv: process.env.NODE_ENV || 'development',
+            port: parseInt(process.env.PORT || '3000', 10),
+            
+            // API Keys
+            alphaVantageApiKey: process.env.ALPHA_VANTAGE_API_KEY || '',
+            yahooFinanceApiKey: process.env.YAHOO_FINANCE_API_KEY,
+            anthropicApiKey: process.env.ANTHROPIC_API_KEY,
+            openaiApiKey: process.env.OPENAI_API_KEY,
+            
+            // Supabase Configuration
+            supabaseConfig: {
+                projectUrl: process.env.SUPABASE_PROJECT_URL || '',
+                apiKey: process.env.SUPABASE_API_KEY || '',
+                serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+                dbPassword: process.env.SUPABASE_DB_PASSWORD
+            },
+            
+            // Airtable Configuration
+            airtableConfig: {
+                apiKey: process.env.AIRTABLE_API_KEY || '',
+                baseId: process.env.AIRTABLE_BASE_ID || ''
+            },
+            
+            // Rate Limiting
+            rateLimitConfig: {
+                windowMs: parseInt(process.env.API_RATE_LIMIT_WINDOW_MS || '900000', 10),
+                maxRequests: parseInt(process.env.API_RATE_LIMIT_MAX_REQUESTS || '25', 10)
+            },
+            
+            // Logging
+            logLevel: process.env.LOG_LEVEL || 'info',
+            logFormat: process.env.LOG_FORMAT || 'simple',
+            
+            // Validation Thresholds
+            validationConfig: {
+                minCorrelationThreshold: parseFloat(process.env.MIN_CORRELATION_THRESHOLD || '0.7'),
+                timestampAccuracyMinutes: parseInt(process.env.TIMESTAMP_ACCURACY_THRESHOLD_MINUTES || '30', 10),
+                newsCoverageThreshold: parseFloat(process.env.NEWS_COVERAGE_THRESHOLD || '0.8')
+            },
+            
+            // Stock Analysis
+            defaultStockSymbols: (process.env.DEFAULT_STOCK_SYMBOLS || 'AAPL,MSFT,GOOGL').split(','),
+            marketHoursStart: process.env.MARKET_HOURS_START || '09:30',
+            marketHoursEnd: process.env.MARKET_HOURS_END || '16:00',
+            timezone: process.env.TIMEZONE || 'America/New_York'
+        };
     }
 
-    public get airtableConfig(): IAirtableConfig {
-        return this.config.airtable;
+    private validateConfiguration(): void {
+        const required = [
+            'alphaVantageApiKey',
+            'supabaseConfig.projectUrl',
+            'supabaseConfig.apiKey',
+            'airtableConfig.apiKey',
+            'airtableConfig.baseId'
+        ];
+
+        for (const key of required) {
+            const value = this.getNestedValue(this.config, key);
+            if (!value) {
+                logger.warn(`Missing required configuration: ${key}`);
+            }
+        }
+
+        logger.info('Configuration loaded successfully', {
+            nodeEnv: this.config.nodeEnv,
+            port: this.config.port,
+            hasSupabaseConfig: !!this.config.supabaseConfig.projectUrl,
+            hasAirtableConfig: !!this.config.airtableConfig.apiKey,
+            stockSymbols: this.config.defaultStockSymbols.length
+        });
     }
 
-    public get validationConfig(): IValidationConfig {
-        return this.config.validation;
+    private getNestedValue(obj: any, path: string): any {
+        return path.split('.').reduce((current, key) => current?.[key], obj);
     }
 
-    public get stockAnalysisConfig(): IStockAnalysisConfig {
-        return this.config.stockAnalysis;
-    }
-
-    // Method to get all config (useful for debugging)
-    public getAllConfig(): typeof this.config {
+    // Get full configuration (for debugging)
+    public getFullConfig(): AppConfiguration {
         return { ...this.config };
     }
-} 
+
+    // Check if we have valid Supabase configuration
+    public hasValidSupabaseConfig(): boolean {
+        return !!(this.config.supabaseConfig.projectUrl && this.config.supabaseConfig.apiKey);
+    }
+
+    // Check if we have valid Airtable configuration
+    public hasValidAirtableConfig(): boolean {
+        return !!(this.config.airtableConfig.apiKey && this.config.airtableConfig.baseId);
+    }
+}
+
+export default AppConfig;
+
