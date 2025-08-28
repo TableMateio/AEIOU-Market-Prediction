@@ -172,6 +172,48 @@ List identifiable psychological biases influencing interpretation. Select applic
 • Analyst following prior prediction → ["anchoring_bias", "confirmation_bias"]
 • Celebrity CEO involvement → ["authority_bias", "halo_effect"]
 
+## Dual-Layer Belief Analysis
+
+**CRITICAL ENHANCEMENT**: For each causal step, analyze both market perception AND analytical assessment. Markets often move on perception rather than fundamentals, creating gaps between sentiment and likely outcomes.
+
+### Market Perception Layer
+What investors and the market actually believe, regardless of analytical merit:
+- **Dominant narrative** being told about this event
+- **Emotional sentiment** driving coverage and discussion  
+- **Cognitive biases** influencing market interpretation
+- **Hype vs skepticism** levels in the discourse
+
+### AI Assessment Layer  
+Your analytical perspective on the likely business reality:
+- **Execution risks** and practical challenges
+- **Competitive dynamics** and market realities
+- **Technical/operational constraints**
+- **Historical pattern analysis** and precedent
+
+### Perception Gap Analysis
+The tension between market belief and analytical assessment:
+- **Optimism/pessimism bias** - is market over/under-confident?
+- **Risk awareness** - is market ignoring or overestimating real risks?
+- **Narrative strength** - how compelling is the story vs evidence?
+- **Correction potential** - likelihood of perception shift toward analysis
+
+### Examples of Dual-Layer Analysis:
+
+**Foldable iPhone Entry**:
+- *Market Perception*: "Apple will perfect foldables and dominate the category" (high optimism)
+- *AI Assessment*: "Late entry with significant technical/competitive risks" (moderate pessimism)  
+- *Perception Gap*: Market underestimating Samsung's lead and execution complexity
+
+**Supply Chain Diversification**:
+- *Market Perception*: "Boring operational change, minimal impact" (low interest)
+- *AI Assessment*: "Major strategic shift reducing China risk" (high long-term value)
+- *Perception Gap*: Market undervaluing geopolitical risk mitigation
+
+This dual-layer approach helps predict:
+- **Short-term moves** (driven by perception/sentiment)
+- **Long-term corrections** (when analysis proves more accurate)  
+- **Volatility opportunities** (when gaps become obvious to market)
+
 ## Credibility Assessment
 
 ### Publisher Credibility (0–1)
@@ -490,7 +532,29 @@ After initial factor extraction, factors will be normalized across articles for 
           "causal_certainty": 0.8,
           "logical_directness": 0.9,
           "market_consensus_on_causality": 0.7,
-          "belief": { "intensity": 0.5, "certainty_truth": 0.6, "certainty_impact": 0.5, "hope_vs_fear": 0.4, "surprise_vs_anticipated": 0.2, "consensus_vs_division": 0.6, "positive_vs_negative_sentiment": 0.3, "complexity_vs_clarity": 0.4, "risk_appetite": 0.6, "duration_expectation": 0.7, "urgency": 0.3, "attention_amplification": 0.5, "emotional_profile": ["anticipation", "optimism"], "cognitive_biases": ["availability_heuristic"] }
+          "belief": {
+            "market_perception": {
+              "intensity": 0.6,
+              "hope_vs_fear": 0.5,
+              "surprise_vs_anticipated": 0.2,
+              "consensus_vs_division": 0.4,
+              "narrative_strength": 0.7,
+              "emotional_profile": ["anticipation", "optimism", "excitement"],
+              "cognitive_biases": ["optimism_bias", "availability_heuristic"]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.6,
+              "competitive_risk": 0.7,
+              "business_impact_likelihood": 0.5,
+              "timeline_realism": 0.4,
+              "fundamental_strength": 0.6
+            },
+            "perception_gap": {
+              "optimism_bias": 0.4,
+              "risk_awareness": 0.5,
+              "correction_potential": 0.6
+            }
+          }
         },
         {
           "step": 1,
@@ -510,7 +574,29 @@ After initial factor extraction, factors will be normalized across articles for 
           "causal_certainty": 0.7,
           "logical_directness": 0.8,
           "market_consensus_on_causality": 0.8,
-          "belief": { "intensity": 0.4, "certainty_truth": 0.5, "certainty_impact": 0.6, "hope_vs_fear": 0.3, "surprise_vs_anticipated": 0.1, "consensus_vs_division": 0.7, "positive_vs_negative_sentiment": 0.2, "complexity_vs_clarity": 0.6, "risk_appetite": 0.5, "duration_expectation": 0.6, "urgency": 0.4, "attention_amplification": 0.4, "emotional_profile": ["anticipation"], "cognitive_biases": ["anchoring_bias"] }
+          "belief": {
+            "market_perception": {
+              "intensity": 0.4,
+              "hope_vs_fear": 0.3,
+              "surprise_vs_anticipated": 0.1,
+              "consensus_vs_division": 0.7,
+              "narrative_strength": 0.6,
+              "emotional_profile": ["anticipation", "confidence"],
+              "cognitive_biases": ["anchoring_bias", "confirmation_bias"]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.3,
+              "competitive_risk": 0.2,
+              "business_impact_likelihood": 0.8,
+              "timeline_realism": 0.8,
+              "fundamental_strength": 0.8
+            },
+            "perception_gap": {
+              "optimism_bias": 0.1,
+              "risk_awareness": 0.0,
+              "correction_potential": 0.2
+            }
+          }
         },
         {
           "step": 2,
@@ -530,7 +616,29 @@ After initial factor extraction, factors will be normalized across articles for 
           "causal_certainty": 0.7,
           "logical_directness": 0.8,
           "market_consensus_on_causality": 0.8,
-          "belief": { "intensity": 0.4, "certainty_truth": 0.5, "certainty_impact": 0.6, "hope_vs_fear": 0.3, "surprise_vs_anticipated": 0.1, "consensus_vs_division": 0.7, "positive_vs_negative_sentiment": 0.2, "complexity_vs_clarity": 0.6, "risk_appetite": 0.5, "duration_expectation": 0.6, "urgency": 0.4, "attention_amplification": 0.4, "emotional_profile": ["anticipation"], "cognitive_biases": ["anchoring_bias"] }
+          "belief": {
+            "market_perception": {
+              "intensity": 0.4,
+              "hope_vs_fear": 0.3,
+              "surprise_vs_anticipated": 0.1,
+              "consensus_vs_division": 0.7,
+              "narrative_strength": 0.5,
+              "emotional_profile": ["anticipation"],
+              "cognitive_biases": ["anchoring_bias"]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.2,
+              "competitive_risk": 0.1,
+              "business_impact_likelihood": 0.9,
+              "timeline_realism": 0.9,
+              "fundamental_strength": 0.9
+            },
+            "perception_gap": {
+              "optimism_bias": -0.1,
+              "risk_awareness": -0.1,
+              "correction_potential": 0.1
+            }
+          }
         }
       ]
     },

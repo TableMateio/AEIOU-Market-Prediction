@@ -89,7 +89,7 @@
                                 "type": "string",
                                 "enum": [
                                     "bull",
-                                    "bear", 
+                                    "bear",
                                     "neutral",
                                     "unknown"
                                 ]
@@ -378,149 +378,186 @@
                                     "belief": {
                                         "type": "object",
                                         "properties": {
-                                            "intensity": {
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 1,
-                                                "description": "Market attention and emotional buzz level (0.0-0.1 = minimal buzz, 0.2-0.3 = moderate chatter, 0.4-0.6 = mainstream coverage, 0.7-0.8 = high attention, 0.9-1.0 = maximum fixation)"
+                                            "market_perception": {
+                                                "type": "object",
+                                                "description": "What investors and the market actually believe about this event",
+                                                "properties": {
+                                                    "intensity": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "Market attention and emotional buzz level (0.0-0.1 = minimal buzz, 0.2-0.3 = moderate chatter, 0.4-0.6 = mainstream coverage, 0.7-0.8 = high attention, 0.9-1.0 = maximum fixation)"
+                                                    },
+                                                    "hope_vs_fear": {
+                                                        "type": "number",
+                                                        "minimum": -1,
+                                                        "maximum": 1,
+                                                        "description": "Market's emotional valence about future outcomes (-0.8 to -1.0 = extreme fear, -0.4 to -0.7 = significant worry, -0.1 to -0.3 = mild concern, -0.1 to +0.1 = neutral sentiment, +0.1 to +0.3 = mild optimism, +0.4 to +0.7 = strong hope, +0.8 to +1.0 = extreme optimism)"
+                                                    },
+                                                    "surprise_vs_anticipated": {
+                                                        "type": "number",
+                                                        "minimum": -1,
+                                                        "maximum": 1,
+                                                        "description": "How expected vs shocking the market finds this news (-0.8 to -1.0 = completely predictable, -0.4 to -0.7 = widely anticipated, -0.1 to -0.3 = somewhat expected, -0.1 to +0.1 = neutral, +0.1 to +0.3 = mild surprise, +0.4 to +0.7 = significant surprise, +0.8 to +1.0 = total shock)"
+                                                    },
+                                                    "consensus_vs_division": {
+                                                        "type": "number",
+                                                        "minimum": -1,
+                                                        "maximum": 1,
+                                                        "description": "Market agreement level on news interpretation (-0.8 to -1.0 = completely polarized, -0.4 to -0.7 = strong division, -0.1 to -0.3 = some disagreement, -0.1 to +0.1 = mixed signals, +0.1 to +0.3 = mild agreement, +0.4 to +0.7 = strong consensus, +0.8 to +1.0 = universal agreement)"
+                                                    },
+                                                    "narrative_strength": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "How compelling and dominant is the market's story about this event (0.9-1.0 = overwhelming narrative dominance, 0.7-0.8 = strong story with wide acceptance, 0.5-0.6 = moderate narrative traction, 0.3-0.4 = weak or competing stories, 0.1-0.2 = minimal narrative coherence, 0.0 = no clear story)"
+                                                    },
+                                                    "emotional_profile": {
+                                                        "type": "array",
+                                                        "description": "Market emotions detected in coverage and discussion",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "anticipation",
+                                                                "excitement",
+                                                                "optimism",
+                                                                "confidence",
+                                                                "relief",
+                                                                "satisfaction",
+                                                                "interest",
+                                                                "surprise",
+                                                                "uncertainty",
+                                                                "concern",
+                                                                "skepticism",
+                                                                "disappointment",
+                                                                "fear",
+                                                                "anger",
+                                                                "disgust",
+                                                                "indifference",
+                                                                "FOMO",
+                                                                "greed",
+                                                                "euphoria",
+                                                                "panic",
+                                                                "dread",
+                                                                "complacency"
+                                                            ]
+                                                        }
+                                                    },
+                                                    "cognitive_biases": {
+                                                        "type": "array",
+                                                        "description": "Psychological biases influencing market interpretation",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "enum": [
+                                                                "availability_heuristic",
+                                                                "anchoring_bias",
+                                                                "confirmation_bias",
+                                                                "optimism_bias",
+                                                                "overconfidence_bias",
+                                                                "loss_aversion",
+                                                                "sunk_cost_fallacy",
+                                                                "hindsight_bias",
+                                                                "recency_bias",
+                                                                "herding_behavior",
+                                                                "authority_bias",
+                                                                "halo_effect",
+                                                                "planning_fallacy",
+                                                                "survivorship_bias",
+                                                                "dunning_kruger_effect"
+                                                            ]
+                                                        }
+                                                    }
+                                                },
+                                                "required": [
+                                                    "intensity",
+                                                    "hope_vs_fear",
+                                                    "surprise_vs_anticipated",
+                                                    "consensus_vs_division",
+                                                    "narrative_strength",
+                                                    "emotional_profile",
+                                                    "cognitive_biases"
+                                                ],
+                                                "additionalProperties": false
                                             },
-                                            "certainty_truth": {
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 1,
-                                                "description": "Confidence that factual claims are accurate (0.9-1.0 = official sources, 0.7-0.8 = credible reporting, 0.5-0.6 = industry speculation, 0.3-0.4 = rumors with credibility, 0.1-0.2 = pure speculation, 0.0 = known false)"
+                                            "ai_assessment": {
+                                                "type": "object",
+                                                "description": "Analytical perspective on the likely business reality of this event",
+                                                "properties": {
+                                                    "execution_risk": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "Likelihood of implementation challenges (0.9-1.0 = extremely high risk/complex execution, 0.7-0.8 = significant challenges expected, 0.5-0.6 = moderate implementation difficulty, 0.3-0.4 = some risks but manageable, 0.1-0.2 = low execution risk, 0.0 = trivial to execute)"
+                                                    },
+                                                    "competitive_risk": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "Risk from competitive dynamics and market position (0.9-1.0 = severe competitive disadvantage, 0.7-0.8 = significant competitive pressure, 0.5-0.6 = moderate competitive risk, 0.3-0.4 = manageable competition, 0.1-0.2 = competitive advantage, 0.0 = dominant market position)"
+                                                    },
+                                                    "business_impact_likelihood": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "Probability this event will have the claimed business impact (0.9-1.0 = highly likely to achieve claimed impact, 0.7-0.8 = probably will deliver, 0.5-0.6 = uncertain outcome, 0.3-0.4 = probably won't meet expectations, 0.1-0.2 = unlikely to deliver, 0.0 = almost certain to fail)"
+                                                    },
+                                                    "timeline_realism": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "Realism of proposed timeline and delivery schedule (0.9-1.0 = very realistic timeline, 0.7-0.8 = achievable with effort, 0.5-0.6 = ambitious but possible, 0.3-0.4 = overly optimistic, 0.1-0.2 = unrealistic timeline, 0.0 = impossible schedule)"
+                                                    },
+                                                    "fundamental_strength": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "Underlying business logic and strategic soundness (0.9-1.0 = excellent strategic move, 0.7-0.8 = solid business logic, 0.5-0.6 = reasonable but uncertain, 0.3-0.4 = questionable strategy, 0.1-0.2 = poor business logic, 0.0 = fundamentally flawed)"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "execution_risk",
+                                                    "competitive_risk",
+                                                    "business_impact_likelihood",
+                                                    "timeline_realism",
+                                                    "fundamental_strength"
+                                                ],
+                                                "additionalProperties": false
                                             },
-                                            "certainty_impact": {
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 1,
-                                                "description": "Confidence that the event will meaningfully affect Apple's value (0.9-1.0 = direct fundamental impact, 0.7-0.8 = strong business connection, 0.5-0.6 = moderate relevance, 0.3-0.4 = indirect influence, 0.1-0.2 = weak connection, 0.0 = no material impact)"
-                                            },
-                                            "hope_vs_fear": {
-                                                "type": "number",
-                                                "minimum": -1,
-                                                "maximum": 1,
-                                                "description": "Emotional valence about future outcomes (-0.8 to -1.0 = extreme fear/existential threat, -0.4 to -0.7 = significant worry, -0.1 to -0.3 = mild concern, -0.1 to +0.1 = neutral sentiment, +0.1 to +0.3 = mild optimism, +0.4 to +0.7 = strong hope, +0.8 to +1.0 = extreme optimism)"
-                                            },
-                                            "surprise_vs_anticipated": {
-                                                "type": "number",
-                                                "minimum": -1,
-                                                "maximum": 1,
-                                                "description": "How expected vs shocking the news feels (-0.8 to -1.0 = completely predictable, -0.4 to -0.7 = widely anticipated, -0.1 to -0.3 = somewhat expected, -0.1 to +0.1 = neutral, +0.1 to +0.3 = mild surprise, +0.4 to +0.7 = significant surprise, +0.8 to +1.0 = total shock)"
-                                            },
-                                            "consensus_vs_division": {
-                                                "type": "number",
-                                                "minimum": -1,
-                                                "maximum": 1,
-                                                "description": "Market agreement level on news interpretation (-0.8 to -1.0 = completely polarized, -0.4 to -0.7 = strong division, -0.1 to -0.3 = some disagreement, -0.1 to +0.1 = mixed signals, +0.1 to +0.3 = mild agreement, +0.4 to +0.7 = strong consensus, +0.8 to +1.0 = universal agreement)"
-                                            },
-                                            "positive_vs_negative_sentiment": {
-                                                "type": "number",
-                                                "minimum": -1,
-                                                "maximum": 1,
-                                                "description": "Overall tone independent of hope/fear (-0.8 to -1.0 = overwhelmingly negative language, -0.4 to -0.7 = generally negative tone, -0.1 to -0.3 = mildly negative framing, -0.1 to +0.1 = neutral factual reporting, +0.1 to +0.3 = mildly positive framing, +0.4 to +0.7 = generally positive tone, +0.8 to +1.0 = overwhelmingly positive language)"
-                                            },
-                                            "complexity_vs_clarity": {
-                                                "type": "number",
-                                                "minimum": -1,
-                                                "maximum": 1,
-                                                "description": "How complicated vs straightforward the matter appears (-0.8 to -1.0 = extremely complex with too many variables, -0.4 to -0.7 = quite complex with many unknowns, -0.1 to -0.3 = somewhat complex with multiple variables, -0.1 to +0.1 = balanced complexity, +0.1 to +0.3 = mostly clear with some ambiguity, +0.4 to +0.7 = generally clear and straightforward, +0.8 to +1.0 = crystal clear with obvious implications)"
-                                            },
-                                            "risk_appetite": {
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 1,
-                                                "description": "Willingness to accept uncertainty and potential downsides (0.9-1.0 = high risk tolerance embracing bold moves, 0.7-0.8 = moderate risk acceptance, 0.5-0.6 = balanced approach, 0.3-0.4 = risk-averse preferring proven approaches, 0.1-0.2 = very conservative, 0.0 = risk-avoidant)"
-                                            },
-                                            "duration_expectation": {
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 1,
-                                                "description": "Perceived longevity of the issue or its effects (0.9-1.0 = permanent/structural, 0.7-0.8 = long-term multi-year implications, 0.5-0.6 = medium-term 1-2 year effects, 0.3-0.4 = short-term quarterly to annual impact, 0.1-0.2 = brief weeks to months, 0.0 = fleeting daily news cycle)"
-                                            },
-                                            "urgency": {
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 1,
-                                                "description": "How immediately people think action or attention is required (0.9-1.0 = immediate action required, 0.7-0.8 = high urgency, 0.5-0.6 = moderate urgency, 0.3-0.4 = low urgency, 0.1-0.2 = minimal urgency, 0.0 = no urgency)"
-                                            },
-                                            "attention_amplification": {
-                                                "type": "number",
-                                                "minimum": 0,
-                                                "maximum": 1,
-                                                "description": "How much coverage, social spread, and media amplification is occurring (0.9-1.0 = viral/trending, 0.7-0.8 = high amplification, 0.5-0.6 = moderate coverage, 0.3-0.4 = limited coverage, 0.1-0.2 = minimal amplification, 0.0 = no amplification)"
-                                            },
-                                            "emotional_profile": {
-                                                "type": "array",
-                                                "description": "Select applicable emotions detected in the narrative",
-                                                "items": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "anticipation",
-                                                        "excitement",
-                                                        "optimism",
-                                                        "confidence",
-                                                        "relief",
-                                                        "satisfaction",
-                                                        "interest",
-                                                        "surprise",
-                                                        "uncertainty",
-                                                        "concern",
-                                                        "skepticism",
-                                                        "disappointment",
-                                                        "fear",
-                                                        "anger",
-                                                        "disgust",
-                                                        "indifference",
-                                                        "FOMO",
-                                                        "greed",
-                                                        "euphoria",
-                                                        "panic",
-                                                        "dread",
-                                                        "complacency"
-                                                    ]
-                                                }
-                                            },
-                                            "cognitive_biases": {
-                                                "type": "array",
-                                                "description": "List identifiable psychological biases influencing interpretation",
-                                                "items": {
-                                                    "type": "string",
-                                                    "enum": [
-                                                        "availability_heuristic",
-                                                        "anchoring_bias",
-                                                        "confirmation_bias",
-                                                        "optimism_bias",
-                                                        "overconfidence_bias",
-                                                        "loss_aversion",
-                                                        "sunk_cost_fallacy",
-                                                        "hindsight_bias",
-                                                        "recency_bias",
-                                                        "herding_behavior",
-                                                        "authority_bias",
-                                                        "halo_effect",
-                                                        "planning_fallacy",
-                                                        "survivorship_bias",
-                                                        "dunning_kruger_effect"
-                                                    ]
-                                                }
+                                            "perception_gap": {
+                                                "type": "object",
+                                                "description": "Analysis of gaps between market perception and analytical assessment",
+                                                "properties": {
+                                                    "optimism_bias": {
+                                                        "type": "number",
+                                                        "minimum": -1,
+                                                        "maximum": 1,
+                                                        "description": "Is market over or under-confident compared to analysis (-0.8 to -1.0 = market extremely pessimistic vs analysis, -0.4 to -0.7 = market too bearish, -0.1 to -0.3 = market slightly under-confident, -0.1 to +0.1 = market perception aligned, +0.1 to +0.3 = market slightly over-confident, +0.4 to +0.7 = market too bullish, +0.8 to +1.0 = market extremely optimistic vs reality)"
+                                                    },
+                                                    "risk_awareness": {
+                                                        "type": "number",
+                                                        "minimum": -1,
+                                                        "maximum": 1,
+                                                        "description": "How well does market understand the real risks (-0.8 to -1.0 = market obsessing over non-risks, -0.4 to -0.7 = market overestimating risks, -0.1 to -0.3 = market slightly risk-averse, -0.1 to +0.1 = appropriate risk awareness, +0.1 to +0.3 = market underestimating some risks, +0.4 to +0.7 = market ignoring significant risks, +0.8 to +1.0 = market completely blind to major risks)"
+                                                    },
+                                                    "correction_potential": {
+                                                        "type": "number",
+                                                        "minimum": 0,
+                                                        "maximum": 1,
+                                                        "description": "Likelihood of market perception shifting toward analytical reality (0.9-1.0 = perception likely to correct soon, 0.7-0.8 = correction probable over time, 0.5-0.6 = unclear direction, 0.3-0.4 = market perception may persist, 0.1-0.2 = narrative very sticky, 0.0 = perception unlikely to change)"
+                                                    }
+                                                },
+                                                "required": [
+                                                    "optimism_bias",
+                                                    "risk_awareness",
+                                                    "correction_potential"
+                                                ],
+                                                "additionalProperties": false
                                             }
                                         },
                                         "required": [
-                                            "intensity",
-                                            "certainty_truth",
-                                            "certainty_impact",
-                                            "hope_vs_fear",
-                                            "surprise_vs_anticipated",
-                                            "consensus_vs_division",
-                                            "positive_vs_negative_sentiment",
-                                            "complexity_vs_clarity",
-                                            "risk_appetite",
-                                            "duration_expectation",
-                                            "urgency",
-                                            "attention_amplification",
-                                            "emotional_profile",
-                                            "cognitive_biases"
+                                            "market_perception",
+                                            "ai_assessment",
+                                            "perception_gap"
                                         ],
                                         "additionalProperties": false
                                     }
