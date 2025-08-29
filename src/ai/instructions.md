@@ -185,17 +185,83 @@ What investors and the market actually believe, regardless of analytical merit:
 
 ### AI Assessment Layer  
 Your analytical perspective on the likely business reality:
-- **Execution risks** and practical challenges
-- **Competitive dynamics** and market realities
-- **Technical/operational constraints**
-- **Historical pattern analysis** and precedent
+
+#### Execution Risk (0–1)
+Likelihood of implementation challenges and practical barriers.
+• **0.9–1.0**: Extremely high risk (complex technology, unproven at scale, major operational challenges)
+• **0.7–0.8**: Significant challenges expected (difficult but achievable, resource-intensive)
+• **0.5–0.6**: Moderate implementation difficulty (standard complexity, manageable risks)
+• **0.3–0.4**: Some risks but manageable (proven approaches, minor challenges)
+• **0.1–0.2**: Low execution risk (straightforward implementation, established processes)
+• **0.0**: Trivial to execute (simple operational changes, minimal barriers)
+
+#### Competitive Risk (0–1)
+Risk from competitive dynamics and market position.
+• **0.9–1.0**: Severe competitive disadvantage (competitors far ahead, losing market position)
+• **0.7–0.8**: Significant competitive pressure (strong competitor response likely)
+• **0.5–0.6**: Moderate competitive risk (balanced competitive landscape)
+• **0.3–0.4**: Manageable competition (some competitive advantages)
+• **0.1–0.2**: Competitive advantage (strong market position, differentiated offering)
+• **0.0**: Dominant market position (near-monopoly, no serious threats)
+
+#### Business Impact Likelihood (0–1)
+Probability this event will have the claimed business impact.
+• **0.9–1.0**: Highly likely to achieve claimed impact (proven track record, clear mechanisms)
+• **0.7–0.8**: Probably will deliver (strong indicators, favorable conditions)
+• **0.5–0.6**: Uncertain outcome (mixed signals, dependent on execution)
+• **0.3–0.4**: Probably won't meet expectations (challenging conditions, weak indicators)
+• **0.1–0.2**: Unlikely to deliver (poor track record, unfavorable conditions)
+• **0.0**: Almost certain to fail (fundamental barriers, impossible conditions)
+
+#### Timeline Realism (0–1)
+Realism of proposed timeline and delivery schedule.
+• **0.9–1.0**: Very realistic timeline (conservative estimates, proven delivery capability)
+• **0.7–0.8**: Achievable with effort (reasonable timeline, some stretch goals)
+• **0.5–0.6**: Ambitious but possible (tight timeline, requires good execution)
+• **0.3–0.4**: Overly optimistic (compressed timeline, high risk of delays)
+• **0.1–0.2**: Unrealistic timeline (impossible schedule, ignores constraints)
+• **0.0**: Impossible schedule (physically impossible, contradicts reality)
+
+#### Fundamental Strength (0–1)
+How well this aligns with Apple's core competencies and business model.
+• **0.9–1.0**: Perfect strategic fit (core competency, natural extension)
+• **0.7–0.8**: Strong strategic alignment (leverages existing strengths)
+• **0.5–0.6**: Moderate fit (some synergies, manageable stretch)
+• **0.3–0.4**: Weak strategic fit (requires new capabilities, limited synergies)
+• **0.1–0.2**: Poor alignment (outside core competencies, major stretch)
+• **0.0**: Completely misaligned (contradicts business model, no fit)
 
 ### Perception Gap Analysis
 The tension between market belief and analytical assessment:
-- **Optimism/pessimism bias** - is market over/under-confident?
-- **Risk awareness** - is market ignoring or overestimating real risks?
-- **Narrative strength** - how compelling is the story vs evidence?
-- **Correction potential** - likelihood of perception shift toward analysis
+
+#### Optimism Bias (-1 → +1)
+Is market over or under-confident compared to analytical assessment?
+• **+0.8 to +1.0**: Extreme market overconfidence (euphoric, ignoring major risks)
+• **+0.4 to +0.7**: Significant overoptimism (market too bullish vs reality)
+• **+0.1 to +0.3**: Mild overconfidence (slightly too optimistic)
+• **-0.1 to +0.1**: Well-calibrated (market perception matches analysis)
+• **-0.1 to -0.3**: Mild underconfidence (market slightly too pessimistic)
+• **-0.4 to -0.7**: Significant pessimism bias (market too bearish vs reality)
+• **-0.8 to -1.0**: Extreme market underconfidence (panic, ignoring positives)
+
+#### Risk Awareness (-1 → +1)
+How well does market understand the real risks compared to analytical view?
+• **+0.8 to +1.0**: Market over-estimates risks (paranoid, seeing problems everywhere)
+• **+0.4 to +0.7**: Market somewhat risk-averse (conservative vs reality)
+• **+0.1 to +0.3**: Market slightly overcautious (minor risk overestimation)
+• **-0.1 to +0.1**: Appropriate risk assessment (market matches analysis)
+• **-0.1 to -0.3**: Market slightly underestimates risks (minor blind spots)
+• **-0.4 to -0.7**: Market significantly ignores risks (dangerous complacency)
+• **-0.8 to -1.0**: Market completely blind to risks (reckless disregard)
+
+#### Correction Potential (0–1)
+Likelihood of market perception shifting toward analytical reality.
+• **0.9–1.0**: High correction potential (clear catalysts, unsustainable narrative)
+• **0.7–0.8**: Likely correction (mounting evidence, narrative strain)
+• **0.5–0.6**: Moderate correction chance (mixed signals, gradual shift possible)
+• **0.3–0.4**: Low correction potential (entrenched views, limited catalysts)
+• **0.1–0.2**: Unlikely correction (strong narrative momentum, few catalysts)
+• **0.0**: No correction expected (permanent perception gap, no catalysts)
 
 ### Examples of Dual-Layer Analysis:
 
