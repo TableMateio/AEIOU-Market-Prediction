@@ -314,29 +314,35 @@ How much this event challenges current market narrative.
 • **0.1–0.2**: Slightly reinforcing (mostly supports existing narrative)
 • **0.0**: Perfectly confirming (completely validates current narrative)
 
-## Magnitude Scale (% of Apple's Annual Profits)
+## Magnitude Scale (0-1 Decimal Scale)
 
-Stored as a decimal percentage with three or four decimal places. Represents the expected impact of an event on Apple's total annual net income.
+**CRITICAL**: Use 0-1 decimal scale representing % of Apple's ~$100B annual net income.
 
-• **0.001** = 0.001% of profits (~$1M effect)
-• **0.100** = 0.1% (~$100M effect)
-• **1.000** = 1% (~$1B effect)
-• **10.000** = 10% (~$10B effect)
-• **100.000** = 100% (doubling Apple's annual profits)
+### Scale Definition:
+• **0.01** = 1% of profits (~$1B effect) - Major iPhone refresh
+• **0.05** = 5% of profits (~$5B effect) - Significant new product line
+• **0.10** = 10% of profits (~$10B effect) - Major services expansion
+• **0.25** = 25% of profits (~$25B effect) - New industry entry (AR glasses at scale)
+• **0.50** = 50% of profits (~$50B effect) - Transformative shift (cars/healthcare)
+• **1.00** = 100% of profits (~$100B effect) - Company doubling (new trillion-dollar category)
 
-### Guidelines:
-• 0.000–0.009% = Dust. Trivial, no real effect (e.g., accessories, minor lawsuits).
-• 0.01–0.09% = Very little effect. A drop in the bucket, negligible in the scope of Apple's total business.
-• 0.1–0.9% = Noticeable. Could move a smaller line of business but not the company overall.
-• 1–4.9% = Meaningful. Investors care; affects a major product cycle (e.g., iPhone refresh).
-• 5–9.9% = Strong. Materially shifts fundamentals, e.g., a major new services initiative.
-• 10–24.9% = Very strong. Could reshape Apple's revenue trajectory, e.g., AR glasses at scale.
-• 25–49.9% = Transformative. Multi-line paradigm shift (e.g., Apple dominates a new industry).
-• 50–99.9% = Epochal. Near doubling of profits (e.g., cars or healthcare at global scale).
-• 100%+ = Once-in-history. Apple doubles or more, e.g., successfully owning an entirely new trillion-dollar category.
+### Practical Guidelines:
+• **0.01–0.03** = iPhone/iPad refreshes, minor new products
+• **0.04–0.08** = Major product launches, significant service updates
+• **0.09–0.15** = New product categories, major strategic shifts
+• **0.16–0.25** = Industry-changing innovations (AR, major M&A)
+• **0.26–0.50** = Business model transformation
+• **0.51–1.00** = Company reinvention (reserved for cars, healthcare, AI breakthroughs)
 
-### Guardrail:
-Do not assign values above 25% unless the event is plausibly on the scale of cars, healthcare, or other world-shaping industries.
+### Calibration Examples:
+• **iPhone 15 launch**: 0.02-0.03 (incremental refresh)
+• **Apple Watch launch**: 0.05-0.08 (new category)
+• **Services push**: 0.08-0.12 (business model shift)
+• **Vision Pro**: 0.03-0.06 (early-stage new category)
+• **Hypothetical Apple Car**: 0.30-0.70 (industry transformation)
+
+### CRITICAL GUARDRAIL:
+**Do not assign values >0.25 unless the event is plausibly on the scale of cars, healthcare, or AI breakthroughs that could reshape entire industries.**
 
 ⸻
 
@@ -523,7 +529,7 @@ After initial factor extraction, factors will be normalized across articles for 
           "delta": 1,
           "description": "New redesigned SKU added",
           "movement": 1,
-          "magnitude": 2.500,
+          "magnitude": 0.025,
           "orientation": "predictive",
           "about_time_days": 180,
           "effect_horizon_days": 365,
@@ -565,7 +571,7 @@ After initial factor extraction, factors will be normalized across articles for 
           "delta": 1500000,
           "description": "Incremental units from refresh cycle",
           "movement": 1,
-          "magnitude": 3.000,
+          "magnitude": 0.030,
           "orientation": "predictive",
           "about_time_days": 210,
           "effect_horizon_days": 365,
@@ -607,7 +613,7 @@ After initial factor extraction, factors will be normalized across articles for 
           "delta": 2,
           "description": "Units lift expected to raise revenue growth",
           "movement": 1,
-          "magnitude": 3.500,
+          "magnitude": 0.035,
           "orientation": "predictive",
           "about_time_days": 240,
           "effect_horizon_days": 365,
@@ -663,7 +669,7 @@ After initial factor extraction, factors will be normalized across articles for 
           "delta": 1,
           "description": "Apple enters foldable phone segment",
           "movement": 1,
-          "magnitude": 6.500,
+          "magnitude": 0.065,
           "orientation": "predictive",
           "about_time_days": 365,
           "effect_horizon_days": 730,
@@ -683,7 +689,7 @@ After initial factor extraction, factors will be normalized across articles for 
           "delta": 1,
           "description": "Potential share gain from competing in new device category",
           "movement": 1,
-          "magnitude": 7.000,
+          "magnitude": 0.070,
           "orientation": "predictive",
           "about_time_days": 365,
           "effect_horizon_days": 1095,

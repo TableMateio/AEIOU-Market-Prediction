@@ -284,7 +284,7 @@
                                         "type": "number",
                                         "minimum": 0,
                                         "maximum": 1,
-                                        "description": "Business impact scale: 0 = trivial/no effect; 0.3 = noticeable; 0.5 = meaningful; 0.7 = strong; 0.9–1.0 = only for truly transformative shifts (new industry, potential business doubling)."
+                                        "description": "Business impact as % of Apple's annual profits (0-1 scale): 0.01-0.03 = iPhone refresh (~$1-3B), 0.04-0.08 = major product launch (~$4-8B), 0.09-0.15 = new category (~$9-15B), 0.16-0.25 = industry innovation (~$16-25B), 0.26+ = business transformation, 1.0 = company doubling (~$100B). Most events should be 0.01-0.15."
                                     },
                                     "orientation": {
                                         "type": "string",
