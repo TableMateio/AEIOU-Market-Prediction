@@ -493,7 +493,7 @@
                                                         "type": "number",
                                                         "minimum": 0,
                                                         "maximum": 1,
-                                                        "description": "Risk from competitive dynamics and market position (0.9-1.0 = severe competitive disadvantage, 0.7-0.8 = significant competitive pressure, 0.5-0.6 = moderate competitive risk, 0.3-0.4 = manageable competition, 0.1-0.2 = competitive advantage, 0.0 = dominant market position)"
+                                                        "description": "Risk that competitive dynamics will undermine this specific causal step (0.9-1.0 = competitors likely to neutralize impact, 0.7-0.8 = strong competitive response expected, 0.5-0.6 = moderate competitive pressure, 0.3-0.4 = limited competitive threat, 0.1-0.2 = minimal competitive risk, 0.0 = no competitive threat)"
                                                     },
                                                     "business_impact_likelihood": {
                                                         "type": "number",
@@ -511,7 +511,7 @@
                                                         "type": "number",
                                                         "minimum": 0,
                                                         "maximum": 1,
-                                                        "description": "Underlying business logic and strategic soundness (0.9-1.0 = excellent strategic move, 0.7-0.8 = solid business logic, 0.5-0.6 = reasonable but uncertain, 0.3-0.4 = questionable strategy, 0.1-0.2 = poor business logic, 0.0 = fundamentally flawed)"
+                                                        "description": "How sound the underlying business logic is for this specific causal step (0.9-1.0 = rock-solid business logic with proven mechanisms, 0.7-0.8 = sound business reasoning with logical connection, 0.5-0.6 = reasonable logic with plausible connection, 0.3-0.4 = weak business case with tenuous connection, 0.1-0.2 = poor business logic, 0.0 = fundamentally flawed reasoning)"
                                                     }
                                                 },
                                                 "required": [

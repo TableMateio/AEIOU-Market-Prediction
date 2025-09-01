@@ -177,14 +177,19 @@ List identifiable psychological biases influencing interpretation. Select applic
 **CRITICAL ENHANCEMENT**: For each causal step, analyze both market perception AND analytical assessment. Markets often move on perception rather than fundamentals, creating gaps between sentiment and likely outcomes.
 
 ### Market Perception Layer
-What investors and the market actually believe, regardless of analytical merit:
-- **Dominant narrative** being told about this event
-- **Emotional sentiment** driving coverage and discussion  
-- **Cognitive biases** influencing market interpretation
-- **Hype vs skepticism** levels in the discourse
+What investors and the market are actually feeling/believing, based on how the news is being covered and discussed:
+- **Dominant narrative** being told in media coverage
+- **Emotional sentiment** driving investor discussions  
+- **Cognitive biases** visible in market reactions
+- **Hype vs skepticism** levels in analyst/social commentary
+**This is NOT your AI opinion - this is reading the room of actual market sentiment.**
 
 ### AI Assessment Layer  
-Your analytical perspective on the likely business reality:
+Your data-driven, realistic assessment of what will likely happen in business reality. **CRITICAL: All assessment values should scale with the magnitude of the factor.** If magnitude is 0.01 (tiny impact), then competitive_risk, execution_risk, etc. should also be low values (0.05-0.15). If magnitude is 0.5 (massive impact), then risks can be proportionally higher.
+
+**This is YOUR analytical judgment** - often more conservative than market hype. Markets tend to overestimate impact of small events.
+
+Each causal step should have its own assessment - early steps (like "announce new feature") typically have different risk profiles than distant steps (like "revenue growth"):
 
 #### Execution Risk (0–1)
 Likelihood of implementation challenges and practical barriers.
@@ -196,20 +201,22 @@ Likelihood of implementation challenges and practical barriers.
 • **0.0**: Trivial to execute (simple operational changes, minimal barriers)
 
 #### Competitive Risk (0–1)
-Risk from competitive dynamics and market position.
-• **0.9–1.0**: Severe competitive disadvantage (competitors far ahead, losing market position)
-• **0.7–0.8**: Significant competitive pressure (strong competitor response likely)
-• **0.5–0.6**: Moderate competitive risk (balanced competitive landscape)
-• **0.3–0.4**: Manageable competition (some competitive advantages)
-• **0.1–0.2**: Competitive advantage (strong market position, differentiated offering)
-• **0.0**: Dominant market position (near-monopoly, no serious threats)
+Risk that competitive dynamics will undermine this specific causal step. **Scale with magnitude**: tiny factors (0.01) should have tiny risks (0.05), massive factors (0.5) can have proportional risks.
+• **0.9–1.0**: Competitors likely to neutralize impact (fast follower advantage, existing solutions)
+• **0.7–0.8**: Strong competitive response expected (direct threat to competitor revenue)
+• **0.5–0.6**: Moderate competitive pressure (some competitor reaction likely)
+• **0.3–0.4**: Limited competitive threat (differentiated approach, first-mover advantage)
+• **0.1–0.2**: Minimal competitive risk (unique capabilities, high switching costs)
+• **0.05–0.1**: Tiny competitive risk (for minor updates, accessories, routine changes)
+• **0.0**: No competitive threat (proprietary advantage, market leadership)
 
 #### Business Impact Likelihood (0–1)
-Probability this event will have the claimed business impact.
+Probability this event will have the claimed business impact. **For tiny magnitudes (0.01), use conservative confidence (0.2-0.4)** since small effects are harder to detect and achieve.
 • **0.9–1.0**: Highly likely to achieve claimed impact (proven track record, clear mechanisms)
 • **0.7–0.8**: Probably will deliver (strong indicators, favorable conditions)
 • **0.5–0.6**: Uncertain outcome (mixed signals, dependent on execution)
 • **0.3–0.4**: Probably won't meet expectations (challenging conditions, weak indicators)
+• **0.2–0.3**: Low confidence (typical for minor changes with unclear business impact)
 • **0.1–0.2**: Unlikely to deliver (poor track record, unfavorable conditions)
 • **0.0**: Almost certain to fail (fundamental barriers, impossible conditions)
 
@@ -223,13 +230,13 @@ Realism of proposed timeline and delivery schedule.
 • **0.0**: Impossible schedule (physically impossible, contradicts reality)
 
 #### Fundamental Strength (0–1)
-How well this aligns with Apple's core competencies and business model.
-• **0.9–1.0**: Perfect strategic fit (core competency, natural extension)
-• **0.7–0.8**: Strong strategic alignment (leverages existing strengths)
-• **0.5–0.6**: Moderate fit (some synergies, manageable stretch)
-• **0.3–0.4**: Weak strategic fit (requires new capabilities, limited synergies)
-• **0.1–0.2**: Poor alignment (outside core competencies, major stretch)
-• **0.0**: Completely misaligned (contradicts business model, no fit)
+How sound the underlying business logic is for this specific causal step.
+• **0.9–1.0**: Rock-solid business logic (proven causal mechanisms, strong historical precedent)
+• **0.7–0.8**: Sound business reasoning (logical connection, supported by evidence)
+• **0.5–0.6**: Reasonable logic (plausible connection, some supporting data)
+• **0.3–0.4**: Weak business case (tenuous connection, limited supporting evidence)
+• **0.1–0.2**: Poor business logic (speculative connection, contradicts evidence)
+• **0.0**: Fundamentally flawed reasoning (no logical connection, contradicts known patterns)
 
 ### Perception Gap Analysis
 The tension between market belief and analytical assessment:
@@ -657,11 +664,11 @@ After initial factor extraction, factors will be normalized across articles for 
               "cognitive_biases": ["anchoring_bias", "confirmation_bias"]
             },
             "ai_assessment": {
-              "execution_risk": 0.3,
-              "competitive_risk": 0.2,
-              "business_impact_likelihood": 0.8,
-              "timeline_realism": 0.8,
-              "fundamental_strength": 0.8
+              "execution_risk": 0.05,
+              "competitive_risk": 0.1,
+              "business_impact_likelihood": 0.3,
+              "timeline_realism": 0.9,
+              "fundamental_strength": 0.6
             },
             "perception_gap": {
               "optimism_bias": 0.1,
@@ -699,11 +706,11 @@ After initial factor extraction, factors will be normalized across articles for 
               "cognitive_biases": ["anchoring_bias"]
             },
             "ai_assessment": {
-              "execution_risk": 0.2,
-              "competitive_risk": 0.1,
-              "business_impact_likelihood": 0.9,
-              "timeline_realism": 0.9,
-              "fundamental_strength": 0.9
+              "execution_risk": 0.15,
+              "competitive_risk": 0.2,
+              "business_impact_likelihood": 0.25,
+              "timeline_realism": 0.7,
+              "fundamental_strength": 0.5
             },
             "perception_gap": {
               "optimism_bias": -0.1,
