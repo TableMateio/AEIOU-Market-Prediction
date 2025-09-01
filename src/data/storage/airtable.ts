@@ -212,7 +212,7 @@ export class AirtableStorage implements DatabaseInterface {
     // News Events CRUD
     public async createNewsEvent(event: Omit<NewsEvent, 'id' | 'createdAt' | 'updatedAt'>): Promise<NewsEvent> {
         try {
-            const record = await base(config.airtableConfig.tables.newsEvents).create([{
+            const record = await base('News Events').create([{
                 fields: {
                     headline: event.headline,
                     summary: event.summary,
@@ -250,7 +250,7 @@ export class AirtableStorage implements DatabaseInterface {
                 selectOptions.filterByFormula = `{stockSymbol} = '${filters.stockSymbol}'`;
             }
 
-            const records = await base(config.airtableConfig.tables.newsEvents)
+            const records = await base('News Events')
                 .select(selectOptions)
                 .all();
 
@@ -264,7 +264,7 @@ export class AirtableStorage implements DatabaseInterface {
     // Stock Data CRUD
     public async createStockData(data: Omit<StockData, 'id' | 'createdAt' | 'updatedAt'>): Promise<StockData> {
         try {
-            const record = await base(config.airtableConfig.tables.stockData).create([{
+            const record = await base('Stock Data').create([{
                 fields: {
                     stockSymbol: data.stockSymbol,
                     timestamp: data.timestamp.toISOString(),
@@ -304,7 +304,7 @@ export class AirtableStorage implements DatabaseInterface {
                 filterFormula += ` AND IS_AFTER({timestamp}, '${startDate.toISOString()}') AND IS_BEFORE({timestamp}, '${endDate.toISOString()}')`;
             }
 
-            const records = await base(config.airtableConfig.tables.stockData)
+            const records = await base('Stock Data')
                 .select({
                     maxRecords: limit || 1000,
                     filterByFormula: filterFormula,
@@ -322,7 +322,7 @@ export class AirtableStorage implements DatabaseInterface {
     // Validation Results CRUD
     public async createValidationResult(result: Omit<ValidationResult, 'id' | 'createdAt' | 'updatedAt'>): Promise<ValidationResult> {
         try {
-            const record = await base(config.airtableConfig.tables.validationResults).create([{
+            const record = await base('Validation Results').create([{
                 fields: {
                     newsEventId: result.newsEventId,
                     causalChainId: result.causalChainId || '',
@@ -379,7 +379,7 @@ export class AirtableStorage implements DatabaseInterface {
             // Mark as processed
             updateFields.processed = true;
 
-            const records = await base(config.airtableConfig.tables.newsEvents).update([{
+            const records = await base('News Events').update([{
                 id: eventId,
                 fields: updateFields
             }]);
@@ -400,7 +400,7 @@ export class AirtableStorage implements DatabaseInterface {
             const batch = events.slice(i, i + batchSize);
 
             try {
-                const records = await base(config.airtableConfig.tables.newsEvents).create(
+                const records = await base('News Events').create(
                     batch.map(event => ({
                         fields: {
                             headline: event.headline,
@@ -459,7 +459,7 @@ export class AirtableStorage implements DatabaseInterface {
                 selectOptions.filterByFormula = filterFormula;
             }
 
-            const records = await base(config.airtableConfig.tables.validationResults)
+            const records = await base('Validation Results')
                 .select(selectOptions)
                 .all();
 

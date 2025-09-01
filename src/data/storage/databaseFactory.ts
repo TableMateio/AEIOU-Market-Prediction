@@ -16,6 +16,32 @@ export class DatabaseFactory {
     private static instance: DatabaseInterface;
     private static currentProvider: DatabaseProvider;
 
+    /**
+     * Create database synchronously (for immediate use)
+     */
+    public static create(provider?: DatabaseProvider): DatabaseInterface {
+        const selectedProvider = provider || this.determineProvider();
+
+        if (this.instance && this.currentProvider === selectedProvider) {
+            return this.instance;
+        }
+
+        logger.info(`Creating database instance: ${selectedProvider}`);
+
+        switch (selectedProvider) {
+            case 'supabase':
+                this.instance = SupabaseStorage.getInstance();
+                break;
+            case 'airtable':
+            default:
+                this.instance = AirtableStorage.getInstance();
+                break;
+        }
+
+        this.currentProvider = selectedProvider;
+        return this.instance;
+    }
+
     public static async createDatabase(provider?: DatabaseProvider): Promise<DatabaseInterface> {
 
         // Use provided provider or determine from environment

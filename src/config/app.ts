@@ -32,27 +32,33 @@ export interface ValidationConfig {
 export interface AppConfiguration {
     nodeEnv: string;
     port: number;
-    
+
     // API Keys
     alphaVantageApiKey: string;
     yahooFinanceApiKey?: string;
     anthropicApiKey?: string;
     openaiApiKey?: string;
-    
+
+    // News API Keys
+    gnewsApiKey?: string;
+    newsdataApiKey?: string;
+    newsApiOrgKey?: string;
+    mediastackApiKey?: string;
+
     // Database configurations
     supabaseConfig: SupabaseConfig;
     airtableConfig: AirtableConfig;
-    
+
     // Rate limiting
     rateLimitConfig: RateLimitConfig;
-    
+
     // Logging
     logLevel: string;
     logFormat: string;
-    
+
     // Validation thresholds
     validationConfig: ValidationConfig;
-    
+
     // Stock analysis
     defaultStockSymbols: string[];
     marketHoursStart: string;
@@ -112,13 +118,19 @@ export class AppConfig {
         return {
             nodeEnv: process.env.NODE_ENV || 'development',
             port: parseInt(process.env.PORT || '3000', 10),
-            
+
             // API Keys
             alphaVantageApiKey: process.env.ALPHA_VANTAGE_API_KEY || '',
             yahooFinanceApiKey: process.env.YAHOO_FINANCE_API_KEY,
             anthropicApiKey: process.env.ANTHROPIC_API_KEY,
             openaiApiKey: process.env.OPENAI_API_KEY,
-            
+
+            // News API Keys
+            gnewsApiKey: process.env.GNEWS_API_KEY,
+            newsdataApiKey: process.env.NEWSDATA_API_KEY,
+            newsApiOrgKey: process.env.NEWSAPI_ORG_KEY,
+            mediastackApiKey: process.env.MEDIASTACK_API_KEY,
+
             // Supabase Configuration
             supabaseConfig: {
                 projectUrl: process.env.SUPABASE_PROJECT_URL || '',
@@ -126,30 +138,30 @@ export class AppConfig {
                 serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
                 dbPassword: process.env.SUPABASE_DB_PASSWORD
             },
-            
+
             // Airtable Configuration
             airtableConfig: {
                 apiKey: process.env.AIRTABLE_API_KEY || '',
                 baseId: process.env.AIRTABLE_BASE_ID || ''
             },
-            
+
             // Rate Limiting
             rateLimitConfig: {
                 windowMs: parseInt(process.env.API_RATE_LIMIT_WINDOW_MS || '900000', 10),
                 maxRequests: parseInt(process.env.API_RATE_LIMIT_MAX_REQUESTS || '25', 10)
             },
-            
+
             // Logging
             logLevel: process.env.LOG_LEVEL || 'info',
             logFormat: process.env.LOG_FORMAT || 'simple',
-            
+
             // Validation Thresholds
             validationConfig: {
                 minCorrelationThreshold: parseFloat(process.env.MIN_CORRELATION_THRESHOLD || '0.7'),
                 timestampAccuracyMinutes: parseInt(process.env.TIMESTAMP_ACCURACY_THRESHOLD_MINUTES || '30', 10),
                 newsCoverageThreshold: parseFloat(process.env.NEWS_COVERAGE_THRESHOLD || '0.8')
             },
-            
+
             // Stock Analysis
             defaultStockSymbols: (process.env.DEFAULT_STOCK_SYMBOLS || 'AAPL,MSFT,GOOGL').split(','),
             marketHoursStart: process.env.MARKET_HOURS_START || '09:30',
@@ -204,4 +216,17 @@ export class AppConfig {
 }
 
 export default AppConfig;
+
+// Export a simple config object for easier access
+export const config = {
+    get alphaVantageApiKey() { return AppConfig.getInstance().alphaVantageApiKey; },
+    get gnewsApiKey() { return AppConfig.getInstance().getFullConfig().gnewsApiKey; },
+    get newsdataApiKey() { return AppConfig.getInstance().getFullConfig().newsdataApiKey; },
+    get newsApiOrgKey() { return AppConfig.getInstance().getFullConfig().newsApiOrgKey; },
+    get mediastackApiKey() { return AppConfig.getInstance().getFullConfig().mediastackApiKey; },
+    get openaiApiKey() { return AppConfig.getInstance().getFullConfig().openaiApiKey; },
+    get anthropicApiKey() { return AppConfig.getInstance().getFullConfig().anthropicApiKey; },
+    get supabaseUrl() { return AppConfig.getInstance().supabaseConfig.projectUrl; },
+    get supabaseKey() { return AppConfig.getInstance().supabaseConfig.apiKey; }
+};
 

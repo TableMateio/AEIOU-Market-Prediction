@@ -565,6 +565,7 @@
                                 "required": [
                                     "step",
                                     "factor",
+                                    "factor_synonyms",
                                     "factor_category",
                                     "factor_unit",
                                     "raw_value",

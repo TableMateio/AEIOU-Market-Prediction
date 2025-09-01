@@ -1,7 +1,9 @@
 import winston from 'winston';
-import { AppConfig } from '@config/app';
 
-const config = AppConfig.getInstance();
+// Use environment variables directly to avoid circular dependency
+const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
+const LOG_FORMAT = process.env.LOG_FORMAT || 'simple';
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Custom log format for development
 const devFormat = winston.format.combine(
@@ -21,29 +23,30 @@ const prodFormat = winston.format.combine(
     winston.format.json()
 );
 
-const transports: winston.transport[] = [
+// Configure transports
+const transports = [
     new winston.transports.Console({
-        format: config.logFormat === 'json' ? prodFormat : devFormat,
+        format: NODE_ENV === 'production' ? prodFormat : devFormat,
     }),
 ];
 
 // Add file transport in production
-if (config.environment === 'production') {
+if (NODE_ENV === 'production') {
     transports.push(
         new winston.transports.File({
             filename: 'logs/error.log',
             level: 'error',
             format: prodFormat,
-        }),
+        }) as any,
         new winston.transports.File({
             filename: 'logs/combined.log',
             format: prodFormat,
-        })
+        }) as any
     );
 }
 
 const baseLogger = winston.createLogger({
-    level: config.logLevel,
+    level: LOG_LEVEL,
     transports,
     exitOnError: false,
 });
@@ -82,56 +85,57 @@ export function createLogger(service: string): Logger {
     };
 }
 
-// Performance logging helper
-export function logPerformance<T>(
-    logger: Logger,
-    operation: string,
-    fn: () => T,
-    meta: LoggerMeta = {}
-): T {
-    const start = Date.now();
-    logger.debug(`Starting ${operation}`, meta);
+// Export a default logger
+export const logger = createLogger('AEIOU');
 
-    try {
-        const result = fn();
-        const duration = Date.now() - start;
-        logger.info(`Completed ${operation}`, { ...meta, duration });
-        return result;
-    } catch (error) {
-        const duration = Date.now() - start;
-        logger.error(`Failed ${operation}`, {
-            ...meta,
-            duration,
-            error: error instanceof Error ? error.message : String(error),
-            stack: error instanceof Error ? error.stack : undefined,
-        });
-        throw error;
+// Utility functions for structured logging
+export const logApiCall = (api: string, endpoint: string, duration: number, success: boolean, meta: LoggerMeta = {}) => {
+    const message = `API ${api} ${endpoint} ${success ? 'SUCCESS' : 'FAILED'} in ${duration}ms`;
+    const logMeta = { api, endpoint, duration, success, ...meta };
+
+    if (success) {
+        logger.info(message, logMeta);
+    } else {
+        logger.error(message, logMeta);
     }
-}
+};
 
-// Async performance logging helper
-export async function logPerformanceAsync<T>(
-    logger: Logger,
+export const logValidation = (type: string, result: boolean, details: any, meta: LoggerMeta = {}) => {
+    const message = `Validation ${type} ${result ? 'PASSED' : 'FAILED'}`;
+    const logMeta = { validationType: type, result, details, ...meta };
+
+    if (result) {
+        logger.info(message, logMeta);
+    } else {
+        logger.warn(message, logMeta);
+    }
+};
+
+export const logPhaseProgress = (phase: string, step: string, progress: number, meta: LoggerMeta = {}) => {
+    const message = `Phase ${phase} - ${step} (${progress}% complete)`;
+    logger.info(message, { phase, step, progress, ...meta });
+};
+
+export const logMarketEvent = (symbol: string, eventType: string, impact: string, meta: LoggerMeta = {}) => {
+    const message = `Market Event: ${symbol} ${eventType} - ${impact}`;
+    logger.info(message, { stockSymbol: symbol, eventType, impact, ...meta });
+};
+
+// Performance monitoring
+export const withTiming = async <T>(
     operation: string,
     fn: () => Promise<T>,
     meta: LoggerMeta = {}
-): Promise<T> {
+): Promise<T> => {
     const start = Date.now();
-    logger.debug(`Starting ${operation}`, meta);
-
     try {
         const result = await fn();
         const duration = Date.now() - start;
-        logger.info(`Completed ${operation}`, { ...meta, duration });
+        logger.info(`Operation ${operation} completed in ${duration}ms`, { operation, duration, success: true, ...meta });
         return result;
     } catch (error) {
         const duration = Date.now() - start;
-        logger.error(`Failed ${operation}`, {
-            ...meta,
-            duration,
-            error: error instanceof Error ? error.message : String(error),
-            stack: error instanceof Error ? error.stack : undefined,
-        });
+        logger.error(`Operation ${operation} failed after ${duration}ms`, { operation, duration, success: false, error: error instanceof Error ? error.message : String(error), ...meta });
         throw error;
     }
-} 
+};
