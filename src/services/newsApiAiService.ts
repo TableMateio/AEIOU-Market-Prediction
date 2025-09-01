@@ -1,0 +1,303 @@
+import axios from 'axios';
+import { logger } from '../utils/logger.js';
+import type { Article } from '../data/models/index.js';
+
+export interface NewsApiAiArticle {
+    uuid: string;
+    title: string;
+    description: string;
+    keywords: string;
+    snippet: string;
+    url: string;
+    image_url: string;
+    language: string;
+    published_at: string;
+    source: string;
+    categories: string[];
+    relevance_score: number;
+    locale: string;
+    similar: any[];
+}
+
+export interface NewsApiAiResponse {
+    status: string;
+    total_hits: number;
+    page: number;
+    total_pages: number;
+    page_size: number;
+    articles: NewsApiAiArticle[];
+}
+
+export class NewsApiAiService {
+    private readonly apiKey: string;
+    private readonly baseUrl = 'https://api.newsapi.ai/api/v1';
+    private readonly rateLimitDelay = 1000; // 1 second between requests
+
+    constructor(apiKey?: string) {
+        this.apiKey = apiKey || process.env.NEWSAPIAI_API_KEY || '';
+        if (!this.apiKey) {
+            throw new Error('NewsAPI.ai API key is required. Set NEWSAPIAI_API_KEY environment variable.');
+        }
+    }
+
+    /**
+     * Search for Apple-related articles with full content
+     */
+    async searchAppleArticles(options: {
+        query?: string;
+        dateFrom?: string;
+        dateTo?: string;
+        sortBy?: 'relevancy' | 'popularity' | 'publishedAt';
+        pageSize?: number;
+        page?: number;
+        language?: string;
+        sources?: string;
+    } = {}): Promise<Article[]> {
+        const {
+            query = 'Apple OR AAPL OR "Apple Inc" OR "Tim Cook"',
+            dateFrom,
+            dateTo,
+            sortBy = 'publishedAt',
+            pageSize = 25,
+            page = 1,
+            language = 'en',
+            sources
+        } = options;
+
+        try {
+            logger.info('🔍 Fetching Apple articles from NewsAPI.ai', {
+                query,
+                dateFrom,
+                dateTo,
+                pageSize,
+                page
+            });
+
+            const params: any = {
+                q: query,
+                sortBy,
+                pageSize,
+                page,
+                language,
+                apiKey: this.apiKey
+            };
+
+            if (dateFrom) params.from = dateFrom;
+            if (dateTo) params.to = dateTo;
+            if (sources) params.sources = sources;
+
+            const response = await axios.get<NewsApiAiResponse>(`${this.baseUrl}/everything`, {
+                params,
+                timeout: 30000
+            });
+
+            if (response.data.status !== 'ok') {
+                throw new Error(`NewsAPI.ai API error: ${response.data.status}`);
+            }
+
+            const articles = await this.convertToStandardFormat(response.data.articles);
+            
+            logger.info('✅ Successfully fetched articles from NewsAPI.ai', {
+                articlesFound: articles.length,
+                totalHits: response.data.total_hits
+            });
+
+            return articles;
+
+        } catch (error: any) {
+            logger.error('❌ Error fetching from NewsAPI.ai', {
+                error: error.message,
+                query,
+                dateFrom,
+                dateTo
+            });
+            throw error;
+        }
+    }
+
+    /**
+     * Get Apple articles from specific time period for ML training
+     */
+    async getHistoricalAppleArticles(startDate: string, endDate: string, maxArticles: number = 100): Promise<Article[]> {
+        const articles: Article[] = [];
+        let page = 1;
+        const pageSize = 25;
+
+        try {
+            while (articles.length < maxArticles) {
+                const batch = await this.searchAppleArticles({
+                    dateFrom: startDate,
+                    dateTo: endDate,
+                    pageSize,
+                    page,
+                    sortBy: 'publishedAt'
+                });
+
+                if (batch.length === 0) break;
+
+                articles.push(...batch);
+                page++;
+
+                // Rate limiting
+                await new Promise(resolve => setTimeout(resolve, this.rateLimitDelay));
+
+                logger.info(`📊 Historical collection progress: ${articles.length}/${maxArticles} articles`);
+            }
+
+            return articles.slice(0, maxArticles);
+
+        } catch (error: any) {
+            logger.error('❌ Error in historical collection', {
+                error: error.message,
+                startDate,
+                endDate,
+                articlesCollected: articles.length
+            });
+            throw error;
+        }
+    }
+
+    /**
+     * Convert NewsAPI.ai format to our standard Article format
+     */
+    private async convertToStandardFormat(apiArticles: NewsApiAiArticle[]): Promise<Article[]> {
+        return apiArticles
+            .filter(article => this.isValidArticle(article))
+            .map(article => ({
+                id: '', // Will be generated by database
+                title: article.title || 'No title',
+                body: article.snippet || article.description || null, // NewsAPI.ai provides snippet/description
+                url: article.url,
+                source: article.source || 'Unknown',
+                authors: [], // NewsAPI.ai doesn't provide authors in basic plan
+                published_at: new Date(article.published_at).toISOString(),
+                scraped_at: new Date().toISOString(),
+                scraping_status: article.snippet ? 'success' : 'no_content',
+                data_source: 'newsapi_ai',
+                external_id: article.uuid,
+                external_id_type: 'newsapi_ai_uuid',
+                keywords: article.keywords ? article.keywords.split(',').map(k => k.trim()) : [],
+                relevance_score: article.relevance_score || null,
+                category: article.categories?.[0] || null,
+                content_type: this.determineContentType(article),
+                target_audience: this.determineTargetAudience(article),
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString()
+            }));
+    }
+
+    /**
+     * Validate article has minimum required data
+     */
+    private isValidArticle(article: NewsApiAiArticle): boolean {
+        return !!(
+            article.title &&
+            article.url &&
+            article.published_at &&
+            (article.snippet || article.description) // Ensure we have some content
+        );
+    }
+
+    /**
+     * Determine content type based on article characteristics
+     */
+    private determineContentType(article: NewsApiAiArticle): string {
+        const title = article.title.toLowerCase();
+        const description = (article.description || '').toLowerCase();
+        
+        if (title.includes('earnings') || description.includes('earnings')) return 'earnings';
+        if (title.includes('analyst') || description.includes('analyst')) return 'analyst_report';
+        if (title.includes('breaking') || description.includes('breaking')) return 'breaking_news';
+        if (title.includes('opinion') || description.includes('opinion')) return 'opinion';
+        
+        return 'news_article';
+    }
+
+    /**
+     * Determine target audience based on source and content
+     */
+    private determineTargetAudience(article: NewsApiAiArticle): string {
+        const source = (article.source || '').toLowerCase();
+        
+        if (source.includes('bloomberg') || source.includes('reuters') || source.includes('wsj')) {
+            return 'institutional';
+        }
+        if (source.includes('yahoo') || source.includes('marketwatch') || source.includes('fool')) {
+            return 'retail';
+        }
+        
+        return 'general';
+    }
+
+    /**
+     * Test API connection and authentication
+     */
+    async testConnection(): Promise<{ success: boolean; message: string; sampleData?: any }> {
+        try {
+            const response = await axios.get(`${this.baseUrl}/everything`, {
+                params: {
+                    q: 'Apple',
+                    pageSize: 1,
+                    apiKey: this.apiKey
+                },
+                timeout: 10000
+            });
+
+            if (response.data.status === 'ok') {
+                return {
+                    success: true,
+                    message: `✅ NewsAPI.ai connection successful. Found ${response.data.total_hits} Apple articles.`,
+                    sampleData: {
+                        totalHits: response.data.total_hits,
+                        sampleArticle: response.data.articles[0]?.title || 'No articles found'
+                    }
+                };
+            } else {
+                return {
+                    success: false,
+                    message: `❌ NewsAPI.ai API returned status: ${response.data.status}`
+                };
+            }
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `❌ NewsAPI.ai connection failed: ${error.message}`
+            };
+        }
+    }
+
+    /**
+     * Get API usage statistics and limits
+     */
+    async getUsageStats(): Promise<{ success: boolean; stats?: any; message: string }> {
+        try {
+            // NewsAPI.ai doesn't have a dedicated usage endpoint, so we make a minimal request
+            const response = await axios.get(`${this.baseUrl}/everything`, {
+                params: {
+                    q: 'test',
+                    pageSize: 1,
+                    apiKey: this.apiKey
+                },
+                timeout: 10000
+            });
+
+            return {
+                success: true,
+                stats: {
+                    status: response.data.status,
+                    totalHits: response.data.total_hits,
+                    note: 'NewsAPI.ai does not provide detailed usage statistics via API'
+                },
+                message: '✅ API is functional'
+            };
+        } catch (error: any) {
+            return {
+                success: false,
+                message: `❌ Unable to get usage stats: ${error.message}`
+            };
+        }
+    }
+}
+
+// Export singleton instance
+export const newsApiAiService = new NewsApiAiService();
