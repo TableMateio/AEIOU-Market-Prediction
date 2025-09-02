@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-09-02T21:37:52.692Z",
+  "stats": {
+    "totalResults": 5,
+    "validResults": 3,
+    "savedToDatabase": 0,
+    "truncatedResults": 2,
+    "emptyBusinessEvents": 2,
+    "errors": [
+      {
+        "customId": "art_6eee580a-d4db-49c9-8fd2-ecec3f760531",
+        "error": "Database error: Could not find the 'ai_version' column of 'ai_responses' in the schema cache"
+      },
+      {
+        "customId": "art_6db8b4fd-f7c9-4b2a-9e58-004e44a0554b",
+        "error": "Truncated JSON: Unterminated string in JSON at position 57977"
+      },
+      {
+        "customId": "art_9384383c-9cd1-4759-8207-637412a5bfa7",
+        "error": "Database error: Could not find the 'ai_version' column of 'ai_responses' in the schema cache"
+      },
+      {
+        "customId": "art_c804c7b2-781b-470f-922c-f211b7bf9656",
+        "error": "Database error: Could not find the 'ai_version' column of 'ai_responses' in the schema cache"
+      },
+      {
+        "customId": "art_0565111b-bf0f-4a16-8951-3d9540aa91ec",
+        "error": "Truncated JSON: Unterminated string in JSON at position 58874"
+      }
+    ]
+  },
+  "recommendations": [
+    "Consider reducing article content length to avoid truncation",
+    "Review token limits and response size constraints"
+  ]
+}

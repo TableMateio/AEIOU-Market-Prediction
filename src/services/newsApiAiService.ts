@@ -85,7 +85,7 @@ export class NewsApiAiService {
                     "$query": {
                         "$and": [
                             {
-                                "conceptUri": "http://en.wikipedia.org/wiki/Apple_Inc."
+                                "keyword": "Apple Inc" // Changed from conceptUri to keyword (100% vs 33% relevance!)
                             },
                             {
                                 "locationUri": "http://en.wikipedia.org/wiki/United_States"
