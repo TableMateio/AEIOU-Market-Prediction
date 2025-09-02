@@ -1,41 +1,50 @@
 #!/usr/bin/env npx tsx
 
 /**
- * Smart Collection Script
- * One script that can do 1 period, 5 periods, 1 year, or 5 years
- * Automatically avoids duplicates and tracks what we've already collected
+ * Smart Collection Script - Entity-Based with Deduplication
+ * Uses conceptUri approach for precise Apple Inc. targeting
+ * Includes title-based deduplication to avoid same story from multiple sources
  */
 
+import 'dotenv/config';
 import { createClient } from '@supabase/supabase-js';
 import { AppConfig } from '../config/app';
-import axios from 'axios';
+import { NewsApiAiService } from '../services/newsApiAiService';
 
-class SmartCollector {
-    private newsApiKey: string;
+class SmartEntityCollector {
     private supabase: any;
+    private newsService: NewsApiAiService;
 
     constructor() {
-        this.newsApiKey = process.env.NEWSAPIAI_API_KEY || '';
         const config = AppConfig.getInstance();
         this.supabase = createClient(
             config.supabaseConfig.projectUrl,
             config.supabaseConfig.apiKey
         );
+        this.newsService = new NewsApiAiService();
     }
 
     async runCollection(): Promise<void> {
-        console.log('🎯 SMART COLLECTION SYSTEM');
+        console.log('🎯 SMART ENTITY-BASED COLLECTION');
         console.log('='.repeat(60));
+        console.log('');
+
+        console.log('🔬 FEATURES:');
+        console.log('   • Entity-based targeting (conceptUri)');
+        console.log('   • Title-based deduplication');
+        console.log('   • 3-day period collection');
+        console.log('   • Automatic duplicate prevention');
+        console.log('');
 
         // Parse command line arguments
         const args = process.argv.slice(2);
         const mode = args.find(arg => ['1', '5', 'year', 'full'].includes(arg)) || '1';
         const execute = args.includes('--execute');
 
-        console.log(`Mode: ${mode} period(s) | Execute: ${execute ? 'YES' : 'PREVIEW'}`);
+        console.log(`📋 MODE: ${mode} period(s) | EXECUTE: ${execute ? 'YES' : 'PREVIEW'}`);
         console.log('');
 
-        // Check what we've already collected to avoid duplicates
+        // Check what we've already collected
         const collectedPeriods = await this.getAlreadyCollectedPeriods();
         console.log(`📊 Already collected: ${collectedPeriods.length} periods`);
         if (collectedPeriods.length > 0) {
@@ -52,12 +61,12 @@ class SmartCollector {
         if (periods.length > 5) {
             console.log(`   ... and ${periods.length - 5} more periods`);
         }
-        console.log(`   💰 Cost: ${periods.length * 5} tokens`);
+        console.log(`   💰 Estimated cost: ${periods.length * 5} tokens`);
         console.log('');
 
         if (!execute) {
             console.log('⚠️  PREVIEW MODE - Add --execute to run collection');
-            console.log(`   Command: npx tsx src/scripts/smart-collection.ts ${mode} --execute`);
+            console.log(`   Command: npx tsx src/scripts/smart-collection-entity.ts ${mode} --execute`);
             return;
         }
 
@@ -65,21 +74,17 @@ class SmartCollector {
         await this.executeCollection(periods);
     }
 
-    /**
-     * Get periods we've already collected to avoid duplicates
-     */
     private async getAlreadyCollectedPeriods(): Promise<string[]> {
         try {
             const { data, error } = await this.supabase
                 .from('articles')
                 .select('published_at')
                 .eq('data_source', 'newsapi_ai')
-                .like('content_type', 'smart_period_%')
+                .like('content_type', 'entity_smart_%')
                 .order('published_at', { ascending: false });
 
             if (error) return [];
 
-            // Extract unique date ranges we've collected
             const dates = data.map(a => a.published_at.split('T')[0]);
             return [...new Set(dates)].sort().reverse();
 
@@ -88,9 +93,6 @@ class SmartCollector {
         }
     }
 
-    /**
-     * Generate periods based on mode, avoiding already collected ones
-     */
     private generatePeriods(mode: string, collectedPeriods: string[]): any[] {
         const allPeriods = this.generateAllAvailablePeriods();
 
@@ -115,9 +117,6 @@ class SmartCollector {
         }
     }
 
-    /**
-     * Generate all available 3-day periods from 2021-2025
-     */
     private generateAllAvailablePeriods(): any[] {
         const periods: any[] = [];
         const startDate = new Date('2021-01-01');
@@ -144,7 +143,7 @@ class SmartCollector {
             if (businessDays.length > 0) {
                 periods.push({
                     number: periodNumber,
-                    name: `Period-${periodNumber}`,
+                    name: `Entity-Period-${periodNumber}`,
                     start: periodStart.toISOString().split('T')[0],
                     end: periodEnd.toISOString().split('T')[0],
                     businessDays,
@@ -159,17 +158,16 @@ class SmartCollector {
         return periods;
     }
 
-    /**
-     * Execute collection for periods
-     */
     private async executeCollection(periods: any[]): Promise<void> {
-        console.log('🚀 EXECUTING SMART COLLECTION');
+        console.log('🚀 EXECUTING ENTITY-BASED COLLECTION');
         console.log('─'.repeat(50));
 
         const results = {
             processedPeriods: 0,
             totalArticles: 0,
             relevantArticles: 0,
+            deduplicatedArticles: 0,
+            savedArticles: 0,
             tokensUsed: 0,
             errors: 0,
             startTime: new Date()
@@ -179,21 +177,22 @@ class SmartCollector {
             console.log(`📅 Processing ${period.name} (${period.start} to ${period.end})`);
 
             try {
-                // Collect articles
-                const articles = await this.collectPeriodArticles(period);
+                // Collect articles using entity method
+                const articles = await this.collectEntityArticles(period);
                 console.log(`   📊 Collected: ${articles.length} articles`);
 
-                // Filter for relevance
-                const relevantArticles = this.applyBusinessFiltering(articles);
-                console.log(`   🎯 Relevant: ${relevantArticles.length}/${articles.length}`);
+                // Apply deduplication by title
+                const deduplicatedArticles = this.deduplicateByTitle(articles);
+                console.log(`   🔄 After deduplication: ${deduplicatedArticles.length} articles (removed ${articles.length - deduplicatedArticles.length} duplicates)`);
 
                 // Save to database
-                const saveResults = await this.savePeriodToDatabase(relevantArticles, period);
-                console.log(`   💾 Saved: ${saveResults.inserted} new, ${saveResults.duplicates} duplicates`);
+                const saveResults = await this.savePeriodToDatabase(deduplicatedArticles, period);
+                console.log(`   💾 Saved: ${saveResults.inserted} new, ${saveResults.duplicates} URL duplicates`);
 
                 results.processedPeriods++;
                 results.totalArticles += articles.length;
-                results.relevantArticles += relevantArticles.length;
+                results.deduplicatedArticles += deduplicatedArticles.length;
+                results.savedArticles += saveResults.inserted;
                 results.tokensUsed += 5;
 
                 // Rate limiting
@@ -208,51 +207,105 @@ class SmartCollector {
         // Report results
         const elapsed = (new Date().getTime() - results.startTime.getTime()) / 1000 / 60;
         console.log('');
-        console.log('🎉 COLLECTION COMPLETE!');
-        console.log(`   Time: ${Math.round(elapsed)} minutes`);
-        console.log(`   Periods: ${results.processedPeriods}/${periods.length}`);
-        console.log(`   Articles: ${results.relevantArticles} relevant`);
-        console.log(`   Tokens: ${results.tokensUsed}`);
-        console.log(`   Efficiency: ${Math.round(results.relevantArticles / results.tokensUsed)} articles/token`);
+        console.log('🎉 ENTITY COLLECTION COMPLETE!');
+        console.log(`   ⏱️  Time: ${Math.round(elapsed)} minutes`);
+        console.log(`   📅 Periods: ${results.processedPeriods}/${periods.length}`);
+        console.log(`   📊 Raw articles: ${results.totalArticles}`);
+        console.log(`   🔄 After deduplication: ${results.deduplicatedArticles}`);
+        console.log(`   💾 Saved to database: ${results.savedArticles}`);
+        console.log(`   💰 Tokens used: ${results.tokensUsed}`);
+        console.log(`   📈 Efficiency: ${Math.round(results.savedArticles / results.tokensUsed)} articles/token`);
+        console.log(`   🎯 Deduplication rate: ${Math.round((results.totalArticles - results.deduplicatedArticles) / results.totalArticles * 100)}%`);
     }
 
-    // ... (keeping helper methods from previous scripts)
+    private async collectEntityArticles(period: any): Promise<any[]> {
+        try {
+            const articles = await this.newsService.searchAppleByEntity({
+                dateFrom: period.start,
+                dateTo: period.end,
+                sortBy: 'socialScore', // Best date distribution: 15 unique dates, 100/100 spread score
+                pageSize: 25,
+                sourceRankPercentile: 50 // Top 50% of sources
+            });
 
-    private async collectPeriodArticles(period: any): Promise<any[]> {
-        const response = await axios.get('https://eventregistry.org/api/v1/article/getArticles', {
-            params: {
-                resultType: 'articles',
-                keyword: 'Apple',
-                lang: 'eng',
-                dateStart: period.start,
-                dateEnd: period.end,
-                articlesSortBy: 'socialScore',
-                includeArticleBody: true,
-                includeArticleDate: true,
-                includeArticleSource: true,
-                articlesCount: 25,
-                sourceRankingThreshold: 50,
-                excludeKeywords: ['how to', 'tutorial', 'guide'],
-                apiKey: this.newsApiKey
-            },
-            timeout: 30000
-        });
+            return articles;
 
-        return response.data?.articles?.results || [];
+        } catch (error: any) {
+            console.log(`   ❌ Entity collection failed: ${error.message}`);
+            return [];
+        }
     }
 
-    private applyBusinessFiltering(articles: any[]): any[] {
-        return articles.filter(article => {
-            const title = (article.title || '').toLowerCase();
-            const body = (article.body || '').toLowerCase();
+    /**
+     * Deduplicate articles by title similarity
+     * Removes articles with identical or very similar titles
+     */
+    private deduplicateByTitle(articles: any[]): any[] {
+        const uniqueArticles: any[] = [];
+        const seenTitles = new Set<string>();
 
-            const hasApple = title.includes('apple') || body.includes('apple');
-            const hasContent = article.body && article.body.length > 200;
-            const excludePatterns = ['how to', 'tutorial', 'guide'];
-            const isNotTutorial = !excludePatterns.some(pattern => title.includes(pattern));
+        for (const article of articles) {
+            const title = (article.title || '').toLowerCase().trim();
 
-            return hasApple && hasContent && isNotTutorial;
-        });
+            // Skip if no title
+            if (!title) continue;
+
+            // Normalize title for comparison
+            const normalizedTitle = this.normalizeTitle(title);
+
+            // Check if we've seen this title or a very similar one
+            let isDuplicate = false;
+            for (const seenTitle of seenTitles) {
+                if (this.areTitlesSimilar(normalizedTitle, seenTitle)) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+
+            if (!isDuplicate) {
+                uniqueArticles.push(article);
+                seenTitles.add(normalizedTitle);
+            }
+        }
+
+        return uniqueArticles;
+    }
+
+    /**
+     * Normalize title for comparison
+     */
+    private normalizeTitle(title: string): string {
+        return title
+            .toLowerCase()
+            .replace(/[^\w\s]/g, '') // Remove punctuation
+            .replace(/\s+/g, ' ') // Normalize whitespace
+            .trim()
+            .substring(0, 100); // First 100 chars for comparison
+    }
+
+    /**
+     * Check if two titles are similar enough to be considered duplicates
+     */
+    private areTitlesSimilar(title1: string, title2: string): boolean {
+        // Exact match
+        if (title1 === title2) return true;
+
+        // Calculate similarity ratio
+        const similarity = this.calculateSimilarity(title1, title2);
+        return similarity > 0.85; // 85% similarity threshold
+    }
+
+    /**
+     * Calculate similarity between two strings using Jaccard similarity
+     */
+    private calculateSimilarity(str1: string, str2: string): number {
+        const words1 = new Set(str1.split(' '));
+        const words2 = new Set(str2.split(' '));
+
+        const intersection = new Set([...words1].filter(x => words2.has(x)));
+        const union = new Set([...words1, ...words2]);
+
+        return intersection.size / union.size;
     }
 
     private async savePeriodToDatabase(articles: any[], period: any): Promise<any> {
@@ -261,6 +314,7 @@ class SmartCollector {
 
         for (const article of articles) {
             try {
+                // Check for URL duplicates
                 const { data: existing } = await this.supabase
                     .from('articles')
                     .select('id')
@@ -273,31 +327,18 @@ class SmartCollector {
                 }
 
                 const transformedArticle = {
-                    external_id: `smart_${Buffer.from(article.url).toString('base64').substring(0, 16)}`,
-                    external_id_type: 'smart_collection',
+                    external_id: article.external_id || `entity_smart_${Date.now()}_${Math.random()}`,
+                    external_id_type: 'newsapi_ai_entity_smart',
                     title: article.title?.substring(0, 500) || 'No Title',
                     url: article.url,
-                    published_at: new Date(article.date || article.dateTime).toISOString(),
-                    source: article.source?.title || 'Unknown',
+                    published_at: article.published_at,
+                    source: article.source,
                     article_description: article.body?.substring(0, 1000),
                     body: article.body,
                     scraping_status: 'scraped',
                     data_source: 'newsapi_ai',
-                    content_type: `smart_period_${period.number}`,
-                    apple_relevance_score: 0.8,
-                    // Search metadata fields
-                    search_start_date: period.start,
-                    search_end_date: period.end,
-                    search_name: period.name,
-                    search_criteria: {
-                        query: 'Apple',
-                        sort: 'socialScore',
-                        articles_count: 25,
-                        source_threshold: 50,
-                        period_type: '3-day',
-                        business_days_only: true
-                    },
-                    collection_batch: `smart-collection-${new Date().toISOString().split('T')[0]}`,
+                    content_type: `entity_smart_${period.number}`,
+                    apple_relevance_score: 0.95, // High confidence from entity targeting
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString()
                 };
@@ -308,10 +349,12 @@ class SmartCollector {
 
                 if (!error) {
                     inserted++;
+                } else {
+                    console.log(`     ⚠️  Save error: ${error.message}`);
                 }
 
-            } catch (error) {
-                // Skip errors for now
+            } catch (error: any) {
+                console.log(`     ❌ Error: ${error.message}`);
             }
         }
 
@@ -353,19 +396,27 @@ class SmartCollector {
 // Main execution
 async function main() {
     try {
-        const collector = new SmartCollector();
+        const collector = new SmartEntityCollector();
         await collector.runCollection();
 
     } catch (error: any) {
-        console.error('❌ Smart collection failed:', error.message);
+        console.error('❌ Smart entity collection failed:', error.message);
     }
 }
 
-console.log('Usage: npx tsx src/scripts/smart-collection.ts [1|5|year|full] [--execute]');
+console.log('🎯 SMART ENTITY-BASED COLLECTION WITH DEDUPLICATION');
+console.log('Usage: npx tsx src/scripts/smart-collection-entity.ts [1|5|year|full] [--execute]');
+console.log('');
 console.log('Examples:');
-console.log('  npx tsx src/scripts/smart-collection.ts 1          # Preview 1 new period');
-console.log('  npx tsx src/scripts/smart-collection.ts 5 --execute # Collect 5 new periods');
-console.log('  npx tsx src/scripts/smart-collection.ts year --execute # Collect 1 year');
+console.log('  npx tsx src/scripts/smart-collection-entity.ts 1          # Preview 1 new period');
+console.log('  npx tsx src/scripts/smart-collection-entity.ts 5 --execute # Collect 5 new periods');
+console.log('  npx tsx src/scripts/smart-collection-entity.ts year --execute # Collect 1 year');
+console.log('');
+console.log('Features:');
+console.log('  • Entity-based targeting (conceptUri for Apple Inc.)');
+console.log('  • Title-based deduplication (removes same story from multiple sources)');
+console.log('  • Automatic duplicate prevention');
+console.log('  • 3-day period collection strategy');
 console.log('');
 
 main();

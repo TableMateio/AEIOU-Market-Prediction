@@ -41,7 +41,101 @@ export class NewsApiAiService {
     }
 
     /**
-     * Search for Apple-related articles with full content
+     * Search for Apple-related articles using entity-based conceptUri approach
+     */
+    async searchAppleByEntity(options: {
+        dateFrom?: string;
+        dateTo?: string;
+        sortBy?: 'rel' | 'date' | 'socialScore';
+        pageSize?: number;
+        page?: number;
+        sourceRankPercentile?: number;
+    } = {}): Promise<Article[]> {
+        const {
+            dateFrom,
+            dateTo,
+            sortBy = 'rel',
+            pageSize = 25,
+            page = 1,
+            sourceRankPercentile = 50
+        } = options;
+
+        try {
+            logger.info('🎯 Fetching Apple articles using conceptUri (entity-based)', {
+                dateFrom,
+                dateTo,
+                sortBy,
+                pageSize,
+                page
+            });
+
+            // Build the query using conceptUri approach like the example
+            const thirdAndCondition: any = {
+                "lang": "eng"
+            };
+
+            // Add date filters to the third $and condition (FIXED!)
+            if (dateFrom && dateTo) {
+                thirdAndCondition["dateStart"] = dateFrom;
+                thirdAndCondition["dateEnd"] = dateTo;
+            }
+
+            const requestData: any = {
+                query: {
+                    "$query": {
+                        "$and": [
+                            {
+                                "conceptUri": "http://en.wikipedia.org/wiki/Apple_Inc."
+                            },
+                            {
+                                "locationUri": "http://en.wikipedia.org/wiki/United_States"
+                            },
+                            thirdAndCondition
+                        ]
+                    },
+                    "$filter": {
+                        "startSourceRankPercentile": 0,
+                        "endSourceRankPercentile": sourceRankPercentile
+                    }
+                },
+                resultType: "articles",
+                articlesSortBy: sortBy,
+                articlesCount: pageSize,
+                includeArticleBody: true,
+                includeArticleConcepts: true,
+                includeArticleCategories: true,
+                apiKey: this.apiKey
+            };
+
+            const response = await axios.post(`${this.baseUrl}/article/getArticles`, requestData, {
+                timeout: 30000,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const articlesData = response.data?.articles?.results || [];
+            const articles = await this.convertToStandardFormat(articlesData);
+
+            logger.info('✅ Successfully fetched Apple articles using conceptUri', {
+                articlesFound: articles.length,
+                totalResults: response.data?.articles?.totalResults || 0
+            });
+
+            return articles;
+
+        } catch (error: any) {
+            logger.error('❌ Error fetching Apple articles by entity', {
+                error: error.message,
+                dateFrom,
+                dateTo
+            });
+            throw error;
+        }
+    }
+
+    /**
+     * Search for Apple-related articles with full content (legacy text-based method)
      */
     async searchAppleArticles(options: {
         query?: string;

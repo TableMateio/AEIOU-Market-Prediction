@@ -192,402 +192,7 @@
                             "type": "array",
                             "description": "Sequence of causal steps; step=0 is the triggering event. Chains should typically extend 3–5 steps and resolve into fundamentals (units sold, revenue, costs, margins, market share). Branching (1.1, 1.2) allowed.",
                             "items": {
-                                "type": "object",
-                                "properties": {
-                                    "step": {
-                                        "type": "number",
-                                        "description": "Step index (0,1,2; branches 1.1, 1.2)"
-                                    },
-                                    "factor": {
-                                        "type": "string",
-                                        "description": "Atomic, binary or quantitative lever (e.g., product_launch, revenue_growth_rate, units_sold, costs, product_launch_delay_duration, market_share, gross_margin, operating_margin, churn_rate, patent_filings)"
-                                    },
-                                    "factor_synonyms": {
-                                        "type": "array",
-                                        "description": "Related factor concepts that could describe this same mechanism (e.g., ['platform_stickiness', 'switching_cost_barrier', 'vendor_lockin_index'] for ecosystem_lock_strength). Optional array for semantic richness and pattern matching.",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "factor_category": {
-                                        "type": "string",
-                                        "description": "Bucket for the factor",
-                                        "enum": [
-                                            "financial",
-                                            "sales",
-                                            "customer",
-                                            "product",
-                                            "operations",
-                                            "supply_chain",
-                                            "regulatory",
-                                            "legal",
-                                            "hr",
-                                            "marketing",
-                                            "partnerships",
-                                            "external",
-                                            "other"
-                                        ]
-                                    },
-                                    "factor_unit": {
-                                        "type": "string",
-                                        "description": "Measurement unit",
-                                        "enum": [
-                                            "%",
-                                            "pp",
-                                            "$",
-                                            "days",
-                                            "count",
-                                            "index",
-                                            "ratio",
-                                            "rating",
-                                            "binary",
-                                            "n/a"
-                                        ]
-                                    },
-                                    "raw_value": {
-                                        "description": "Observed/estimated value (if stated or inferable). Use numbers where possible; if unknown, use null.",
-                                        "anyOf": [
-                                            {
-                                                "type": "number"
-                                            },
-                                            {
-                                                "type": "string"
-                                            },
-                                            {
-                                                "type": "null"
-                                            }
-                                        ]
-                                    },
-                                    "delta": {
-                                        "description": "Change vs prior baseline (positive is implicit; e.g., 5, -2pp). Use numbers where possible; if unknown, use null.",
-                                        "anyOf": [
-                                            {
-                                                "type": "number"
-                                            },
-                                            {
-                                                "type": "string"
-                                            },
-                                            {
-                                                "type": "null"
-                                            }
-                                        ]
-                                    },
-                                    "description": {
-                                        "type": "string",
-                                        "description": "Plain-language explanation of this factor in context"
-                                    },
-                                    "movement": {
-                                        "type": "integer",
-                                        "description": "Direction of change (1 = up, -1 = down, 0 = unchanged)"
-                                    },
-                                    "magnitude": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1,
-                                        "description": "Business impact as % of Apple's annual profits (0-1 scale): 0.01-0.03 = iPhone refresh (~$1-3B), 0.04-0.08 = major product launch (~$4-8B), 0.09-0.15 = new category (~$9-15B), 0.16-0.25 = industry innovation (~$16-25B), 0.26+ = business transformation, 1.0 = company doubling (~$100B). Most events should be 0.01-0.15."
-                                    },
-                                    "orientation": {
-                                        "type": "string",
-                                        "enum": [
-                                            "predictive",
-                                            "reflective",
-                                            "neutral"
-                                        ],
-                                        "description": "Perspective for this step"
-                                    },
-                                    "about_time_days": {
-                                        "type": "integer",
-                                        "minimum": 0,
-                                        "description": "When this step's effect materializes (days from article)"
-                                    },
-                                    "effect_horizon_days": {
-                                        "type": "integer",
-                                        "minimum": 0,
-                                        "description": "When the consequence should show in fundamentals/market (days)"
-                                    },
-                                    "evidence_level": {
-                                        "type": "string",
-                                        "enum": [
-                                            "explicit",
-                                            "implied",
-                                            "model"
-                                        ],
-                                        "description": "Directness of evidence"
-                                    },
-                                    "evidence_source": {
-                                        "type": "string",
-                                        "enum": [
-                                            "article_text",
-                                            "press_release",
-                                            "analyst_report",
-                                            "company_statement",
-                                            "regulatory_filing",
-                                            "model_inference",
-                                            "social_media",
-                                            "other"
-                                        ],
-                                        "description": "Source category"
-                                    },
-                                    "evidence_citation": {
-                                        "description": "Optional citation (URL, quote, anchor)",
-                                        "anyOf": [
-                                            {
-                                                "type": "string"
-                                            },
-                                            {
-                                                "type": "null"
-                                            }
-                                        ]
-                                    },
-                                    "causal_certainty": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1,
-                                        "description": "How certain is this causal step given the previous one (0.9-1.0 = nearly inevitable like direct mechanical relationships, 0.7-0.8 = highly probable with strong historical correlations, 0.5-0.6 = moderately likely but uncertain, 0.3-0.4 = possible but uncertain, 0.1-0.2 = low probability weak links)"
-                                    },
-                                    "logical_directness": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1,
-                                        "description": "How direct is the causal connection vs requiring intermediate steps (0.9-1.0 = immediate direct causation, 0.7-0.8 = one clear intermediate step, 0.5-0.6 = multiple intermediate steps, 0.3-0.4 = many intermediate steps, 0.1-0.2 = highly indirect)"
-                                    },
-                                    "market_consensus_on_causality": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1,
-                                        "description": "How much does the market agree this causal step makes sense (0.9-1.0 = universal agreement on logic, 0.7-0.8 = strong consensus on causality, 0.5-0.6 = moderate agreement, 0.3-0.4 = mixed views on logic, 0.1-0.2 = disputed causality, 0.0 = widely rejected logic)"
-                                    },
-                                    "regime_alignment": {
-                                        "type": "number",
-                                        "minimum": -1,
-                                        "maximum": 1,
-                                        "description": "How much this event aligns with current market regime expectations (-0.8 to -1.0 = strongly counter-regime like good news in bear market, -0.4 to -0.7 = moderately counter-regime, -0.1 to -0.3 = slightly counter-regime, -0.1 to +0.1 = regime-neutral, +0.1 to +0.3 = slightly aligned, +0.4 to +0.7 = moderately aligned, +0.8 to +1.0 = perfectly aligned like bad news in bear market)"
-                                    },
-                                    "reframing_potential": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1,
-                                        "description": "How easily can this event be reframed to fit dominant narrative (0.9-1.0 = highly reframable with ambiguous interpretation, 0.7-0.8 = moderately reframable with some spin possible, 0.5-0.6 = somewhat reframable with context, 0.3-0.4 = limited reframing options, 0.1-0.2 = hard facts difficult to reframe, 0.0 = objective data impossible to reframe)"
-                                    },
-                                    "narrative_disruption": {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1,
-                                        "description": "How much this event challenges current market narrative (0.9-1.0 = highly disruptive forcing narrative reconsideration, 0.7-0.8 = significantly challenging established views, 0.5-0.6 = moderately challenging some assumptions, 0.3-0.4 = mildly questions narrative, 0.1-0.2 = reinforces existing narrative, 0.0 = perfectly confirms current narrative)"
-                                    },
-                                    "belief": {
-                                        "type": "object",
-                                        "properties": {
-                                            "market_perception": {
-                                                "type": "object",
-                                                "description": "What investors and the market actually believe about this event",
-                                                "properties": {
-                                                    "intensity": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "Market attention and emotional buzz level (0.0-0.1 = minimal buzz, 0.2-0.3 = moderate chatter, 0.4-0.6 = mainstream coverage, 0.7-0.8 = high attention, 0.9-1.0 = maximum fixation)"
-                                                    },
-                                                    "hope_vs_fear": {
-                                                        "type": "number",
-                                                        "minimum": -1,
-                                                        "maximum": 1,
-                                                        "description": "Market's emotional valence about future outcomes (-0.8 to -1.0 = extreme fear, -0.4 to -0.7 = significant worry, -0.1 to -0.3 = mild concern, -0.1 to +0.1 = neutral sentiment, +0.1 to +0.3 = mild optimism, +0.4 to +0.7 = strong hope, +0.8 to +1.0 = extreme optimism)"
-                                                    },
-                                                    "surprise_vs_anticipated": {
-                                                        "type": "number",
-                                                        "minimum": -1,
-                                                        "maximum": 1,
-                                                        "description": "How expected vs shocking the market finds this news (-0.8 to -1.0 = completely predictable, -0.4 to -0.7 = widely anticipated, -0.1 to -0.3 = somewhat expected, -0.1 to +0.1 = neutral, +0.1 to +0.3 = mild surprise, +0.4 to +0.7 = significant surprise, +0.8 to +1.0 = total shock)"
-                                                    },
-                                                    "consensus_vs_division": {
-                                                        "type": "number",
-                                                        "minimum": -1,
-                                                        "maximum": 1,
-                                                        "description": "Market agreement level on news interpretation (-0.8 to -1.0 = completely polarized, -0.4 to -0.7 = strong division, -0.1 to -0.3 = some disagreement, -0.1 to +0.1 = mixed signals, +0.1 to +0.3 = mild agreement, +0.4 to +0.7 = strong consensus, +0.8 to +1.0 = universal agreement)"
-                                                    },
-                                                    "narrative_strength": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "How compelling and dominant is the market's story about this event (0.9-1.0 = overwhelming narrative dominance, 0.7-0.8 = strong story with wide acceptance, 0.5-0.6 = moderate narrative traction, 0.3-0.4 = weak or competing stories, 0.1-0.2 = minimal narrative coherence, 0.0 = no clear story)"
-                                                    },
-                                                    "emotional_profile": {
-                                                        "type": "array",
-                                                        "description": "Market emotions detected in coverage and discussion",
-                                                        "items": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                                "anticipation",
-                                                                "excitement",
-                                                                "optimism",
-                                                                "confidence",
-                                                                "relief",
-                                                                "satisfaction",
-                                                                "interest",
-                                                                "surprise",
-                                                                "uncertainty",
-                                                                "concern",
-                                                                "skepticism",
-                                                                "disappointment",
-                                                                "fear",
-                                                                "anger",
-                                                                "disgust",
-                                                                "indifference",
-                                                                "FOMO",
-                                                                "greed",
-                                                                "euphoria",
-                                                                "panic",
-                                                                "dread",
-                                                                "complacency"
-                                                            ]
-                                                        }
-                                                    },
-                                                    "cognitive_biases": {
-                                                        "type": "array",
-                                                        "description": "Psychological biases influencing market interpretation",
-                                                        "items": {
-                                                            "type": "string",
-                                                            "enum": [
-                                                                "availability_heuristic",
-                                                                "anchoring_bias",
-                                                                "confirmation_bias",
-                                                                "optimism_bias",
-                                                                "overconfidence_bias",
-                                                                "loss_aversion",
-                                                                "sunk_cost_fallacy",
-                                                                "hindsight_bias",
-                                                                "recency_bias",
-                                                                "herding_behavior",
-                                                                "authority_bias",
-                                                                "halo_effect",
-                                                                "planning_fallacy",
-                                                                "survivorship_bias",
-                                                                "dunning_kruger_effect"
-                                                            ]
-                                                        }
-                                                    }
-                                                },
-                                                "required": [
-                                                    "intensity",
-                                                    "hope_vs_fear",
-                                                    "surprise_vs_anticipated",
-                                                    "consensus_vs_division",
-                                                    "narrative_strength",
-                                                    "emotional_profile",
-                                                    "cognitive_biases"
-                                                ],
-                                                "additionalProperties": false
-                                            },
-                                            "ai_assessment": {
-                                                "type": "object",
-                                                "description": "Analytical perspective on the likely business reality of this event",
-                                                "properties": {
-                                                    "execution_risk": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "Likelihood of implementation challenges (0.9-1.0 = extremely high risk/complex execution, 0.7-0.8 = significant challenges expected, 0.5-0.6 = moderate implementation difficulty, 0.3-0.4 = some risks but manageable, 0.1-0.2 = low execution risk, 0.0 = trivial to execute)"
-                                                    },
-                                                    "competitive_risk": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "Risk that competitive dynamics will undermine this specific causal step (0.9-1.0 = competitors likely to neutralize impact, 0.7-0.8 = strong competitive response expected, 0.5-0.6 = moderate competitive pressure, 0.3-0.4 = limited competitive threat, 0.1-0.2 = minimal competitive risk, 0.0 = no competitive threat)"
-                                                    },
-                                                    "business_impact_likelihood": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "Probability this event will have the claimed business impact (0.9-1.0 = highly likely to achieve claimed impact, 0.7-0.8 = probably will deliver, 0.5-0.6 = uncertain outcome, 0.3-0.4 = probably won't meet expectations, 0.1-0.2 = unlikely to deliver, 0.0 = almost certain to fail)"
-                                                    },
-                                                    "timeline_realism": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "Realism of proposed timeline and delivery schedule (0.9-1.0 = very realistic timeline, 0.7-0.8 = achievable with effort, 0.5-0.6 = ambitious but possible, 0.3-0.4 = overly optimistic, 0.1-0.2 = unrealistic timeline, 0.0 = impossible schedule)"
-                                                    },
-                                                    "fundamental_strength": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "How sound the underlying business logic is for this specific causal step (0.9-1.0 = rock-solid business logic with proven mechanisms, 0.7-0.8 = sound business reasoning with logical connection, 0.5-0.6 = reasonable logic with plausible connection, 0.3-0.4 = weak business case with tenuous connection, 0.1-0.2 = poor business logic, 0.0 = fundamentally flawed reasoning)"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "execution_risk",
-                                                    "competitive_risk",
-                                                    "business_impact_likelihood",
-                                                    "timeline_realism",
-                                                    "fundamental_strength"
-                                                ],
-                                                "additionalProperties": false
-                                            },
-                                            "perception_gap": {
-                                                "type": "object",
-                                                "description": "Analysis of gaps between market perception and analytical assessment",
-                                                "properties": {
-                                                    "optimism_bias": {
-                                                        "type": "number",
-                                                        "minimum": -1,
-                                                        "maximum": 1,
-                                                        "description": "Is market over or under-confident compared to analysis (-0.8 to -1.0 = market extremely pessimistic vs analysis, -0.4 to -0.7 = market too bearish, -0.1 to -0.3 = market slightly under-confident, -0.1 to +0.1 = market perception aligned, +0.1 to +0.3 = market slightly over-confident, +0.4 to +0.7 = market too bullish, +0.8 to +1.0 = market extremely optimistic vs reality)"
-                                                    },
-                                                    "risk_awareness": {
-                                                        "type": "number",
-                                                        "minimum": -1,
-                                                        "maximum": 1,
-                                                        "description": "How well does market understand the real risks (-0.8 to -1.0 = market obsessing over non-risks, -0.4 to -0.7 = market overestimating risks, -0.1 to -0.3 = market slightly risk-averse, -0.1 to +0.1 = appropriate risk awareness, +0.1 to +0.3 = market underestimating some risks, +0.4 to +0.7 = market ignoring significant risks, +0.8 to +1.0 = market completely blind to major risks)"
-                                                    },
-                                                    "correction_potential": {
-                                                        "type": "number",
-                                                        "minimum": 0,
-                                                        "maximum": 1,
-                                                        "description": "Likelihood of market perception shifting toward analytical reality (0.9-1.0 = perception likely to correct soon, 0.7-0.8 = correction probable over time, 0.5-0.6 = unclear direction, 0.3-0.4 = market perception may persist, 0.1-0.2 = narrative very sticky, 0.0 = perception unlikely to change)"
-                                                    }
-                                                },
-                                                "required": [
-                                                    "optimism_bias",
-                                                    "risk_awareness",
-                                                    "correction_potential"
-                                                ],
-                                                "additionalProperties": false
-                                            }
-                                        },
-                                        "required": [
-                                            "market_perception",
-                                            "ai_assessment",
-                                            "perception_gap"
-                                        ],
-                                        "additionalProperties": false
-                                    }
-                                },
-                                "required": [
-                                    "step",
-                                    "factor",
-                                    "factor_synonyms",
-                                    "factor_category",
-                                    "factor_unit",
-                                    "raw_value",
-                                    "delta",
-                                    "description",
-                                    "movement",
-                                    "magnitude",
-                                    "orientation",
-                                    "about_time_days",
-                                    "effect_horizon_days",
-                                    "evidence_level",
-                                    "evidence_source",
-                                    "evidence_citation",
-                                    "causal_certainty",
-                                    "logical_directness",
-                                    "market_consensus_on_causality",
-                                    "regime_alignment",
-                                    "reframing_potential",
-                                    "narrative_disruption",
-                                    "belief"
-                                ],
-                                "additionalProperties": false
+                                "$ref": "#/$defs/causal_step"
                             }
                         }
                     },
@@ -611,6 +216,406 @@
             "article",
             "business_events"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "$defs": {
+            "causal_step": {
+                "type": "object",
+                "properties": {
+                    "step": {
+                        "type": "number",
+                        "description": "Step index (0,1,2; branches 1.1, 1.2)"
+                    },
+                    "factor": {
+                        "type": "string",
+                        "description": "Atomic, binary or quantitative lever (e.g., product_launch, revenue_growth_rate, units_sold, costs, product_launch_delay_duration, market_share, gross_margin, operating_margin, churn_rate, patent_filings)"
+                    },
+                    "factor_synonyms": {
+                        "type": "array",
+                        "description": "Related factor concepts that could describe this same mechanism (e.g., ['platform_stickiness', 'switching_cost_barrier', 'vendor_lockin_index'] for ecosystem_lock_strength). Optional array for semantic richness and pattern matching.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "factor_category": {
+                        "type": "string",
+                        "description": "Bucket for the factor",
+                        "enum": [
+                            "financial",
+                            "sales",
+                            "customer",
+                            "product",
+                            "operations",
+                            "supply_chain",
+                            "regulatory",
+                            "legal",
+                            "hr",
+                            "marketing",
+                            "partnerships",
+                            "external",
+                            "other"
+                        ]
+                    },
+                    "factor_unit": {
+                        "type": "string",
+                        "description": "Measurement unit",
+                        "enum": [
+                            "%",
+                            "pp",
+                            "$",
+                            "days",
+                            "count",
+                            "index",
+                            "ratio",
+                            "rating",
+                            "binary",
+                            "n/a"
+                        ]
+                    },
+                    "raw_value": {
+                        "description": "Observed/estimated value (if stated or inferable). Use numbers where possible; if unknown, use null.",
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "delta": {
+                        "description": "Change vs prior baseline (positive is implicit; e.g., 5, -2pp). Use numbers where possible; if unknown, use null.",
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Plain-language explanation of this factor in context"
+                    },
+                    "movement": {
+                        "type": "integer",
+                        "description": "Direction of change (1 = up, -1 = down, 0 = unchanged)"
+                    },
+                    "magnitude": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Business impact as % of Apple's annual profits (0-1 scale): 0.01-0.03 = iPhone refresh (~$1-3B), 0.04-0.08 = major product launch (~$4-8B), 0.09-0.15 = new category (~$9-15B), 0.16-0.25 = industry innovation (~$16-25B), 0.26+ = business transformation, 1.0 = company doubling (~$100B). Most events should be 0.01-0.15."
+                    },
+                    "orientation": {
+                        "type": "string",
+                        "enum": [
+                            "predictive",
+                            "reflective",
+                            "neutral"
+                        ],
+                        "description": "Perspective for this step"
+                    },
+                    "about_time_days": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "When this step's effect materializes (days from article)"
+                    },
+                    "effect_horizon_days": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "When the consequence should show in fundamentals/market (days)"
+                    },
+                    "evidence_level": {
+                        "type": "string",
+                        "enum": [
+                            "explicit",
+                            "implied",
+                            "model"
+                        ],
+                        "description": "Directness of evidence"
+                    },
+                    "evidence_source": {
+                        "type": "string",
+                        "enum": [
+                            "article_text",
+                            "press_release",
+                            "analyst_report",
+                            "company_statement",
+                            "regulatory_filing",
+                            "model_inference",
+                            "social_media",
+                            "other"
+                        ],
+                        "description": "Source category"
+                    },
+                    "evidence_citation": {
+                        "description": "Optional citation (URL, quote, anchor)",
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "causal_certainty": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How certain is this causal step given the previous one (0.9-1.0 = nearly inevitable like direct mechanical relationships, 0.7-0.8 = highly probable with strong historical correlations, 0.5-0.6 = moderately likely but uncertain, 0.3-0.4 = possible but uncertain, 0.1-0.2 = low probability weak links)"
+                    },
+                    "logical_directness": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How direct is the causal connection vs requiring intermediate steps (0.9-1.0 = immediate direct causation, 0.7-0.8 = one clear intermediate step, 0.5-0.6 = multiple intermediate steps, 0.3-0.4 = many intermediate steps, 0.1-0.2 = highly indirect)"
+                    },
+                    "market_consensus_on_causality": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much does the market agree this causal step makes sense (0.9-1.0 = universal agreement on logic, 0.7-0.8 = strong consensus on causality, 0.5-0.6 = moderate agreement, 0.3-0.4 = mixed views on logic, 0.1-0.2 = disputed causality, 0.0 = widely rejected logic)"
+                    },
+                    "regime_alignment": {
+                        "type": "number",
+                        "minimum": -1,
+                        "maximum": 1,
+                        "description": "How much this event aligns with current market regime expectations (-0.8 to -1.0 = strongly counter-regime like good news in bear market, -0.4 to -0.7 = moderately counter-regime, -0.1 to -0.3 = slightly counter-regime, -0.1 to +0.1 = regime-neutral, +0.1 to +0.3 = slightly aligned, +0.4 to +0.7 = moderately aligned, +0.8 to +1.0 = perfectly aligned like bad news in bear market)"
+                    },
+                    "reframing_potential": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How easily can this event be reframed to fit dominant narrative (0.9-1.0 = highly reframable with ambiguous interpretation, 0.7-0.8 = moderately reframable with some spin possible, 0.5-0.6 = somewhat reframable with context, 0.3-0.4 = limited reframing options, 0.1-0.2 = hard facts difficult to reframe, 0.0 = objective data impossible to reframe)"
+                    },
+                    "narrative_disruption": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How much this event challenges current market narrative (0.9-1.0 = highly disruptive forcing narrative reconsideration, 0.7-0.8 = significantly challenging established views, 0.5-0.6 = moderately challenging some assumptions, 0.3-0.4 = mildly questions narrative, 0.1-0.2 = reinforces existing narrative, 0.0 = perfectly confirms current narrative)"
+                    },
+                    "belief": {
+                        "type": "object",
+                        "properties": {
+                            "market_perception": {
+                                "type": "object",
+                                "description": "What investors and the market actually believe about this event",
+                                "properties": {
+                                    "intensity": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Market attention and emotional buzz level (0.0-0.1 = minimal buzz, 0.2-0.3 = moderate chatter, 0.4-0.6 = mainstream coverage, 0.7-0.8 = high attention, 0.9-1.0 = maximum fixation)"
+                                    },
+                                    "hope_vs_fear": {
+                                        "type": "number",
+                                        "minimum": -1,
+                                        "maximum": 1,
+                                        "description": "Market's emotional valence about future outcomes (-0.8 to -1.0 = extreme fear, -0.4 to -0.7 = significant worry, -0.1 to -0.3 = mild concern, -0.1 to +0.1 = neutral sentiment, +0.1 to +0.3 = mild optimism, +0.4 to +0.7 = strong hope, +0.8 to +1.0 = extreme optimism)"
+                                    },
+                                    "surprise_vs_anticipated": {
+                                        "type": "number",
+                                        "minimum": -1,
+                                        "maximum": 1,
+                                        "description": "How expected vs shocking the market finds this news (-0.8 to -1.0 = completely predictable, -0.4 to -0.7 = widely anticipated, -0.1 to -0.3 = somewhat expected, -0.1 to +0.1 = neutral, +0.1 to +0.3 = mild surprise, +0.4 to +0.7 = significant surprise, +0.8 to +1.0 = total shock)"
+                                    },
+                                    "consensus_vs_division": {
+                                        "type": "number",
+                                        "minimum": -1,
+                                        "maximum": 1,
+                                        "description": "Market agreement level on news interpretation (-0.8 to -1.0 = completely polarized, -0.4 to -0.7 = strong division, -0.1 to -0.3 = some disagreement, -0.1 to +0.1 = mixed signals, +0.1 to +0.3 = mild agreement, +0.4 to +0.7 = strong consensus, +0.8 to +1.0 = universal agreement)"
+                                    },
+                                    "narrative_strength": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "How compelling and dominant is the market's story about this event (0.9-1.0 = overwhelming narrative dominance, 0.7-0.8 = strong story with wide acceptance, 0.5-0.6 = moderate narrative traction, 0.3-0.4 = weak or competing stories, 0.1-0.2 = minimal narrative coherence, 0.0 = no clear story)"
+                                    },
+                                    "emotional_profile": {
+                                        "type": "array",
+                                        "description": "Market emotions detected in coverage and discussion",
+                                        "items": {
+                                            "type": "string",
+                                            "enum": [
+                                                "anticipation",
+                                                "excitement",
+                                                "optimism",
+                                                "confidence",
+                                                "relief",
+                                                "satisfaction",
+                                                "interest",
+                                                "surprise",
+                                                "uncertainty",
+                                                "concern",
+                                                "skepticism",
+                                                "disappointment",
+                                                "fear",
+                                                "anger",
+                                                "disgust",
+                                                "indifference",
+                                                "FOMO",
+                                                "greed",
+                                                "euphoria",
+                                                "panic",
+                                                "dread",
+                                                "complacency"
+                                            ]
+                                        }
+                                    },
+                                    "cognitive_biases": {
+                                        "type": "array",
+                                        "description": "Psychological biases influencing market interpretation",
+                                        "items": {
+                                            "type": "string",
+                                            "enum": [
+                                                "availability_heuristic",
+                                                "anchoring_bias",
+                                                "confirmation_bias",
+                                                "optimism_bias",
+                                                "overconfidence_bias",
+                                                "loss_aversion",
+                                                "sunk_cost_fallacy",
+                                                "hindsight_bias",
+                                                "recency_bias",
+                                                "herding_behavior",
+                                                "authority_bias",
+                                                "halo_effect",
+                                                "planning_fallacy",
+                                                "survivorship_bias",
+                                                "dunning_kruger_effect"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "required": [
+                                    "intensity",
+                                    "hope_vs_fear",
+                                    "surprise_vs_anticipated",
+                                    "consensus_vs_division",
+                                    "narrative_strength",
+                                    "emotional_profile",
+                                    "cognitive_biases"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "ai_assessment": {
+                                "type": "object",
+                                "description": "Analytical perspective on the likely business reality of this event",
+                                "properties": {
+                                    "execution_risk": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Likelihood of implementation challenges (0.9-1.0 = extremely high risk/complex execution, 0.7-0.8 = significant challenges expected, 0.5-0.6 = moderate implementation difficulty, 0.3-0.4 = some risks but manageable, 0.1-0.2 = low execution risk, 0.0 = trivial to execute)"
+                                    },
+                                    "competitive_risk": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Risk that competitive dynamics will undermine this specific causal step (0.9-1.0 = competitors likely to neutralize impact, 0.7-0.8 = strong competitive response expected, 0.5-0.6 = moderate competitive pressure, 0.3-0.4 = limited competitive threat, 0.1-0.2 = minimal competitive risk, 0.0 = no competitive threat)"
+                                    },
+                                    "business_impact_likelihood": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Probability this event will have the claimed business impact (0.9-1.0 = highly likely to achieve claimed impact, 0.7-0.8 = probably will deliver, 0.5-0.6 = uncertain outcome, 0.3-0.4 = probably won't meet expectations, 0.1-0.2 = unlikely to deliver, 0.0 = almost certain to fail)"
+                                    },
+                                    "timeline_realism": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Realism of proposed timeline and delivery schedule (0.9-1.0 = very realistic timeline, 0.7-0.8 = achievable with effort, 0.5-0.6 = ambitious but possible, 0.3-0.4 = overly optimistic, 0.1-0.2 = unrealistic timeline, 0.0 = impossible schedule)"
+                                    },
+                                    "fundamental_strength": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "How sound the underlying business logic is for this specific causal step (0.9-1.0 = rock-solid business logic with proven mechanisms, 0.7-0.8 = sound business reasoning with logical connection, 0.5-0.6 = reasonable logic with plausible connection, 0.3-0.4 = weak business case with tenuous connection, 0.1-0.2 = poor business logic, 0.0 = fundamentally flawed reasoning)"
+                                    }
+                                },
+                                "required": [
+                                    "execution_risk",
+                                    "competitive_risk",
+                                    "business_impact_likelihood",
+                                    "timeline_realism",
+                                    "fundamental_strength"
+                                ],
+                                "additionalProperties": false
+                            },
+                            "perception_gap": {
+                                "type": "object",
+                                "description": "Analysis of gaps between market perception and analytical assessment",
+                                "properties": {
+                                    "optimism_bias": {
+                                        "type": "number",
+                                        "minimum": -1,
+                                        "maximum": 1,
+                                        "description": "Is market over or under-confident compared to analysis (-0.8 to -1.0 = market extremely pessimistic vs analysis, -0.4 to -0.7 = market too bearish, -0.1 to -0.3 = market slightly under-confident, -0.1 to +0.1 = market perception aligned, +0.1 to +0.3 = market slightly over-confident, +0.4 to +0.7 = market too bullish, +0.8 to +1.0 = market extremely optimistic vs reality)"
+                                    },
+                                    "risk_awareness": {
+                                        "type": "number",
+                                        "minimum": -1,
+                                        "maximum": 1,
+                                        "description": "How well does market understand the real risks (-0.8 to -1.0 = market obsessing over non-risks, -0.4 to -0.7 = market overestimating risks, -0.1 to -0.3 = market slightly risk-averse, -0.1 to +0.1 = appropriate risk awareness, +0.1 to +0.3 = market underestimating some risks, +0.4 to +0.7 = market ignoring significant risks, +0.8 to +1.0 = market completely blind to major risks)"
+                                    },
+                                    "correction_potential": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Likelihood of market perception shifting toward analytical reality (0.9-1.0 = perception likely to correct soon, 0.7-0.8 = correction probable over time, 0.5-0.6 = unclear direction, 0.3-0.4 = market perception may persist, 0.1-0.2 = narrative very sticky, 0.0 = perception unlikely to change)"
+                                    }
+                                },
+                                "required": [
+                                    "optimism_bias",
+                                    "risk_awareness",
+                                    "correction_potential"
+                                ],
+                                "additionalProperties": false
+                            }
+                        },
+                        "required": [
+                            "market_perception",
+                            "ai_assessment",
+                            "perception_gap"
+                        ],
+                        "additionalProperties": false
+                    }
+                },
+                "required": [
+                    "step",
+                    "factor",
+                    "factor_synonyms",
+                    "factor_category",
+                    "factor_unit",
+                    "raw_value",
+                    "delta",
+                    "description",
+                    "movement",
+                    "magnitude",
+                    "orientation",
+                    "about_time_days",
+                    "effect_horizon_days",
+                    "evidence_level",
+                    "evidence_source",
+                    "evidence_citation",
+                    "causal_certainty",
+                    "logical_directness",
+                    "market_consensus_on_causality",
+                    "regime_alignment",
+                    "reframing_potential",
+                    "narrative_disruption",
+                    "belief"
+                ],
+                "additionalProperties": false
+            }
+        }
     }
 }
