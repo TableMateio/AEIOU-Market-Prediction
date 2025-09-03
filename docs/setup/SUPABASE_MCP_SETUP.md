@@ -133,6 +133,12 @@ To enable database writes (for schema changes):
 - Check that Node.js is installed and accessible
 - Restart Cursor completely
 
+### MCP Connection Showing "Not Connected"
+- **Toggle other MCP servers off in Cursor settings**, then back on
+- Multiple MCP servers can sometimes conflict with each other
+- Try disabling other MCP connections temporarily to isolate the Supabase MCP
+- Restart Cursor after making changes
+
 ### Permission Errors
 - Ensure your PAT has sufficient permissions
 - Verify the project reference is correct
@@ -140,6 +146,9 @@ To enable database writes (for schema changes):
 ### Connection Issues
 - Check your internet connection
 - Verify Supabase project is active and accessible
+
+### Schema Migrations Working Successfully
+✅ **Confirmed Working**: The MCP connection successfully applies database migrations using `mcp_supabase_apply_migration` tool. This creates tables, indexes, triggers, and functions directly in your Supabase database without manual SQL execution.
 
 ## Links
 

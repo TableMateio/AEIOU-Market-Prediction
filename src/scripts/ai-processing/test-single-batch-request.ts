@@ -26,9 +26,9 @@ async function testSingleBatchRequest() {
     const openai = new OpenAI({ apiKey: openaiKey });
 
     // Read the generated JSONL file
-    const jsonlPath = 'batch_articles.jsonl';
+    const jsonlPath = process.argv[2] || 'batch_articles.jsonl';
     if (!fs.existsSync(jsonlPath)) {
-        logger.error('❌ JSONL file not found. Run generate-batch-jsonl.ts --test first');
+        logger.error(`❌ JSONL file not found: ${jsonlPath}. Run generate-batch-jsonl.ts --test first`);
         return;
     }
 

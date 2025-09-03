@@ -210,7 +210,7 @@ Please provide structured analysis according to the schema.`;
             method: "POST",
             url: "/v1/chat/completions",
             body: {
-                model: "gpt-4o-2024-08-06", // Same model as current pipeline
+                model: "gpt-4o-mini", // Cost-effective model for batch processing
                 temperature: 0, // Deterministic for batch processing
                 messages: [
                     {

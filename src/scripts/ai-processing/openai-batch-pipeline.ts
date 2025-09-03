@@ -324,7 +324,7 @@ class OpenAIBatchPipeline {
                     raw_ai_response: analysis,
                     ai_version: 'batch_v1.0',
                     processing_batch: `batch_${new Date().toISOString().split('T')[0]}`,
-                    model_used: 'gpt-4o-2024-08-06',
+                    model_used: 'gpt-4o-mini',
                     prompt_tokens: result.response?.usage?.prompt_tokens || 0,
                     completion_tokens: result.response?.usage?.completion_tokens || 0,
                     status: 'completed'

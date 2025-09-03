@@ -80,12 +80,36 @@ export class NewsApiAiService {
                 thirdAndCondition["dateEnd"] = dateTo;
             }
 
+            // Source URIs for financial and tech news
+            const sourceUris = [
+                // Financial Sources
+                "finance.yahoo.com", "investing.com", "benzinga.com", "fool.com", "marketwatch.com",
+                "bloomberg.com", "reuters.com", "cnbc.com", "seekingalpha.com", "zacks.com",
+                "barrons.com", "wsj.com", "ft.com", "forbes.com", "businessinsider.com",
+                "thestreet.com", "morningstar.com", "investorplace.com", "nasdaq.com", "marketbeat.com",
+                "gurufocus.com", "finviz.com", "tradingview.com", "tipranks.com", "stockanalysis.com",
+                "investopedia.com", "kiplinger.com", "money.com", "financialpost.com",
+                "globenewswire.com", "prnewswire.com", "businesswire.com",
+                // Tech Sources
+                "techcrunch.com", "theverge.com", "engadget.com", "arstechnica.com", "wired.com",
+                "cnet.com", "zdnet.com", "computerworld.com", "infoworld.com", "pcworld.com",
+                "macworld.com", "9to5mac.com", "macrumors.com", "appleinsider.com", "imore.com",
+                "cultofmac.com", "macobserver.com", "gizmodo.com", "mashable.com", "venturebeat.com",
+                "axios.com", "theinformation.com"
+            ];
+
+            // Exclude satire and junk sources
+            const ignoreSourceUris = [
+                "theonion.com", "babylonbee.com", "clickhole.com", "reductress.com", "thebeaverton.com",
+                "newsthump.com", "waterfordwhispersnews.com", "satirewire.com", "fark.com"
+            ];
+
             const requestData: any = {
                 query: {
                     "$query": {
                         "$and": [
                             {
-                                "keyword": "Apple Inc" // Changed from conceptUri to keyword (100% vs 33% relevance!)
+                                "keyword": "AAPL"
                             },
                             {
                                 "locationUri": "http://en.wikipedia.org/wiki/United_States"
@@ -98,6 +122,8 @@ export class NewsApiAiService {
                         "endSourceRankPercentile": sourceRankPercentile
                     }
                 },
+                // sourceUri: sourceUris.join(","),
+                // ignoreSourceUri: ignoreSourceUris.join(","),
                 resultType: "articles",
                 articlesSortBy: sortBy,
                 articlesCount: pageSize,
@@ -249,11 +275,58 @@ export class NewsApiAiService {
     }
 
     /**
-     * Convert NewsAPI.ai (EventRegistry) format to our standard Article format
-     */
+ * Convert NewsAPI.ai (EventRegistry) format to our standard Article format
+ */
     private async convertToStandardFormat(apiArticles: any[]): Promise<Article[]> {
+        const financialSources = [
+            'finance.yahoo.com', 'investing.com', 'benzinga.com', 'fool.com', 'marketwatch.com',
+            'bloomberg.com', 'reuters.com', 'cnbc.com', 'seekingalpha.com', 'zacks.com',
+            'barrons.com', 'wsj.com', 'ft.com', 'forbes.com', 'businessinsider.com',
+            'thestreet.com', 'morningstar.com', 'investorplace.com', 'nasdaq.com', 'marketbeat.com',
+            'techcrunch.com', 'theverge.com', 'engadget.com', 'arstechnica.com', 'wired.com',
+            'cnet.com', 'zdnet.com', 'macworld.com', '9to5mac.com', 'macrumors.com', 'appleinsider.com'
+        ];
+
+        const satireSources = [
+            'theonion.com', 'babylonbee.com', 'clickhole.com', 'reductress.com', 'fark.com'
+        ];
+
         return apiArticles
             .filter(article => this.isValidEventRegistryArticle(article))
+            .filter(article => {
+                // Filter by legitimate sources
+                const sourceUrl = (article.source?.uri || article.url || '').toLowerCase();
+                const sourceTitle = (article.source?.title || '').toLowerCase();
+
+                // Exclude satire sites
+                const isSatire = satireSources.some(satire => sourceUrl.includes(satire));
+                if (isSatire) return false;
+
+                // Allow financial/tech sources OR sources with business keywords
+                const isFinancialSource = financialSources.some(source => sourceUrl.includes(source));
+                const isBusinessSource = sourceTitle.includes('finance') || sourceTitle.includes('business') ||
+                    sourceTitle.includes('market') || sourceTitle.includes('tech');
+
+                return isFinancialSource || isBusinessSource;
+            })
+            .filter(article => {
+                // Filter by Apple relevance in title/body
+                const title = (article.title || '').toLowerCase();
+                const body = (article.body || '').toLowerCase();
+                const content = title + ' ' + body;
+
+                // Must contain Apple-related terms
+                const hasApple = content.includes('apple inc') || content.includes('aapl') ||
+                    content.includes('apple') && (content.includes('stock') || content.includes('earnings') ||
+                        content.includes('revenue') || content.includes('iphone') || content.includes('ipad'));
+
+                // Exclude fruit/food references
+                const hasGarbage = content.includes('apple pie') || content.includes('apple juice') ||
+                    content.includes('apple orchard') || content.includes('big apple') ||
+                    content.includes('apple picking') || content.includes('apple festival');
+
+                return hasApple && !hasGarbage;
+            })
             .map(article => ({
                 id: '', // Will be generated by database
                 title: article.title || 'No title',

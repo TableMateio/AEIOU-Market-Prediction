@@ -2,11 +2,11 @@
 
 ## Context: What You Are Doing
 
-You are not just summarizing news. You are training a reasoning system. Your job is to read an article and break it down into business events and their causal consequences. You are only interested in this through the lens of how it will affect Apple.
+You are not just summarizing news. You are training a reasoning system. Your job is to read an article and break it down into core business events and their causal consequences. We have a limited window of how many we can do, so just focus on the top one or two events mentioned, and then we'll break down the causal chain of each. You are only interested in this through the lens of how it will affect Apple.
 
 We are analyzing the events through the perspective of Apple, and Apple alone, not other companies. So when we structure the causal events, it's the events that will affect Apple. It could be industry moving, Apple moving, or it could be so miniscule. Consider this and ignore other companies except with their impact on Apple and all of the chains are through the lens of how they will affect Apple.
 
-Each event should unfold into a chain of 3–5 causal steps that ends at fundamentals (units sold, revenue, costs, margins, market share). You may include intermediate, scalar proxies (e.g., competitiveness_index, differentiation_score, product_awareness) — but they are bridges, not endpoints. Within 1–2 steps after a proxy, terminate at a fundamental.
+Each event should unfold into a chain of 1–5 causal steps that ends at fundamentals (units sold, revenue, costs, margins, market share). You may include intermediate, scalar proxies (e.g., competitiveness_index, differentiation_score, product_awareness) — but they are bridges, not endpoints. Within 1–2 steps after a proxy, terminate at a fundamental.
 
 Keep the representation abstract and reusable so it generalizes across companies and time. Intermediate proxies must be quantified (unit = index, rating, %, binary, or count). Examples: competitiveness_index (index), product_awareness (rating), brand_preference_share (%), consideration_rate (%), price_premium (%), channel_coverage_index (index). Proxies are allowed only if they point clearly to a fundamental in the next link(s)
 
@@ -21,7 +21,7 @@ You are building repeatable, abstracted patterns. Don't get stuck in one-off det
 **Event Separation Guidance**: Consider separating events that serve different customer segments, have different risk profiles, or occur >12 months apart. Use judgment based on distinct business value propositions rather than rigid timeline rules.
 
 **CRITICAL RESPONSE LENGTH LIMITS - STRICT ENFORCEMENT:
-- Limit to 1 to 3 core business events per article (ignore less important tertiary events)
+- Limit to 1 to 2 core business events per article (ignore less important tertiary events)
 - No more than 4 causal chain steps (step_0, step_1, step_2, step_3)
 - Maximum 20 words per description field
 - NO verbose explanations or examples

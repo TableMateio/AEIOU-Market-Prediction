@@ -107,7 +107,7 @@ async function saveBatchResults() {
             try {
                 const dbRecord = {
                     article_id: articleId,
-                    agent_id: 'gpt-4o-batch-2024-08-06',
+                    agent_id: result.response.body.model, // Use actual model name
                     analysis_type: 'apple_business_event_chain_batch',
                     raw_response: aiContent, // Store raw content even if invalid JSON
                     structured_output: isValidJson ? aiResponse : null,
@@ -184,7 +184,7 @@ async function saveBatchResults() {
     const { data: savedRecords, error: queryError } = await supabase
         .from('ai_responses')
         .select('article_id, success, tokens_used, structured_output')
-        .eq('agent_id', 'gpt-4o-batch-2024-08-06')
+        .eq('analysis_type', 'apple_business_event_chain_batch')
         .order('created_at', { ascending: false })
         .limit(10);
 

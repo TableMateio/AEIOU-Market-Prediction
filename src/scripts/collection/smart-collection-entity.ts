@@ -119,8 +119,8 @@ class SmartEntityCollector {
 
     private generateAllAvailablePeriods(): any[] {
         const periods: any[] = [];
-        const startDate = new Date('2024-08-01'); // Changed from 2021 to Aug 2024
-        const endDate = new Date('2025-08-31'); // Aug 2024 to Aug 2025 range
+        const startDate = new Date('2024-08-01'); // August 2024 to August 2025
+        const endDate = new Date('2025-08-31'); // August 2024 to August 2025
 
         let current = new Date(startDate);
         let periodNumber = 1;
