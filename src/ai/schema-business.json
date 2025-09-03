@@ -1,6 +1,5 @@
 {
     "name": "business_events_only",
-    "strict": true,
     "schema": {
         "type": "object",
         "properties": {
@@ -258,5 +257,6 @@
             "business_events"
         ],
         "additionalProperties": false
-    }
+    },
+    "strict": true
 }

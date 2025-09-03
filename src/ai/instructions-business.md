@@ -20,7 +20,7 @@ Keep the representation abstract and reusable so it generalizes across companies
 
 **CRITICAL RESPONSE LENGTH LIMITS - STRICT ENFORCEMENT:
 - Limit to 1 to 4 core business events per article (ignore less important tertiary events)
-- Maximum 20 words per description field
+- Maximum 40 words per description field
 - NO verbose explanations or examples
 - Use shortest possible phrases while maintaining meaning**
 
@@ -174,10 +174,24 @@ Current market regime context mentioned or implied in the article.
 
 ## Output Requirements
 
-Return ONLY:
-1. **Article metadata** (id, headline, source, credibility scores, audience_split, time_lag_days, market_regime)
-2. **Business events array** (0-4 events - it's okay to return zero if no Apple-relevant events)
-3. **Each event**: event_type, trigger, entities, scope, orientation, time_horizon_days, tags, quoted_people, event_description, and all psychological factors (intensity, certainty_truth, certainty_impact, hope_vs_fear, surprise_vs_anticipated, consensus_vs_division, positive_vs_negative_sentiment)
+**CRITICAL: You MUST populate ALL required fields in the schema. OpenAI will reject incomplete responses.**
+
+### Article Metadata (ALL REQUIRED):
+- id, headline, source, url, authors, published_at
+- publisher_credibility, author_credibility, source_credibility  
+- audience_split, time_lag_days, market_regime
+
+### Business Events (0-4 events, ALL FIELDS REQUIRED PER EVENT):
+- event_type, trigger, entities, scope, orientation, time_horizon_days
+- tags, quoted_people, event_description
+- intensity, certainty_truth, certainty_impact, hope_vs_fear
+- surprise_vs_anticipated, consensus_vs_division, positive_vs_negative_sentiment
+
+**If you cannot determine a field value, use these defaults:**
+- Strings: Use "unknown" or "not_specified"  
+- Numbers: Use 0.5 for psychological factors, null for unknowable values
+- Arrays: Use empty array [] if none found
+- Enums: Use the most appropriate option or "unknown" if available
 
 **NO CAUSAL CHAINS** - that's a separate processing step in stage 2.
 
