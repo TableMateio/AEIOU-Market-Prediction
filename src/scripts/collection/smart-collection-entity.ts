@@ -9,11 +9,11 @@
 import 'dotenv/config';
 import { createClient } from '@supabase/supabase-js';
 import { AppConfig } from '../../config/app';
-import { NewsApiAiService } from '../../services/newsApiAiService';
+import { newsServiceFactory } from '../../services/newsServiceFactory';
 
 class SmartEntityCollector {
     private supabase: any;
-    private newsService: NewsApiAiService;
+    private newsService: any; // Will use newsServiceFactory
 
     constructor() {
         const config = AppConfig.getInstance();
@@ -21,7 +21,7 @@ class SmartEntityCollector {
             config.supabaseConfig.projectUrl,
             config.supabaseConfig.apiKey
         );
-        this.newsService = new NewsApiAiService();
+        this.newsService = newsServiceFactory.getCurrentService();
     }
 
     async runCollection(): Promise<void> {
@@ -30,9 +30,11 @@ class SmartEntityCollector {
         console.log('');
 
         console.log('🔬 FEATURES:');
-        console.log('   • Entity-based targeting (conceptUri)');
+        console.log(`   • News Service: ${this.newsService.getServiceName()}`);
+        console.log('   • Dual strategy (financial + business events)');
+        console.log('   • Premium filtering (food/drink exclusions)');
         console.log('   • Title-based deduplication');
-        console.log('   • 3-day period collection');
+        console.log('   • Daily collection (one request per weekday)');
         console.log('   • Automatic duplicate prevention');
         console.log('');
 
@@ -61,7 +63,7 @@ class SmartEntityCollector {
         if (periods.length > 5) {
             console.log(`   ... and ${periods.length - 5} more periods`);
         }
-        console.log(`   💰 Estimated cost: ${periods.length * 5} tokens`);
+        console.log(`   💰 Estimated cost: ${periods.length * 2} API requests (2 per day: financial + business)`);
         console.log('');
 
         if (!execute) {
@@ -79,7 +81,7 @@ class SmartEntityCollector {
             const { data, error } = await this.supabase
                 .from('articles')
                 .select('published_at')
-                .eq('data_source', 'newsapi_ai')
+                .eq('data_source', this.newsService.getServiceName())
                 .like('content_type', 'entity_smart_%')
                 .order('published_at', { ascending: false });
 
@@ -93,13 +95,31 @@ class SmartEntityCollector {
         }
     }
 
+    private isBusinessDay(date: Date): boolean {
+        const dayOfWeek = date.getDay();
+        return dayOfWeek >= 1 && dayOfWeek <= 5; // Monday=1 to Friday=5
+    }
+
     private generatePeriods(mode: string, collectedPeriods: string[]): any[] {
         const allPeriods = this.generateAllAvailablePeriods();
 
-        // Filter out already collected periods
+        // Smart filtering: Remove already collected periods AND non-business days
         const newPeriods = allPeriods.filter(period => {
             const periodDates = this.getAllDaysInRange(period.start, period.end);
-            return !periodDates.some(date => collectedPeriods.includes(date));
+
+            // Check if any date in this period is already collected
+            const alreadyCollected = periodDates.some(date => collectedPeriods.includes(date));
+            if (alreadyCollected) {
+                return false; // Skip this period
+            }
+
+            // Check if all dates are business days
+            const allBusinessDays = periodDates.every(dateStr => {
+                const date = new Date(dateStr);
+                return this.isBusinessDay(date);
+            });
+
+            return allBusinessDays;
         });
 
         // Return based on mode
@@ -119,40 +139,48 @@ class SmartEntityCollector {
 
     private generateAllAvailablePeriods(): any[] {
         const periods: any[] = [];
-        const startDate = new Date('2024-08-01'); // August 2024 to August 2025
-        const endDate = new Date('2025-08-31'); // August 2024 to August 2025
+        const startDate = new Date('2024-08-01'); // Start from August 2024 (where finlight has full content)
+        const endDate = new Date('2025-07-31'); // End at July 2025 (12 months of full content)
+
+        // SAFETY CHECK: Never collect future dates!
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set to beginning of today
+        if (endDate > today) {
+            endDate.setTime(today.getTime()); // Cap at today if July 2025 is in future
+        }
+
+        console.log(`🛡️  SAFETY CHECK: Collection will stop at ${endDate.toISOString().split('T')[0]} (today)`);
+        console.log(`📅 DATE RANGE: ${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]} (finlight's data coverage)`);
 
         let current = new Date(startDate);
         let periodNumber = 1;
 
         while (current <= endDate) {
-            const periodStart = new Date(current);
-            const periodEnd = new Date(current);
-            periodEnd.setDate(periodEnd.getDate() + 2); // 3-day period
+            const dayOfWeek = current.getDay();
 
-            if (periodEnd > endDate) {
-                periodEnd.setTime(endDate.getTime());
+            // ADDITIONAL SAFETY: Skip if date is in the future
+            if (current > today) {
+                console.log(`⚠️  SKIPPING FUTURE DATE: ${current.toISOString().split('T')[0]}`);
+                break;
             }
 
-            const businessDays = this.getBusinessDaysInRange(
-                periodStart.toISOString().split('T')[0],
-                periodEnd.toISOString().split('T')[0]
-            );
+            // Only collect on business days (Monday=1 to Friday=5)
+            if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                const dateString = current.toISOString().split('T')[0];
 
-            // Only include periods with business days
-            if (businessDays.length > 0) {
                 periods.push({
                     number: periodNumber,
-                    name: `Entity-Period-${periodNumber}`,
-                    start: periodStart.toISOString().split('T')[0],
-                    end: periodEnd.toISOString().split('T')[0],
-                    businessDays,
-                    totalDays: 3
+                    name: `Daily-${dateString}`,
+                    start: dateString,
+                    end: dateString, // Same day for start and end
+                    businessDays: [dateString], // Single day
+                    totalDays: 1
                 });
                 periodNumber++;
             }
 
-            current.setDate(current.getDate() + 3);
+            // Move to next day
+            current.setDate(current.getDate() + 1);
         }
 
         return periods;
@@ -187,16 +215,22 @@ class SmartEntityCollector {
 
                 // Save to database
                 const saveResults = await this.savePeriodToDatabase(deduplicatedArticles, period);
-                console.log(`   💾 Saved: ${saveResults.inserted} new, ${saveResults.duplicates} URL duplicates`);
+                if (saveResults.inserted > 0) {
+                    console.log(`   💾 Saved: ${saveResults.inserted} NEW articles to database`);
+                } else if (saveResults.duplicates > 0) {
+                    console.log(`   💾 Skipped: ${saveResults.duplicates} articles (already in database)`);
+                } else {
+                    console.log(`   💾 No articles to save (none found or all filtered out)`);
+                }
 
                 results.processedPeriods++;
                 results.totalArticles += articles.length;
                 results.deduplicatedArticles += deduplicatedArticles.length;
                 results.savedArticles += saveResults.inserted;
-                results.tokensUsed += 5;
+                results.tokensUsed += 2; // 2 API requests per day (financial + business)
 
-                // Rate limiting
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                // Rate limiting - conservative for longer collections (finlight: 100 req/min)
+                await new Promise(resolve => setTimeout(resolve, 3000)); // 3 seconds between days
 
             } catch (error: any) {
                 console.log(`   ❌ Failed: ${error.message}`);
@@ -213,25 +247,45 @@ class SmartEntityCollector {
         console.log(`   📊 Raw articles: ${results.totalArticles}`);
         console.log(`   🔄 After deduplication: ${results.deduplicatedArticles}`);
         console.log(`   💾 Saved to database: ${results.savedArticles}`);
-        console.log(`   💰 Tokens used: ${results.tokensUsed}`);
+        console.log(`   💰 API requests used: ${results.tokensUsed}`);
         console.log(`   📈 Efficiency: ${Math.round(results.savedArticles / results.tokensUsed)} articles/token`);
         console.log(`   🎯 Deduplication rate: ${Math.round((results.totalArticles - results.deduplicatedArticles) / results.totalArticles * 100)}%`);
     }
 
     private async collectEntityArticles(period: any): Promise<any[]> {
         try {
-            const articles = await this.newsService.searchAppleByEntity({
+            // DUAL STRATEGY: One request per type for this specific day
+            // Let finlight handle sorting - we just request by exact date
+            console.log(`   🎯 Collecting financial articles (ticker-based)...`);
+            const financialArticles = await this.newsService.searchAppleArticles({
                 dateFrom: period.start,
-                dateTo: period.end,
-                sortBy: 'socialScore', // Best date distribution: 15 unique dates, 100/100 spread score
-                pageSize: 25,
-                sourceRankPercentile: 50 // Top 50% of sources
+                dateTo: period.start, // Same day - single day request
+                sortBy: 'financial',
+                limit: 10, // 10 financial articles per day
+                excludeTerms: []
             });
 
-            return articles;
+            // Brief pause between requests on same day
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            console.log(`   🏢 Collecting business event articles (keyword-based)...`);
+            const businessArticles = await this.newsService.searchAppleArticles({
+                dateFrom: period.start,
+                dateTo: period.start, // Same day - single day request  
+                sortBy: 'business',
+                limit: 10, // 10 business articles per day
+                excludeTerms: []
+            });
+
+            // Combine and deduplicate by title
+            const allArticles = [...financialArticles, ...businessArticles];
+            const uniqueArticles = this.deduplicateByTitle(allArticles);
+
+            console.log(`   📊 Financial: ${financialArticles.length}, Business: ${businessArticles.length}, Combined: ${uniqueArticles.length}`);
+            return uniqueArticles;
 
         } catch (error: any) {
-            console.log(`   ❌ Entity collection failed: ${error.message}`);
+            console.log(`   ❌ Article collection failed: ${error.message}`);
             return [];
         }
     }
@@ -336,7 +390,7 @@ class SmartEntityCollector {
                     article_description: article.body?.substring(0, 1000),
                     body: article.body,
                     scraping_status: 'scraped',
-                    data_source: 'newsapi_ai',
+                    data_source: this.newsService.getServiceName(),
                     content_type: `entity_smart_${period.number}`,
                     apple_relevance_score: 0.95, // High confidence from entity targeting
                     created_at: new Date().toISOString(),

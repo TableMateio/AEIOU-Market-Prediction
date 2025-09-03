@@ -15,7 +15,11 @@
         "test-alpaca": "npx tsx src/scripts/test-alpaca-stock.ts",
         "test-tiingo": "npx tsx src/scripts/test-tiingo-stock.ts",
         "compare-apis": "npx tsx src/scripts/compare-stock-apis.ts",
-        "test-all-apis": "npm run test-newsapi-ai && npm run test-alpaca && npm run test-tiingo && npm run compare-apis"
+        "test-all-apis": "npm run test-newsapi-ai && npm run test-alpaca && npm run test-tiingo && npm run compare-apis",
+        "collect-benchmarks": "npx tsx src/scripts/ml/collectBenchmarkData.ts",
+        "train-ml": "npx tsx src/scripts/ml/trainMLPipeline.ts",
+        "setup-python": "cd python && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
+        "python-train": "cd python && python train_random_forest.py"
     },
     "keywords": [
         "market-prediction",
@@ -41,6 +45,7 @@
         "dotenv": "^16.6.1",
         "express": "^4.18.2",
         "express-rate-limit": "^7.1.5",
+        "finlight-client": "^2.2.4",
         "helmet": "^7.1.0",
         "joi": "^17.11.0",
         "jsdom": "^26.1.0",
