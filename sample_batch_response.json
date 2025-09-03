@@ -1,19 +1,525 @@
 {
   "article": {
-    "id": "NYPost-2025-08-31",
-    "headline": "NYers flock to lucky lotto stores with recent big wins ahead of $1.1B Powerball drawing",
-    "source": "New York Post",
-    "url": "https://nypost.com/2025/08/31/us-news/nyers-flock-to-lucky-lotto-stores-with-recent-big-wins-ahead-of-1-1b-powerball-drawing/",
-    "authors": [
-      "Unknown"
-    ],
-    "published_at": "2025-08-31T23:17:53.000Z",
+    "id": "arcamax-2024-08-14-google-antitrust",
+    "headline": "US considers a rare antitrust move: breaking up Google",
+    "source": "ArcaMax",
+    "url": "https://www.arcamax.com/business/businessnews/s-3368532",
+    "authors": [],
+    "published_at": "2024-08-14T00:00:00.000Z",
     "publisher_credibility": 0.3,
     "author_credibility": null,
     "source_credibility": 0.3,
-    "audience_split": "neither",
-    "time_lag_days": 0,
-    "market_regime": null
+    "audience_split": "both",
+    "time_lag_days": 9,
+    "market_regime": "unknown"
   },
-  "business_events": []
+  "business_events": [
+    {
+      "event_type": "Regulatory_Development",
+      "trigger": "media_report",
+      "entities": [
+        "Google",
+        "Apple"
+      ],
+      "scope": "industry",
+      "orientation": "predictive",
+      "time_horizon_days": 365,
+      "tags": [
+        "Google",
+        "antitrust",
+        "Apple",
+        "search_engine",
+        "AI"
+      ],
+      "quoted_people": [],
+      "event_description": "US Justice Department considers breaking up Google due to antitrust violations.",
+      "causal_chain": [
+        {
+          "step": 0,
+          "factor": "regulatory_pressure",
+          "factor_synonyms": [
+            "antitrust_action",
+            "legal_challenge"
+          ],
+          "factor_category": "regulatory",
+          "factor_unit": "n/a",
+          "raw_value": null,
+          "delta": 1,
+          "description": "Increased regulatory pressure on Google due to antitrust ruling.",
+          "movement": 1,
+          "magnitude": 0.05,
+          "orientation": "predictive",
+          "about_time_days": 0,
+          "effect_horizon_days": 365,
+          "evidence_level": "explicit",
+          "evidence_source": "article_text",
+          "evidence_citation": "https://www.arcamax.com/business/businessnews/s-3368532",
+          "causal_certainty": 0.8,
+          "logical_directness": 0.9,
+          "market_consensus_on_causality": 0.7,
+          "regime_alignment": 0.1,
+          "reframing_potential": 0.7,
+          "narrative_disruption": 0.8,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.7,
+              "hope_vs_fear": -0.4,
+              "surprise_vs_anticipated": 0.4,
+              "consensus_vs_division": 0.3,
+              "narrative_strength": 0.8,
+              "emotional_profile": [
+                "concern",
+                "uncertainty"
+              ],
+              "cognitive_biases": [
+                "availability_heuristic",
+                "confirmation_bias"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.3,
+              "competitive_risk": 0.5,
+              "business_impact_likelihood": 0.6,
+              "timeline_realism": 0.7,
+              "fundamental_strength": 0.7
+            },
+            "perception_gap": {
+              "optimism_bias": 0.2,
+              "risk_awareness": 0.1,
+              "correction_potential": 0.5
+            }
+          }
+        },
+        {
+          "step": 1,
+          "factor": "competitive_landscape_change",
+          "factor_synonyms": [
+            "market_dynamics_shift",
+            "industry_structure_change"
+          ],
+          "factor_category": "external",
+          "factor_unit": "n/a",
+          "raw_value": null,
+          "delta": 1,
+          "description": "Potential changes in competitive landscape due to regulatory actions against Google.",
+          "movement": 1,
+          "magnitude": 0.04,
+          "orientation": "predictive",
+          "about_time_days": 30,
+          "effect_horizon_days": 365,
+          "evidence_level": "implied",
+          "evidence_source": "model_inference",
+          "evidence_citation": null,
+          "causal_certainty": 0.7,
+          "logical_directness": 0.8,
+          "market_consensus_on_causality": 0.6,
+          "regime_alignment": 0.2,
+          "reframing_potential": 0.6,
+          "narrative_disruption": 0.7,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.6,
+              "hope_vs_fear": 0.1,
+              "surprise_vs_anticipated": 0.3,
+              "consensus_vs_division": 0.2,
+              "narrative_strength": 0.7,
+              "emotional_profile": [
+                "anticipation",
+                "uncertainty"
+              ],
+              "cognitive_biases": [
+                "optimism_bias"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.4,
+              "competitive_risk": 0.6,
+              "business_impact_likelihood": 0.5,
+              "timeline_realism": 0.6,
+              "fundamental_strength": 0.6
+            },
+            "perception_gap": {
+              "optimism_bias": 0.1,
+              "risk_awareness": 0,
+              "correction_potential": 0.4
+            }
+          }
+        },
+        {
+          "step": 2,
+          "factor": "market_share",
+          "factor_synonyms": [
+            "competitive_position",
+            "industry_share"
+          ],
+          "factor_category": "financial",
+          "factor_unit": "%",
+          "raw_value": null,
+          "delta": 1,
+          "description": "Potential increase in market share for competitors like Apple due to Google's regulatory challenges.",
+          "movement": 1,
+          "magnitude": 0.03,
+          "orientation": "predictive",
+          "about_time_days": 60,
+          "effect_horizon_days": 365,
+          "evidence_level": "implied",
+          "evidence_source": "model_inference",
+          "evidence_citation": null,
+          "causal_certainty": 0.6,
+          "logical_directness": 0.7,
+          "market_consensus_on_causality": 0.5,
+          "regime_alignment": 0.3,
+          "reframing_potential": 0.5,
+          "narrative_disruption": 0.6,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.5,
+              "hope_vs_fear": 0.2,
+              "surprise_vs_anticipated": 0.2,
+              "consensus_vs_division": 0.1,
+              "narrative_strength": 0.6,
+              "emotional_profile": [
+                "optimism",
+                "anticipation"
+              ],
+              "cognitive_biases": [
+                "confirmation_bias"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.3,
+              "competitive_risk": 0.4,
+              "business_impact_likelihood": 0.4,
+              "timeline_realism": 0.5,
+              "fundamental_strength": 0.5
+            },
+            "perception_gap": {
+              "optimism_bias": 0,
+              "risk_awareness": -0.1,
+              "correction_potential": 0.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "event_type": "Contractual_Change",
+      "trigger": "media_report",
+      "entities": [
+        "Google",
+        "Apple"
+      ],
+      "scope": "company",
+      "orientation": "predictive",
+      "time_horizon_days": 180,
+      "tags": [
+        "Google",
+        "Apple",
+        "search_engine",
+        "contracts"
+      ],
+      "quoted_people": [],
+      "event_description": "Potential changes in Google's exclusive contracts with Apple.",
+      "causal_chain": [
+        {
+          "step": 0,
+          "factor": "contractual_terms",
+          "factor_synonyms": [
+            "agreement_conditions",
+            "contract_modifications"
+          ],
+          "factor_category": "legal",
+          "factor_unit": "n/a",
+          "raw_value": null,
+          "delta": 1,
+          "description": "Potential changes in Google's exclusive contracts with Apple due to antitrust ruling.",
+          "movement": 1,
+          "magnitude": 0.02,
+          "orientation": "predictive",
+          "about_time_days": 0,
+          "effect_horizon_days": 180,
+          "evidence_level": "explicit",
+          "evidence_source": "article_text",
+          "evidence_citation": "https://www.arcamax.com/business/businessnews/s-3368532",
+          "causal_certainty": 0.8,
+          "logical_directness": 0.9,
+          "market_consensus_on_causality": 0.7,
+          "regime_alignment": 0.1,
+          "reframing_potential": 0.6,
+          "narrative_disruption": 0.7,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.6,
+              "hope_vs_fear": -0.2,
+              "surprise_vs_anticipated": 0.3,
+              "consensus_vs_division": 0.2,
+              "narrative_strength": 0.7,
+              "emotional_profile": [
+                "concern",
+                "uncertainty"
+              ],
+              "cognitive_biases": [
+                "availability_heuristic",
+                "confirmation_bias"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.2,
+              "competitive_risk": 0.3,
+              "business_impact_likelihood": 0.5,
+              "timeline_realism": 0.7,
+              "fundamental_strength": 0.6
+            },
+            "perception_gap": {
+              "optimism_bias": 0.1,
+              "risk_awareness": 0,
+              "correction_potential": 0.4
+            }
+          }
+        },
+        {
+          "step": 1,
+          "factor": "revenue_share",
+          "factor_synonyms": [
+            "income_distribution",
+            "profit_allocation"
+          ],
+          "factor_category": "financial",
+          "factor_unit": "%",
+          "raw_value": null,
+          "delta": -1,
+          "description": "Potential decrease in revenue share for Apple from Google due to changes in contract terms.",
+          "movement": -1,
+          "magnitude": 0.02,
+          "orientation": "predictive",
+          "about_time_days": 30,
+          "effect_horizon_days": 180,
+          "evidence_level": "implied",
+          "evidence_source": "model_inference",
+          "evidence_citation": null,
+          "causal_certainty": 0.7,
+          "logical_directness": 0.8,
+          "market_consensus_on_causality": 0.6,
+          "regime_alignment": 0.2,
+          "reframing_potential": 0.5,
+          "narrative_disruption": 0.6,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.5,
+              "hope_vs_fear": -0.1,
+              "surprise_vs_anticipated": 0.2,
+              "consensus_vs_division": 0.1,
+              "narrative_strength": 0.6,
+              "emotional_profile": [
+                "concern",
+                "uncertainty"
+              ],
+              "cognitive_biases": [
+                "confirmation_bias"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.3,
+              "competitive_risk": 0.4,
+              "business_impact_likelihood": 0.4,
+              "timeline_realism": 0.6,
+              "fundamental_strength": 0.5
+            },
+            "perception_gap": {
+              "optimism_bias": 0,
+              "risk_awareness": -0.1,
+              "correction_potential": 0.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "event_type": "Data_Sharing_Requirement",
+      "trigger": "media_report",
+      "entities": [
+        "Google",
+        "Apple"
+      ],
+      "scope": "industry",
+      "orientation": "predictive",
+      "time_horizon_days": 365,
+      "tags": [
+        "Google",
+        "Apple",
+        "data_sharing",
+        "AI"
+      ],
+      "quoted_people": [],
+      "event_description": "Potential requirement for Google to share data with competitors like Apple.",
+      "causal_chain": [
+        {
+          "step": 0,
+          "factor": "data_sharing_mandate",
+          "factor_synonyms": [
+            "information_access",
+            "data_availability"
+          ],
+          "factor_category": "regulatory",
+          "factor_unit": "n/a",
+          "raw_value": null,
+          "delta": 1,
+          "description": "Potential requirement for Google to share data with competitors like Apple.",
+          "movement": 1,
+          "magnitude": 0.03,
+          "orientation": "predictive",
+          "about_time_days": 0,
+          "effect_horizon_days": 365,
+          "evidence_level": "explicit",
+          "evidence_source": "article_text",
+          "evidence_citation": "https://www.arcamax.com/business/businessnews/s-3368532",
+          "causal_certainty": 0.8,
+          "logical_directness": 0.9,
+          "market_consensus_on_causality": 0.7,
+          "regime_alignment": 0.1,
+          "reframing_potential": 0.7,
+          "narrative_disruption": 0.8,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.7,
+              "hope_vs_fear": 0.2,
+              "surprise_vs_anticipated": 0.4,
+              "consensus_vs_division": 0.3,
+              "narrative_strength": 0.8,
+              "emotional_profile": [
+                "anticipation",
+                "optimism"
+              ],
+              "cognitive_biases": [
+                "optimism_bias",
+                "availability_heuristic"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.3,
+              "competitive_risk": 0.5,
+              "business_impact_likelihood": 0.6,
+              "timeline_realism": 0.7,
+              "fundamental_strength": 0.7
+            },
+            "perception_gap": {
+              "optimism_bias": 0.2,
+              "risk_awareness": 0.1,
+              "correction_potential": 0.5
+            }
+          }
+        },
+        {
+          "step": 1,
+          "factor": "ai_capability_enhancement",
+          "factor_synonyms": [
+            "technology_advancement",
+            "innovation_boost"
+          ],
+          "factor_category": "product",
+          "factor_unit": "index",
+          "raw_value": null,
+          "delta": 1,
+          "description": "Potential enhancement of AI capabilities for competitors like Apple due to access to Google's data.",
+          "movement": 1,
+          "magnitude": 0.04,
+          "orientation": "predictive",
+          "about_time_days": 60,
+          "effect_horizon_days": 365,
+          "evidence_level": "implied",
+          "evidence_source": "model_inference",
+          "evidence_citation": null,
+          "causal_certainty": 0.7,
+          "logical_directness": 0.8,
+          "market_consensus_on_causality": 0.6,
+          "regime_alignment": 0.2,
+          "reframing_potential": 0.6,
+          "narrative_disruption": 0.7,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.6,
+              "hope_vs_fear": 0.3,
+              "surprise_vs_anticipated": 0.3,
+              "consensus_vs_division": 0.2,
+              "narrative_strength": 0.7,
+              "emotional_profile": [
+                "optimism",
+                "anticipation"
+              ],
+              "cognitive_biases": [
+                "optimism_bias"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.4,
+              "competitive_risk": 0.6,
+              "business_impact_likelihood": 0.5,
+              "timeline_realism": 0.6,
+              "fundamental_strength": 0.6
+            },
+            "perception_gap": {
+              "optimism_bias": 0.1,
+              "risk_awareness": 0,
+              "correction_potential": 0.4
+            }
+          }
+        },
+        {
+          "step": 2,
+          "factor": "market_share",
+          "factor_synonyms": [
+            "competitive_position",
+            "industry_share"
+          ],
+          "factor_category": "financial",
+          "factor_unit": "%",
+          "raw_value": null,
+          "delta": 1,
+          "description": "Potential increase in market share for competitors like Apple due to enhanced AI capabilities.",
+          "movement": 1,
+          "magnitude": 0.03,
+          "orientation": "predictive",
+          "about_time_days": 90,
+          "effect_horizon_days": 365,
+          "evidence_level": "implied",
+          "evidence_source": "model_inference",
+          "evidence_citation": null,
+          "causal_certainty": 0.6,
+          "logical_directness": 0.7,
+          "market_consensus_on_causality": 0.5,
+          "regime_alignment": 0.3,
+          "reframing_potential": 0.5,
+          "narrative_disruption": 0.6,
+          "belief": {
+            "market_perception": {
+              "intensity": 0.5,
+              "hope_vs_fear": 0.2,
+              "surprise_vs_anticipated": 0.2,
+              "consensus_vs_division": 0.1,
+              "narrative_strength": 0.6,
+              "emotional_profile": [
+                "optimism",
+                "anticipation"
+              ],
+              "cognitive_biases": [
+                "confirmation_bias"
+              ]
+            },
+            "ai_assessment": {
+              "execution_risk": 0.3,
+              "competitive_risk": 0.4,
+              "business_impact_likelihood": 0.4,
+              "timeline_realism": 0.5,
+              "fundamental_strength": 0.5
+            },
+            "perception_gap": {
+              "optimism_bias": 0,
+              "risk_awareness": -0.1,
+              "correction_potential": 0.3
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

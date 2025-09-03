@@ -20,6 +20,13 @@ You are building repeatable, abstracted patterns. Don't get stuck in one-off det
 
 **Event Separation Guidance**: Consider separating events that serve different customer segments, have different risk profiles, or occur >12 months apart. Use judgment based on distinct business value propositions rather than rigid timeline rules.
 
+**CRITICAL RESPONSE LENGTH LIMITS - STRICT ENFORCEMENT:
+- Limit to 1 to 3 core business events per article (ignore less important tertiary events)
+- No more than 4 causal chain steps (step_0, step_1, step_2, step_3)
+- Maximum 20 words per description field
+- NO verbose explanations or examples
+- Use shortest possible phrases while maintaining meaning**
+
 1. **Multiple events per article** — capture each distinct event separately.
 2. **Atomic causal steps** — one measurable factor per step. Factors may be proxies (e.g., product_awareness, competitiveness_index) or fundamentals (units, revenue, costs, margins, market share). Proxies must have a unit (index/rating/%/binary/count) and lead to a fundamental within 1–2 steps.
 3. **Chain length** — aim for 3–5 steps after step 0. It's typical to see 1–2 proxy links before fundamentals. Allow branching when a proxy drives multiple fundamentals.

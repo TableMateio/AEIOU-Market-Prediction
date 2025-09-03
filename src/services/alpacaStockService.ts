@@ -97,8 +97,7 @@ export class AlpacaStockService {
                     timeframe,
                     start,
                     end,
-                    adjustment: 'raw',
-                    page_size: 10000
+                    adjustment: 'raw'
                 },
                 headers: {
                     'APCA-API-KEY-ID': this.apiKey,
@@ -362,8 +361,7 @@ export class AlpacaStockService {
                 params: {
                     timeframe: '1Day',
                     start: startDate.toISOString(),
-                    end: endDate.toISOString(),
-                    page_size: 1
+                    end: endDate.toISOString()
                 },
                 headers: {
                     'APCA-API-KEY-ID': this.apiKey,
