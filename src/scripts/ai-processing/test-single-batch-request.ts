@@ -3,6 +3,10 @@
 /**
  * Test a single batch request format before submitting to OpenAI Batch API
  * 
+ * Usage:
+ * - npx tsx test-single-batch-request.ts [jsonl_file] [--save]
+ * - --save flag will save the result to the database
+ * 
  * This validates our JSONL format by making a direct API call
  */
 
@@ -10,6 +14,7 @@ import OpenAI from 'openai';
 import fs from 'fs';
 import { config } from '../../config/app';
 import { createLogger } from '../../utils/logger';
+import { createClient } from '@supabase/supabase-js';
 
 const logger = createLogger('BatchTest');
 
@@ -25,8 +30,10 @@ async function testSingleBatchRequest() {
 
     const openai = new OpenAI({ apiKey: openaiKey });
 
-    // Read the generated JSONL file
+    // Parse command line arguments
     const jsonlPath = process.argv[2] || 'batch_articles.jsonl';
+    const saveToDb = process.argv.includes('--save');
+    
     if (!fs.existsSync(jsonlPath)) {
         logger.error(`❌ JSONL file not found: ${jsonlPath}. Run generate-batch-jsonl.ts --test first`);
         return;
@@ -120,6 +127,34 @@ async function testSingleBatchRequest() {
             const firstEvent = parsedResponse.business_events[0];
             logger.info(`   📋 First event: ${firstEvent.event_summary?.substring(0, 50)}...`);
             logger.info(`   📋 Causal chain length: ${firstEvent.causal_chain?.length || 0}`);
+        }
+
+        // Save to database if requested
+        if (saveToDb) {
+            logger.info('💾 Saving result to database...');
+            
+            const supabase = createClient(config.supabaseUrl, config.supabaseServiceKey);
+            const articleId = batchRequest.custom_id.replace('art_', '');
+            
+            const { data, error } = await supabase
+                .from('business_events_ai')
+                .insert({
+                    article_id: articleId,
+                    agent_id: 'gpt-4.1-mini',
+                    analysis_type: 'business_events_extraction',
+                    raw_response: response.choices[0].message.content,
+                    structured_output: parsedResponse,
+                    processing_time_ms: duration,
+                    tokens_used: response.usage?.total_tokens || 0,
+                    success: true
+                })
+                .select('id');
+                
+            if (error) {
+                logger.error('❌ Database save failed:', error.message);
+            } else {
+                logger.info(`✅ Saved to database with ID: ${data[0].id}`);
+            }
         }
 
         logger.info('\\n🎉 SINGLE BATCH REQUEST TEST SUCCESSFUL!');

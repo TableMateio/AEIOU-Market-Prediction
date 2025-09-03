@@ -34,9 +34,9 @@ class BatchJSONLGenerator {
             appConfig.supabaseConfig.apiKey
         );
 
-        // Load AI system files
-        const instructionsPath = path.join(process.cwd(), 'src', 'ai', 'instructions.md');
-        const schemaPath = path.join(process.cwd(), 'src', 'ai', 'schema.json');
+        // Load AI system files (business events only)
+        const instructionsPath = path.join(process.cwd(), 'src', 'ai', 'instructions-business.md');
+        const schemaPath = path.join(process.cwd(), 'src', 'ai', 'schema-business.json');
 
         if (!fs.existsSync(instructionsPath) || !fs.existsSync(schemaPath)) {
             throw new Error('❌ Missing instructions.md or schema.json files');

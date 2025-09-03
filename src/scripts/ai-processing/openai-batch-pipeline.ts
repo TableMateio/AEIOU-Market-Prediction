@@ -315,13 +315,13 @@ class OpenAIBatchPipeline {
         if (result.response?.body?.choices?.[0]?.message?.content) {
             const analysis = JSON.parse(result.response.body.choices[0].message.content);
 
-            // Save to ai_responses table (matching existing schema)
+            // Save to business_events_ai table 
             const { error } = await this.supabase
-                .from('ai_responses')
+                .from('business_events_ai')
                 .insert({
                     article_id: articleId,
                     agent_id: 'gpt-4.1-mini',
-                    analysis_type: 'causal_chain_extraction',
+                    analysis_type: 'business_events_extraction',
                     raw_response: result.response.body.choices[0].message.content,
                     structured_output: analysis,
                     processing_time_ms: 0, // Batch API doesn't provide individual timing

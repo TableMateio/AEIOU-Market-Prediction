@@ -1,0 +1,262 @@
+{
+    "name": "business_events_only",
+    "strict": true,
+    "schema": {
+        "type": "object",
+        "properties": {
+            "article": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Article identifier"
+                    },
+                    "headline": {
+                        "type": "string",
+                        "description": "Headline of the article"
+                    },
+                    "source": {
+                        "type": "string",
+                        "description": "Publisher (e.g., Bloomberg, Benzinga)"
+                    },
+                    "url": {
+                        "type": "string",
+                        "description": "Canonical URL of the article"
+                    },
+                    "authors": {
+                        "type": "array",
+                        "description": "Bylines or key reporters/analysts",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "description": "Publication date/time (ISO 8601)",
+                        "format": "date-time"
+                    },
+                    "publisher_credibility": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Reliability of publication source"
+                    },
+                    "author_credibility": {
+                        "description": "Track record of specific author(s)",
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "source_credibility": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Reliability of information source quoted in article"
+                    },
+                    "audience_split": {
+                        "type": "string",
+                        "enum": [
+                            "institutional",
+                            "retail",
+                            "both",
+                            "neither"
+                        ],
+                        "description": "Primary investor audience"
+                    },
+                    "time_lag_days": {
+                        "description": "Time elapsed between event and publication",
+                        "anyOf": [
+                            {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "market_regime": {
+                        "description": "Current market regime context",
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "bull",
+                                    "bear",
+                                    "neutral",
+                                    "unknown"
+                                ]
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "headline",
+                    "source",
+                    "url",
+                    "authors",
+                    "published_at",
+                    "publisher_credibility",
+                    "author_credibility",
+                    "source_credibility",
+                    "audience_split",
+                    "time_lag_days",
+                    "market_regime"
+                ],
+                "additionalProperties": false
+            },
+            "business_events": {
+                "type": "array",
+                "description": "List of detected business events (1-2 max)",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "event_type": {
+                            "type": "string",
+                            "description": "Business action category"
+                        },
+                        "trigger": {
+                            "type": "string",
+                            "description": "How the news surfaced",
+                            "enum": [
+                                "press_release",
+                                "earnings_call",
+                                "filing",
+                                "analyst_report",
+                                "media_report",
+                                "rumor",
+                                "social",
+                                "other"
+                            ]
+                        },
+                        "entities": {
+                            "type": "array",
+                            "description": "Companies or organizations involved",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "scope": {
+                            "type": "string",
+                            "description": "Impacted scope",
+                            "enum": [
+                                "company",
+                                "industry"
+                            ]
+                        },
+                        "orientation": {
+                            "type": "string",
+                            "description": "Perspective",
+                            "enum": [
+                                "predictive",
+                                "reflective",
+                                "both",
+                                "neutral"
+                            ]
+                        },
+                        "time_horizon_days": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Relevance window in days"
+                        },
+                        "tags": {
+                            "type": "array",
+                            "description": "Reusable tags for categorization",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "quoted_people": {
+                            "type": "array",
+                            "description": "Individuals quoted in the article",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "event_description": {
+                            "type": "string",
+                            "description": "Brief summary of the event (max 15 words)"
+                        },
+                        "intensity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Market attention level"
+                        },
+                        "certainty_truth": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Confidence in factual accuracy"
+                        },
+                        "certainty_impact": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Confidence this affects Apple value"
+                        },
+                        "hope_vs_fear": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "Emotional valence (-1=fear, +1=hope)"
+                        },
+                        "surprise_vs_anticipated": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "Expected vs shocking (-1=anticipated, +1=surprising)"
+                        },
+                        "consensus_vs_division": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "Market agreement level (-1=division, +1=consensus)"
+                        },
+                        "positive_vs_negative_sentiment": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "Overall tone (-1=negative, +1=positive)"
+                        }
+                    },
+                    "required": [
+                        "event_type",
+                        "trigger",
+                        "entities",
+                        "scope",
+                        "orientation",
+                        "time_horizon_days",
+                        "tags",
+                        "quoted_people",
+                        "event_description",
+                        "intensity",
+                        "certainty_truth",
+                        "certainty_impact",
+                        "hope_vs_fear",
+                        "surprise_vs_anticipated",
+                        "consensus_vs_division",
+                        "positive_vs_negative_sentiment"
+                    ],
+                    "additionalProperties": false
+                }
+            }
+        },
+        "required": [
+            "article",
+            "business_events"
+        ],
+        "additionalProperties": false
+    }
+}
