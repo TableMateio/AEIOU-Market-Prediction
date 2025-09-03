@@ -74,7 +74,7 @@ export class AlpacaStockService {
     constructor(apiKey?: string, apiSecret?: string) {
         this.apiKey = apiKey || process.env.ALPACA_API_KEY || '';
         this.apiSecret = apiSecret || process.env.ALPACA_API_SECRET || '';
-        
+
         if (!this.apiKey || !this.apiSecret) {
             throw new Error('Alpaca API key and secret are required. Set ALPACA_API_KEY and ALPACA_API_SECRET environment variables.');
         }
@@ -190,7 +190,7 @@ export class AlpacaStockService {
         articleTimestamp: string
     ): Promise<MultiTimeHorizonData> {
         const articleTime = new Date(articleTimestamp);
-        
+
         logger.info('🎯 Generating multi-time-horizon stock data', {
             symbol,
             articleTimestamp
@@ -304,17 +304,17 @@ export class AlpacaStockService {
     private getPreviousMarketClose(date: Date): Date {
         const marketClose = new Date(date);
         marketClose.setHours(16, 0, 0, 0); // 4:00 PM ET
-        
+
         // If article is before market close, use previous day
         if (date < marketClose) {
             marketClose.setDate(marketClose.getDate() - 1);
         }
-        
+
         // Skip weekends
         while (marketClose.getDay() === 0 || marketClose.getDay() === 6) {
             marketClose.setDate(marketClose.getDate() - 1);
         }
-        
+
         return marketClose;
     }
 
@@ -324,12 +324,12 @@ export class AlpacaStockService {
     private getEndOfDay(date: Date): Date {
         const endOfDay = new Date(date);
         endOfDay.setHours(16, 0, 0, 0); // 4:00 PM ET
-        
+
         // Skip weekends
         while (endOfDay.getDay() === 0 || endOfDay.getDay() === 6) {
             endOfDay.setDate(endOfDay.getDate() + 1);
         }
-        
+
         return endOfDay;
     }
 
@@ -340,12 +340,12 @@ export class AlpacaStockService {
         const nextOpen = new Date(date);
         nextOpen.setDate(nextOpen.getDate() + 1);
         nextOpen.setHours(9, 30, 0, 0); // 9:30 AM ET
-        
+
         // Skip weekends
         while (nextOpen.getDay() === 0 || nextOpen.getDay() === 6) {
             nextOpen.setDate(nextOpen.getDate() + 1);
         }
-        
+
         return nextOpen;
     }
 
@@ -371,7 +371,7 @@ export class AlpacaStockService {
             });
 
             const bars = response.data.bars?.AAPL || [];
-            
+
             return {
                 success: true,
                 message: `✅ Alpaca connection successful. Retrieved ${bars.length} data points.`,

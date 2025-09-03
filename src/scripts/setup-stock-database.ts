@@ -12,22 +12,22 @@ import { createClient } from '@supabase/supabase-js';
 async function setupStockDatabase() {
     console.log('🗄️ SETTING UP STOCK DATABASE');
     console.log('============================\n');
-    
+
     const supabaseUrl = process.env.SUPABASE_PROJECT_URL || process.env.SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
-    
+
     if (!supabaseUrl || !supabaseKey) {
         console.log('❌ Missing Supabase environment variables:');
         console.log('   SUPABASE_PROJECT_URL (or SUPABASE_URL)');
         console.log('   SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_ANON_KEY)');
         return;
     }
-    
+
     console.log(`Supabase URL: ${supabaseUrl}`);
     console.log(`Using key: ${supabaseKey.substring(0, 10)}...`);
-    
+
     const supabase = createClient(supabaseUrl, supabaseKey);
-    
+
     // Test connection first
     console.log('\n🔌 Testing database connection...');
     try {
@@ -41,10 +41,10 @@ async function setupStockDatabase() {
         console.log(`❌ Connection error: ${error.message}`);
         return;
     }
-    
+
     // Create stock_prices table
     console.log('\n📊 Creating stock_prices table...');
-    
+
     const createTableSQL = `
         CREATE TABLE IF NOT EXISTS stock_prices (
             id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -67,10 +67,10 @@ async function setupStockDatabase() {
         CREATE UNIQUE INDEX IF NOT EXISTS idx_stock_prices_unique 
         ON stock_prices(ticker, timestamp, source);
     `;
-    
+
     try {
         const { error } = await supabase.rpc('exec_sql', { sql: createTableSQL });
-        
+
         if (error) {
             console.log(`❌ Table creation failed: ${error.message}`);
             console.log('   This might be expected if the table already exists');
@@ -80,14 +80,14 @@ async function setupStockDatabase() {
     } catch (error: any) {
         console.log(`❌ Table creation error: ${error.message}`);
         console.log('   Trying alternative method...');
-        
+
         // Try using a simple INSERT to test if we can at least work with existing tables
         try {
             const { data, error: testError } = await supabase
                 .from('stock_prices')
                 .select('*')
                 .limit(1);
-                
+
             if (testError && testError.message.includes('relation "stock_prices" does not exist')) {
                 console.log('❌ stock_prices table does not exist and cannot be created automatically');
                 console.log('   Please create it manually in the Supabase dashboard with this SQL:');
@@ -104,10 +104,10 @@ async function setupStockDatabase() {
             return;
         }
     }
-    
+
     // Test inserting sample data
     console.log('\n📝 Testing data insertion...');
-    
+
     const sampleData = {
         ticker: 'AAPL',
         timestamp: new Date().toISOString(),
@@ -115,34 +115,34 @@ async function setupStockDatabase() {
         volume: 44075638,
         source: 'test'
     };
-    
+
     try {
         const { data, error } = await supabase
             .from('stock_prices')
             .upsert([sampleData])
             .select();
-            
+
         if (error) {
             console.log(`❌ Sample insert failed: ${error.message}`);
             return;
         }
-        
+
         console.log('✅ Sample data inserted successfully');
         console.log(`   Record ID: ${data[0]?.id}`);
-        
+
         // Clean up test data
         await supabase
             .from('stock_prices')
             .delete()
             .eq('source', 'test');
-            
+
         console.log('✅ Test data cleaned up');
-        
+
     } catch (error: any) {
         console.log(`❌ Sample insert error: ${error.message}`);
         return;
     }
-    
+
     console.log('\n🎉 Database setup completed successfully!');
     console.log('\n📋 Next steps:');
     console.log('1. Start fetching stock data with Tiingo API');
