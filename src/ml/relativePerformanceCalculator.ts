@@ -79,12 +79,13 @@ export class RelativePerformanceCalculator {
     }
 
     /**
-     * Calculate relative performance for a business event
-     * This is the core function that will feed your ML model
-     */
+ * Calculate relative performance for a business event
+ * Handles both predictive (future-looking) and reflective (past-analyzing) articles
+ */
     async calculateRelativePerformance(
         ticker: string,
-        eventTimestamp: Date
+        eventTimestamp: Date,
+        eventOrientation: 'predictive' | 'reflective' | 'both' | 'neutral' = 'neutral'
     ): Promise<RelativePerformanceMetrics> {
 
         logger.info('🧮 Calculating relative performance', {

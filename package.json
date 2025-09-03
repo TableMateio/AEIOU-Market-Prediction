@@ -19,7 +19,8 @@
         "collect-benchmarks": "npx tsx src/scripts/ml/collectBenchmarkData.ts",
         "train-ml": "npx tsx src/scripts/ml/trainMLPipeline.ts",
         "setup-python": "cd python && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
-        "python-train": "cd python && python train_random_forest.py"
+        "python-train": "cd python && python train_random_forest.py",
+        "shap-analysis": "cd python && python shap_analysis.py"
     },
     "keywords": [
         "market-prediction",

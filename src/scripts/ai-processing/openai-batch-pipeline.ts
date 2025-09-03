@@ -320,14 +320,13 @@ class OpenAIBatchPipeline {
                 .from('ai_responses')
                 .insert({
                     article_id: articleId,
-                    business_events: analysis.business_events || [],
-                    raw_ai_response: analysis,
-                    ai_version: 'batch_v1.0',
-                    processing_batch: `batch_${new Date().toISOString().split('T')[0]}`,
-                    model_used: 'gpt-4o-mini',
-                    prompt_tokens: result.response?.usage?.prompt_tokens || 0,
-                    completion_tokens: result.response?.usage?.completion_tokens || 0,
-                    status: 'completed'
+                    agent_id: 'gpt-4.1-mini',
+                    analysis_type: 'causal_chain_extraction',
+                    raw_response: result.response.body.choices[0].message.content,
+                    structured_output: analysis,
+                    processing_time_ms: 0, // Batch API doesn't provide individual timing
+                    tokens_used: result.response?.usage?.total_tokens || 0,
+                    success: true
                 });
 
             if (error) {

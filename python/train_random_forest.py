@@ -316,10 +316,10 @@ class AEIOURandomForestTrainer:
         best_model = max(results.items(), key=lambda x: x[1]["accuracy"])
         worst_model = min(results.items(), key=lambda x: x[1]["accuracy"])
         
-        # Get top features across all models
+        # Get top features across all models (no manual priorities)
         all_features = {}
         for target, result in results.items():
-            for feature_info in result["feature_importance"][:10]:  # Top 10 per model
+            for feature_info in result["feature_importance"][:15]:  # Top 15 per model
                 feature_name = feature_info["feature"]
                 importance = feature_info["importance"]
                 

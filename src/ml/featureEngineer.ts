@@ -135,10 +135,11 @@ export class FeatureEngineer {
 
     /**
      * Transform business factors into ML feature vector
+     * Now orientation-aware for predictive vs reflective articles
      */
     async createFeatureVector(
         articleId: string,
-        relativePerformance: RelativePerformanceMetrics
+        orientationMetrics: any // OrientationAwareMetrics
     ): Promise<MLFeatureVector | null> {
 
         try {
