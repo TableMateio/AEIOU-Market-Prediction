@@ -20,7 +20,10 @@
         "train-ml": "npx tsx src/scripts/ml/trainMLPipeline.ts",
         "setup-python": "cd python && python -m venv venv && source venv/bin/activate && pip install -r requirements.txt",
         "python-train": "cd python && python train_random_forest.py",
-        "shap-analysis": "cd python && python shap_analysis.py"
+        "shap-analysis": "cd python && python shap_analysis.py",
+        "analyze-ml-data": "npx tsx src/scripts/ml/analyzeCurrentMLData.ts",
+        "export-ml-data": "npx tsx src/scripts/ml/exportMLTrainingData.ts",
+        "run-actual-ml": "npx tsx src/scripts/ml/runActualMLPipeline.ts"
     },
     "keywords": [
         "market-prediction",

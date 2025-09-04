@@ -79,20 +79,129 @@ class AEIOURandomForestTrainer:
         return train_df, test_df
     
     def get_target_variables(self, df: pd.DataFrame) -> List[str]:
-        """Get all target variable columns"""
+        """Get all target variable columns from actual ml_training_data structure"""
         targets = [col for col in df.columns if col.startswith('alpha_vs_')]
-        targets.extend([col for col in df.columns if col.endswith('_spike')])
+        targets.extend([col for col in df.columns if col.startswith('abs_change_') and col.endswith('_pct')])
+        
+        # Add populated target variables (exclude known empty ones)
+        populated_targets = [
+            'price_discovery_speed_minutes',
+            'max_move_within_1hour_pct', 
+            'reversal_strength_pct',
+            'attention_half_life_hours',
+            'spy_momentum_30day_pct',
+            'qqq_momentum_30day_pct'
+        ]
+        
+        # OPTIMIZATION: Exclude known empty columns
+        empty_targets = [
+            'volume_relative_20day',
+            'volume_burst_first_hour',
+            'volatility_shock_ratio',
+            'volume_1hour_before_relative',
+            'volume_1hour_after_relative',
+            'volatility_1hour_before',
+            'volatility_1hour_after',
+            'volatility_1day_before', 
+            'volatility_1day_after'
+        ]
+        
+        for target in populated_targets:
+            if target in df.columns and target not in targets and target not in empty_targets:
+                targets.append(target)
+        
+        # Remove empty columns from final list
+        targets = [t for t in targets if t not in empty_targets]
+        
+        print(f"🎯 Found {len(targets)} populated target variables")
+        print(f"⚡ Excluded {len(empty_targets)} empty target columns")
+        
         return targets
     
     def get_feature_columns(self, df: pd.DataFrame) -> List[str]:
-        """Get all feature columns (excluding targets and metadata)"""
-        exclude_patterns = ['eventId', 'articleId', 'ticker', 'eventTimestamp', 'alpha_', '_spike']
+        """Get all INPUT feature columns from COMPLETE ml_training_data structure (218 columns)"""
+        
+        # INPUT FEATURES (what we predict FROM) - based on actual schema
+        input_feature_patterns = [
+            # Business factor core (12 fields)
+            'factor_name', 'factor_category', 'factor_magnitude', 'factor_movement',
+            'factor_synonyms', 'factor_unit', 'factor_raw_value', 'factor_delta',
+            'factor_description', 'factor_orientation', 'factor_about_time_days', 'factor_effect_horizon_days',
+            
+            # Causal analysis (4 fields)
+            'causal_certainty', 'logical_directness', 'regime_alignment', 'causal_step',
+            
+            # Event context (8 fields)  
+            'event_type', 'event_description', 'event_trigger', 'event_entities',
+            'event_scope', 'event_orientation', 'event_time_horizon_days', 'event_tags', 'event_quoted_people',
+            
+            # Article metadata (14 fields)
+            'article_headline', 'article_url', 'article_authors', 'article_source',
+            'article_source_credibility', 'article_author_credibility', 'article_publisher_credibility',
+            'article_audience_split', 'article_time_lag_days', 'article_market_regime',
+            'article_apple_relevance_score', 'article_ticker_relevance_score',
+            'article_published_year', 'article_published_month', 'article_published_day_of_week',
+            
+            # Evidence & sources (3 fields)
+            'evidence_level', 'evidence_source', 'evidence_citation',
+            
+            # Market consensus & narrative (3 fields)
+            'market_consensus_on_causality', 'reframing_potential', 'narrative_disruption',
+            
+            # Market perception (7 fields)
+            'market_perception_intensity', 'market_perception_hope_vs_fear',
+            'market_perception_surprise_vs_anticipated', 'market_perception_consensus_vs_division',
+            'market_perception_narrative_strength', 'market_perception_emotional_profile', 'market_perception_cognitive_biases',
+            
+            # AI assessments (5 fields)
+            'ai_assessment_execution_risk', 'ai_assessment_competitive_risk',
+            'ai_assessment_business_impact_likelihood', 'ai_assessment_timeline_realism', 'ai_assessment_fundamental_strength',
+            
+            # Perception gaps (3 fields)
+            'perception_gap_optimism_bias', 'perception_gap_risk_awareness', 'perception_gap_correction_potential',
+            
+            # Context features (3 fields)
+            'market_hours', 'market_regime', 'pattern_strength_score', 'data_quality_score'
+        ]
+        
+        # TARGET VARIABLES (what we predict TO) - exclude from features
+        target_patterns = [
+            'price_', 'spy_', 'qqq_', 'abs_change_', 'alpha_vs_', 
+            'volume_', 'volatility_', 'max_move_', 'reversal_', 'attention_',
+            'spy_momentum_', 'qqq_momentum_', 'confidence_'
+        ]
+        
+        # METADATA (not ML features)
+        metadata_patterns = [
+            'id', 'business_factor_id', 'article_id', 'causal_events_ai_id', 'ticker',
+            'event_timestamp', 'article_published_at', 'created_at', 'updated_at', 'processing_timestamp',
+            'processing_status', 'ml_split', 'business_event_index', 'causal_step_index',
+            'processing_time_ms', 'missing_data_points', 'approximation_quality'
+        ]
         
         feature_cols = []
         for col in df.columns:
-            if not any(pattern in col for pattern in exclude_patterns):
+            # Check if it's an input feature
+            is_input_feature = any(col == pattern or col.startswith(pattern) for pattern in input_feature_patterns)
+            
+            # Check if it's a target or metadata (exclude)
+            is_target = any(col.startswith(pattern) for pattern in target_patterns)
+            is_metadata = any(col == pattern or col.startswith(pattern) for pattern in metadata_patterns)
+            
+            # Include only input features that aren't targets or metadata
+            if is_input_feature and not is_target and not is_metadata:
                 feature_cols.append(col)
         
+        # OPTIMIZATION: Remove known empty columns
+        empty_columns = [
+            'article_authors', 'volume_burst_first_hour', 
+            'volatility_shock_ratio', 'volume_relative_20day'
+        ]
+        
+        feature_cols = [col for col in feature_cols if col not in empty_columns]
+        
+        print(f"📊 Found {len(feature_cols)} input feature columns out of {len(df.columns)} total columns")
+        print(f"⚡ Removed {len(empty_columns)} empty columns for optimization")
         return feature_cols
     
     def preprocess_features(self, train_df: pd.DataFrame, test_df: pd.DataFrame, feature_cols: List[str]) -> Tuple[np.ndarray, np.ndarray, List[str]]:
@@ -450,9 +559,15 @@ Generated: {datetime.now().isoformat()}
         
         # Train a Random Forest specifically for feature interaction analysis
         rf = RandomForestRegressor(
-            n_estimators=50,  # Smaller for speed
-            max_depth=15,     # Deeper to capture interactions
-            random_state=42
+            n_estimators=200,           # More trees for better accuracy
+            random_state=42,
+            max_depth=12,               # Slightly deeper for complex patterns
+            min_samples_split=5,
+            min_samples_leaf=2,
+            n_jobs=-1,                  # Use all CPU cores (M1 Max has 10 cores)
+            max_features='sqrt',        # Optimize feature selection
+            bootstrap=True,
+            oob_score=True              # Out-of-bag scoring for validation
         )
         
         rf.fit(X, y)

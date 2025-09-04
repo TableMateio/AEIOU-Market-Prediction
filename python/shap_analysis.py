@@ -55,8 +55,76 @@ class AEIOUShapAnalyzer:
         
         print(f"🔍 Analyzing factor interactions for {target_col}")
         
-        # Get features and target
-        feature_cols = [col for col in df.columns if not col.startswith(('eventId', 'articleId', 'ticker', 'eventTimestamp', 'alpha_', 'volume_', 'volatility_'))]
+        # Get INPUT features (same logic as training script - COMPLETE 218 column schema)
+        input_feature_patterns = [
+            # Business factor core (12 fields)
+            'factor_name', 'factor_category', 'factor_magnitude', 'factor_movement',
+            'factor_synonyms', 'factor_unit', 'factor_raw_value', 'factor_delta',
+            'factor_description', 'factor_orientation', 'factor_about_time_days', 'factor_effect_horizon_days',
+            
+            # Causal analysis (4 fields)
+            'causal_certainty', 'logical_directness', 'regime_alignment', 'causal_step',
+            
+            # Event context (8 fields)  
+            'event_type', 'event_description', 'event_trigger', 'event_entities',
+            'event_scope', 'event_orientation', 'event_time_horizon_days', 'event_tags', 'event_quoted_people',
+            
+            # Article metadata (14 fields)
+            'article_headline', 'article_url', 'article_authors', 'article_source',
+            'article_source_credibility', 'article_author_credibility', 'article_publisher_credibility',
+            'article_audience_split', 'article_time_lag_days', 'article_market_regime',
+            'article_apple_relevance_score', 'article_ticker_relevance_score',
+            'article_published_year', 'article_published_month', 'article_published_day_of_week',
+            
+            # Evidence & sources (3 fields)
+            'evidence_level', 'evidence_source', 'evidence_citation',
+            
+            # Market consensus & narrative (3 fields)
+            'market_consensus_on_causality', 'reframing_potential', 'narrative_disruption',
+            
+            # Market perception (7 fields)
+            'market_perception_intensity', 'market_perception_hope_vs_fear',
+            'market_perception_surprise_vs_anticipated', 'market_perception_consensus_vs_division',
+            'market_perception_narrative_strength', 'market_perception_emotional_profile', 'market_perception_cognitive_biases',
+            
+            # AI assessments (5 fields)
+            'ai_assessment_execution_risk', 'ai_assessment_competitive_risk',
+            'ai_assessment_business_impact_likelihood', 'ai_assessment_timeline_realism', 'ai_assessment_fundamental_strength',
+            
+            # Perception gaps (3 fields)
+            'perception_gap_optimism_bias', 'perception_gap_risk_awareness', 'perception_gap_correction_potential',
+            
+            # Context features (3 fields)
+            'market_hours', 'market_regime', 'pattern_strength_score', 'data_quality_score'
+        ]
+        
+        # TARGET VARIABLES (what we predict TO) - exclude from features
+        target_patterns = [
+            'price_', 'spy_', 'qqq_', 'abs_change_', 'alpha_vs_', 
+            'volume_', 'volatility_', 'max_move_', 'reversal_', 'attention_',
+            'spy_momentum_', 'qqq_momentum_', 'confidence_'
+        ]
+        
+        # METADATA (not ML features)
+        metadata_patterns = [
+            'id', 'business_factor_id', 'article_id', 'causal_events_ai_id', 'ticker',
+            'event_timestamp', 'article_published_at', 'created_at', 'updated_at', 'processing_timestamp',
+            'processing_status', 'ml_split', 'business_event_index', 'causal_step_index',
+            'processing_time_ms', 'missing_data_points', 'approximation_quality'
+        ]
+        
+        feature_cols = []
+        for col in df.columns:
+            # Check if it's an input feature
+            is_input_feature = any(col == pattern or col.startswith(pattern) for pattern in input_feature_patterns)
+            
+            # Check if it's a target or metadata (exclude)
+            is_target = any(col.startswith(pattern) for pattern in target_patterns)
+            is_metadata = any(col == pattern or col.startswith(pattern) for pattern in metadata_patterns)
+            
+            # Include only input features that aren't targets or metadata
+            if is_input_feature and not is_target and not is_metadata:
+                feature_cols.append(col)
         
         X = df[feature_cols].fillna(0)
         y = df[target_col]
