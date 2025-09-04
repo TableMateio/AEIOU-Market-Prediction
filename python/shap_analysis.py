@@ -126,8 +126,26 @@ class AEIOUShapAnalyzer:
             if is_input_feature and not is_target and not is_metadata:
                 feature_cols.append(col)
         
-        X = df[feature_cols].fillna(0)
-        y = df[target_col]
+        # Handle categorical data preprocessing (same as training script)
+        from sklearn.preprocessing import LabelEncoder
+        
+        X = df[feature_cols].copy()
+        
+        # Process each column based on data type (same logic as training)
+        for col in feature_cols:
+            if col in X.columns:
+                # Check if column contains strings/categorical data
+                if X[col].dtype == 'object' or isinstance(X[col].iloc[0], str):
+                    # Handle categorical data with label encoding
+                    le = LabelEncoder()
+                    # Fill NaN values first
+                    X[col] = X[col].fillna('unknown')
+                    X[col] = le.fit_transform(X[col])
+                else:
+                    # Numeric columns - just fill NaN
+                    X[col] = X[col].fillna(0)
+        
+        y = df[target_col].fillna(0)
         
         # Sample data if too large (SHAP is computationally expensive)
         if len(X) > max_samples:
