@@ -32,7 +32,7 @@ class ActualMLPipelineRunner {
     }
 
     /**
-     * Run the complete ML pipeline
+     * Run the complete ML pipeline with comprehensive error logging
      */
     async runPipeline(config: Partial<PipelineConfig> = {}): Promise<void> {
         const fullConfig: PipelineConfig = {
@@ -45,36 +45,80 @@ class ActualMLPipelineRunner {
             ...config
         };
 
+        const startTime = Date.now();
         logger.info('🚀 Starting Actual ML Pipeline', fullConfig);
+        logger.info('💻 System Info: Mac Studio M1 Max - Expected runtime: 6-8 minutes');
+
+        const stepTimes: Record<string, number> = {};
 
         try {
             // Step 1: Load training data
+            logger.info('📊 Step 1/6: Loading training data...');
+            const step1Start = Date.now();
             const records = await this.loadTrainingData(fullConfig);
+            stepTimes.dataLoading = Date.now() - step1Start;
+            logger.info(`✅ Step 1 complete (${stepTimes.dataLoading}ms) - ${records.length} records loaded`);
 
             // Step 2: Analyze data quality
+            logger.info('🔍 Step 2/6: Analyzing data quality...');
+            const step2Start = Date.now();
             const analysis = this.featureEngineer.analyzeFeatureQuality(records);
             this.logAnalysis(analysis);
+            stepTimes.dataAnalysis = Date.now() - step2Start;
+            logger.info(`✅ Step 2 complete (${stepTimes.dataAnalysis}ms)`);
 
             // Step 3: Export to CSV
+            logger.info('📄 Step 3/6: Exporting data to CSV...');
+            const step3Start = Date.now();
             const csvPath = await this.exportData(records);
+            stepTimes.dataExport = Date.now() - step3Start;
+            logger.info(`✅ Step 3 complete (${stepTimes.dataExport}ms) - CSV: ${csvPath}`);
 
             // Step 4: Train Random Forest (Python)
             if (fullConfig.runTraining) {
+                logger.info('🌲 Step 4/6: Training Random Forest models...');
+                const step4Start = Date.now();
                 await this.runRandomForestTraining(csvPath, fullConfig.pythonEnv);
+                stepTimes.training = Date.now() - step4Start;
+                logger.info(`✅ Step 4 complete (${stepTimes.training}ms)`);
+            } else {
+                logger.info('⏭️  Step 4/6: Skipping Random Forest training');
             }
 
             // Step 5: Run SHAP analysis (Python)
             if (fullConfig.runSHAP) {
+                logger.info('🔗 Step 5/6: Running SHAP analysis...');
+                const step5Start = Date.now();
                 await this.runSHAPAnalysis(csvPath, fullConfig.pythonEnv);
+                stepTimes.shap = Date.now() - step5Start;
+                logger.info(`✅ Step 5 complete (${stepTimes.shap}ms)`);
+            } else {
+                logger.info('⏭️  Step 5/6: Skipping SHAP analysis');
             }
 
             // Step 6: Generate summary report
+            logger.info('📋 Step 6/6: Generating summary report...');
+            const step6Start = Date.now();
             await this.generateSummaryReport(records, analysis, csvPath);
+            stepTimes.reporting = Date.now() - step6Start;
+            logger.info(`✅ Step 6 complete (${stepTimes.reporting}ms)`);
 
-            logger.info('🎉 ML Pipeline completed successfully!');
+            const totalTime = Date.now() - startTime;
+            logger.info('🎉 ML Pipeline completed successfully!', {
+                totalTime: `${Math.round(totalTime / 1000)}s`,
+                stepTimes: Object.entries(stepTimes).map(([step, time]) =>
+                    `${step}: ${Math.round(time / 1000)}s`
+                ).join(', ')
+            });
 
-        } catch (error) {
-            logger.error('❌ ML Pipeline failed', error);
+        } catch (error: any) {
+            const totalTime = Date.now() - startTime;
+            logger.error('❌ ML Pipeline failed', {
+                error: error.message,
+                stack: error.stack,
+                timeToFailure: `${Math.round(totalTime / 1000)}s`,
+                completedSteps: Object.keys(stepTimes)
+            });
             throw error;
         }
     }
@@ -140,17 +184,26 @@ class ActualMLPipelineRunner {
      */
     private async runRandomForestTraining(csvPath: string, pythonEnv: string): Promise<void> {
         logger.info('🌲 Running Random Forest training...');
+        logger.info(`   📁 CSV Path: ${csvPath}`);
+        logger.info(`   🐍 Python Environment: ${pythonEnv}`);
 
         const pythonDir = '/Users/scottbergman/Dropbox/Projects/AEIOU/python';
         const command = `cd ${pythonDir} && ${pythonEnv} train_random_forest.py ${csvPath}`;
+
+        logger.info(`   🔧 Command: ${command}`);
 
         try {
             const { stdout, stderr } = await execAsync(command, {
                 maxBuffer: 1024 * 1024 * 10 // 10MB buffer
             });
 
+            // Log Python output for debugging
+            if (stdout) {
+                logger.info('🐍 Python stdout:', stdout.split('\n').slice(0, 20).join('\n')); // First 20 lines
+            }
+
             if (stderr) {
-                logger.warn('Python training warnings:', stderr);
+                logger.warn('🐍 Python stderr:', stderr);
             }
 
             // Parse JSON results if present
@@ -164,17 +217,42 @@ class ActualMLPipelineRunner {
                     logger.info('🎯 Training Results', {
                         modelsTraind: results.summary?.models_trained || 0,
                         avgAccuracy: results.summary?.avg_accuracy || 0,
-                        bestModel: results.summary?.best_model?.target || 'unknown'
+                        bestModel: results.summary?.best_model?.target || 'unknown',
+                        topFeatures: results.summary?.top_features?.slice(0, 5) || []
                     });
                 } catch (parseError) {
-                    logger.warn('Could not parse training results JSON');
+                    logger.warn('Could not parse training results JSON', parseError);
                 }
+            } else {
+                logger.warn('No JSON results found in Python output - check for errors');
             }
 
             logger.info('✅ Random Forest training completed');
 
         } catch (error: any) {
-            logger.error('❌ Random Forest training failed:', error.message);
+            logger.error('❌ Random Forest training failed', {
+                error: error.message,
+                command,
+                pythonDir,
+                csvExists: require('fs').existsSync(csvPath)
+            });
+
+            // Additional diagnostic info
+            try {
+                const fs = require('fs');
+                const pythonScriptExists = fs.existsSync(`${pythonDir}/train_random_forest.py`);
+                const requirementsExists = fs.existsSync(`${pythonDir}/requirements.txt`);
+
+                logger.error('🔍 Diagnostic Info', {
+                    pythonScriptExists,
+                    requirementsExists,
+                    csvPath,
+                    csvExists: fs.existsSync(csvPath)
+                });
+            } catch (diagError) {
+                logger.warn('Could not gather diagnostic info', diagError);
+            }
+
             throw error;
         }
     }

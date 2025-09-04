@@ -1,0 +1,72 @@
+{
+  "summary": {
+    "models_trained": 1,
+    "avg_accuracy": 1.0,
+    "std_accuracy": 0.0,
+    "avg_r2": 0.8546847773027966,
+    "best_model": {
+      "target": "alpha_vs_spy_1day_after",
+      "accuracy": 1.0
+    },
+    "worst_model": {
+      "target": "alpha_vs_spy_1day_after",
+      "accuracy": 1.0
+    },
+    "top_features_overall": [
+      {
+        "feature": "factor_magnitude",
+        "avg_importance": 1.0,
+        "std_importance": 0.0,
+        "model_count": 1
+      }
+    ],
+    "accuracy_distribution": {
+      "min": 1.0,
+      "max": 1.0,
+      "median": 1.0,
+      "q25": 1.0,
+      "q75": 1.0
+    }
+  },
+  "model_results": {
+    "alpha_vs_spy_1day_after": {
+      "target": "alpha_vs_spy_1day_after",
+      "model_type": "regression",
+      "accuracy": 1.0,
+      "mse": 5.5620854639581624e-05,
+      "mae": 0.007133739682539676,
+      "r2": 0.8546847773027966,
+      "cv_mean": -4.0923388475870475,
+      "cv_std": 5.229978493913635,
+      "feature_importance": [
+        {
+          "feature": "factor_magnitude",
+          "importance": 1.0,
+          "rank": 1
+        }
+      ],
+      "sample_size": {
+        "train": 40,
+        "test": 10
+      }
+    }
+  },
+  "config": {
+    "training_months": 8,
+    "validation_months": 2,
+    "n_estimators": 100,
+    "max_depth": 10,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "max_features": "sqrt",
+    "random_state": 42,
+    "cv_folds": 5
+  },
+  "data_info": {
+    "total_samples": 50,
+    "train_samples": 40,
+    "test_samples": 10,
+    "feature_count": 1,
+    "target_count": 27
+  }
+}

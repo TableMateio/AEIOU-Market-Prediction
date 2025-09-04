@@ -128,7 +128,14 @@ export class ActualDataFeatureEngineer {
 
     constructor() {
         const config = AppConfig.getInstance();
-        this.supabase = createClient(config.supabaseUrl, config.supabaseKey);
+        const supabaseUrl = config.supabaseConfig.projectUrl;
+        const supabaseKey = config.supabaseConfig.apiKey;
+
+        if (!supabaseUrl || !supabaseKey) {
+            throw new Error(`Missing Supabase configuration: url=${!!supabaseUrl}, key=${!!supabaseKey}`);
+        }
+
+        this.supabase = createClient(supabaseUrl, supabaseKey);
     }
 
     /**

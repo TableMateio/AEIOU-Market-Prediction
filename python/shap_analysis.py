@@ -365,19 +365,26 @@ class AEIOUShapAnalyzer:
         
         print("🌙 Analyzing after-hours vs market-hours articles...")
         
-        # Split by trading hours
-        market_hours_df = df[df['trading_hours'] == True]
-        after_hours_df = df[df['trading_hours'] == False]
+        # Split by trading hours (use market_hours column from our schema)
+        market_hours_col = 'market_hours' if 'market_hours' in df.columns else 'trading_hours'
+        
+        if market_hours_col in df.columns:
+            market_hours_df = df[df[market_hours_col] == 'regular']
+            after_hours_df = df[df[market_hours_col] != 'regular']
+        else:
+            # Fallback if no market hours column
+            market_hours_df = df
+            after_hours_df = pd.DataFrame()
         
         analysis = {
             "market_hours": {
                 "sample_count": len(market_hours_df),
-                "avg_alpha_1day": market_hours_df['alpha_vs_market_1day'].mean() if len(market_hours_df) > 0 else 0,
+                "avg_alpha_1day": market_hours_df['alpha_vs_spy_1day_after'].mean() if len(market_hours_df) > 0 and 'alpha_vs_spy_1day_after' in market_hours_df.columns else 0,
                 "avg_volatility": market_hours_df.get('volatility_spike', pd.Series()).mean() if len(market_hours_df) > 0 else 0
             },
             "after_hours": {
                 "sample_count": len(after_hours_df),
-                "avg_alpha_1day": after_hours_df['alpha_vs_market_1day'].mean() if len(after_hours_df) > 0 else 0,
+                "avg_alpha_1day": after_hours_df['alpha_vs_spy_1day_after'].mean() if len(after_hours_df) > 0 and 'alpha_vs_spy_1day_after' in after_hours_df.columns else 0,
                 "avg_volatility": after_hours_df.get('volatility_spike', pd.Series()).mean() if len(after_hours_df) > 0 else 0
             }
         }

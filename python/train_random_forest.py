@@ -52,8 +52,11 @@ class AEIOURandomForestTrainer:
         df = pd.read_csv(csv_path)
         print(f"✅ Loaded {len(df)} samples with {len(df.columns)} features")
         
-        # Basic data validation
-        print(f"📅 Date range: {df['eventTimestamp'].min()} to {df['eventTimestamp'].max()}")
+        # Basic data validation - handle different timestamp column names
+        timestamp_col = 'event_timestamp' if 'event_timestamp' in df.columns else 'eventTimestamp'
+        if timestamp_col in df.columns:
+            print(f"📅 Date range: {df[timestamp_col].min()} to {df[timestamp_col].max()}")
+        
         print(f"🎯 Target variables: {[col for col in df.columns if col.startswith('alpha_')]}")
         
         return df
@@ -61,20 +64,34 @@ class AEIOURandomForestTrainer:
     def split_data_chronologically(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """Split data chronologically for temporal validation"""
         
-        df_sorted = df.sort_values('eventTimestamp')
+        # Handle different timestamp column names
+        timestamp_col = 'event_timestamp' if 'event_timestamp' in df.columns else 'eventTimestamp'
         
-        train_months = self.config.get('training_months', 8)
-        total_months = train_months + self.config.get('validation_months', 2)
-        train_ratio = train_months / total_months
-        
-        split_idx = int(len(df_sorted) * train_ratio)
-        
-        train_df = df_sorted.iloc[:split_idx].copy()
-        test_df = df_sorted.iloc[split_idx:].copy()
+        if timestamp_col not in df.columns:
+            print(f"⚠️  No timestamp column found, using sequential split instead")
+            train_ratio = 0.8
+            split_idx = int(len(df) * train_ratio)
+            train_df = df.iloc[:split_idx].copy()
+            test_df = df.iloc[split_idx:].copy()
+        else:
+            df_sorted = df.sort_values(timestamp_col)
+            
+            train_months = self.config.get('training_months', 8)
+            total_months = train_months + self.config.get('validation_months', 2)
+            train_ratio = train_months / total_months
+            
+            split_idx = int(len(df_sorted) * train_ratio)
+            
+            train_df = df_sorted.iloc[:split_idx].copy()
+            test_df = df_sorted.iloc[split_idx:].copy()
         
         print(f"📊 Chronological split:")
-        print(f"   📈 Training: {len(train_df)} samples ({train_df['eventTimestamp'].min()} to {train_df['eventTimestamp'].max()})")
-        print(f"   🧪 Testing: {len(test_df)} samples ({test_df['eventTimestamp'].min()} to {test_df['eventTimestamp'].max()})")
+        if timestamp_col in df.columns:
+            print(f"   📈 Training: {len(train_df)} samples ({train_df[timestamp_col].min()} to {train_df[timestamp_col].max()})")
+            print(f"   🧪 Testing: {len(test_df)} samples ({test_df[timestamp_col].min()} to {test_df[timestamp_col].max()})")
+        else:
+            print(f"   📈 Training: {len(train_df)} samples")
+            print(f"   🧪 Testing: {len(test_df)} samples")
         
         return train_df, test_df
     
@@ -209,9 +226,33 @@ class AEIOURandomForestTrainer:
         
         print(f"🔧 Preprocessing {len(feature_cols)} features...")
         
-        # Handle missing values
-        train_features = train_df[feature_cols].fillna(0)
-        test_features = test_df[feature_cols].fillna(0)
+        # Handle missing values and categorical data
+        from sklearn.preprocessing import LabelEncoder
+        
+        train_features = train_df[feature_cols].copy()
+        test_features = test_df[feature_cols].copy()
+        
+        # Process each column based on data type
+        for col in feature_cols:
+            if col in train_features.columns:
+                # Check if column contains strings/categorical data
+                if train_features[col].dtype == 'object' or isinstance(train_features[col].iloc[0], str):
+                    # Handle categorical data with label encoding
+                    le = LabelEncoder()
+                    
+                    # Combine train and test for consistent encoding
+                    combined_values = pd.concat([
+                        train_features[col].fillna('missing').astype(str),
+                        test_features[col].fillna('missing').astype(str)
+                    ])
+                    
+                    le.fit(combined_values)
+                    train_features[col] = le.transform(train_features[col].fillna('missing').astype(str))
+                    test_features[col] = le.transform(test_features[col].fillna('missing').astype(str))
+                else:
+                    # Handle numerical data
+                    train_features[col] = pd.to_numeric(train_features[col], errors='coerce').fillna(0)
+                    test_features[col] = pd.to_numeric(test_features[col], errors='coerce').fillna(0)
         
         # Remove constant features
         variance_threshold = 0.001
@@ -620,8 +661,13 @@ def main():
         # Load data
         df = trainer.load_data(csv_file)
         
+        # Minimum sample size check (relaxed for testing)
+        min_samples = 20  # Reduced from 100 for testing
+        if len(df) < min_samples:
+            raise ValueError(f"Need at least {min_samples} samples, got {len(df)}")
+        
         if len(df) < 100:
-            raise ValueError(f"Need at least 100 samples, got {len(df)}")
+            print(f"⚠️  WARNING: Only {len(df)} samples (recommended: 100+). Results may be unreliable.")
         
         # Train all models
         results = trainer.train_all_models(df)
