@@ -23,6 +23,40 @@ npx tsx ai-pipeline.ts --batch --limit=50 --save
 
 # Submit all unprocessed articles to batch
 npx tsx ai-pipeline.ts --batch --limit=0 --save
+
+# Submit with offset for manual batching
+npx tsx ai-pipeline.ts --batch --limit=1000 --offset=1000 --save --force
+```
+
+### Batch Monitoring & Management
+```bash
+# Check batch status
+npx tsx ai-pipeline.ts --check-batch=batch_68b8dd087cf88190b870f9ca693c6ce2
+
+# Save completed batch results
+npx tsx ai-pipeline.ts --save-batch=batch_68b8dd087cf88190b870f9ca693c6ce2
+
+# Cancel batch (if still validating/in_progress)
+npx tsx ai-pipeline.ts --cancel-batch=batch_68b8dd087cf88190b870f9ca693c6ce2
+
+# Auto-monitor multiple batches (checks every 3 hours)
+npx tsx batch-monitor.ts --batches=batch_ID1,batch_ID2 --monitor --interval=180
+
+# One-time check all batches
+npx tsx batch-monitor.ts --batches=batch_ID1,batch_ID2
+```
+
+## 📋 **ACTIVE BATCHES - Stage 1 (Business Events)**
+
+**Current Processing (Started: 2025-01-03 20:27):**
+- **Batch 1**: `batch_68b8dd087cf88190b870f9ca693c6ce2` (1,000 articles, offset 0-999)
+- **Batch 2**: `batch_68b8dd2a29c88190a8035494bda59824` (520 articles, offset 1000-1519)
+- **Total**: 1,520 articles (all valid articles)
+- **Estimated completion**: 8-12 hours
+
+**Auto-Monitor Command:**
+```bash
+npx tsx batch-monitor.ts --batches=batch_68b8dd087cf88190b870f9ca693c6ce2,batch_68b8dd2a29c88190a8035494bda59824 --monitor --interval=180
 ```
 
 ## 🏗️ Current Pipeline Architecture

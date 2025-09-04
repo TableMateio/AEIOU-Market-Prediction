@@ -1,0 +1,20 @@
+{
+  "stage1Batches": [
+    {
+      "id": "batch_68b917720b008190a74fb1a553f6d8c3",
+      "status": "unknown",
+      "saved": false
+    },
+    {
+      "id": "batch_68b9177facb8819091232e0a061bc9e6",
+      "status": "unknown",
+      "saved": false
+    }
+  ],
+  "stage1Complete": false,
+  "businessEventsFlattened": false,
+  "stage2Batches": [],
+  "stage2Complete": false,
+  "causalEventsFlattened": false,
+  "allComplete": false
+}

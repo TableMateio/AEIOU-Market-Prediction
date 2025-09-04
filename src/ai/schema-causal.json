@@ -1,0 +1,471 @@
+{
+    "name": "causal_chain_analysis",
+    "schema": {
+        "type": "object",
+        "properties": {
+            "business_event": {
+                "type": "object",
+                "description": "The business event being analyzed (for reference)",
+                "properties": {
+                    "event_id": {
+                        "type": "string",
+                        "description": "ID from business_events_flat table"
+                    },
+                    "event_type": {
+                        "type": "string",
+                        "description": "Type of business event being analyzed"
+                    },
+                    "event_description": {
+                        "type": "string",
+                        "description": "Description of the business event"
+                    }
+                },
+                "required": [
+                    "event_id",
+                    "event_type",
+                    "event_description"
+                ],
+                "additionalProperties": false
+            },
+            "article": {
+                "type": "object",
+                "description": "Article metadata for context",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Article identifier"
+                    },
+                    "headline": {
+                        "type": "string",
+                        "description": "Article headline"
+                    },
+                    "source": {
+                        "type": "string",
+                        "description": "Article source"
+                    },
+                    "published_at": {
+                        "type": "string",
+                        "description": "Publication timestamp",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "id",
+                    "headline",
+                    "source",
+                    "published_at"
+                ],
+                "additionalProperties": false
+            },
+            "causal_chain": {
+                "type": "array",
+                "description": "Sequence of causal steps from business event to fundamentals",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "step": {
+                            "type": "number",
+                            "description": "Step index (0,1,2; branches 1.1, 1.2)"
+                        },
+                        "factor": {
+                            "type": "string",
+                            "description": "Atomic, binary or quantitative lever (e.g., product_launch, revenue_growth_rate, units_sold, costs, market_share, gross_margin)"
+                        },
+                        "factor_synonyms": {
+                            "type": "array",
+                            "description": "Related factor concepts for semantic richness",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "factor_category": {
+                            "type": "string",
+                            "description": "Factor category",
+                            "enum": [
+                                "financial",
+                                "sales",
+                                "customer",
+                                "product",
+                                "operations",
+                                "supply_chain",
+                                "regulatory",
+                                "legal",
+                                "hr",
+                                "marketing",
+                                "partnerships",
+                                "external",
+                                "other"
+                            ]
+                        },
+                        "factor_unit": {
+                            "type": "string",
+                            "description": "Measurement unit",
+                            "enum": [
+                                "%",
+                                "pp",
+                                "$",
+                                "days",
+                                "count",
+                                "index",
+                                "ratio",
+                                "rating",
+                                "binary",
+                                "n/a"
+                            ]
+                        },
+                        "raw_value": {
+                            "description": "Observed/estimated value if stated",
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "delta": {
+                            "description": "Change vs prior baseline",
+                            "anyOf": [
+                                {
+                                    "type": "number"
+                                },
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Plain-language explanation of this factor"
+                        },
+                        "movement": {
+                            "type": "integer",
+                            "description": "Direction of change (1 = up, -1 = down, 0 = unchanged)"
+                        },
+                        "magnitude": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Business impact as % of Apple's annual profits (0-1 scale)"
+                        },
+                        "orientation": {
+                            "type": "string",
+                            "enum": [
+                                "predictive",
+                                "reflective",
+                                "neutral"
+                            ],
+                            "description": "Perspective for this step"
+                        },
+                        "about_time_days": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "When this step's effect materializes (days from article)"
+                        },
+                        "effect_horizon_days": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "When consequence shows in fundamentals/market (days)"
+                        },
+                        "evidence_level": {
+                            "type": "string",
+                            "enum": [
+                                "explicit",
+                                "implied",
+                                "model"
+                            ],
+                            "description": "Directness of evidence"
+                        },
+                        "evidence_source": {
+                            "type": "string",
+                            "enum": [
+                                "article_text",
+                                "press_release",
+                                "analyst_report",
+                                "company_statement",
+                                "regulatory_filing",
+                                "model_inference",
+                                "social_media",
+                                "other"
+                            ],
+                            "description": "Source category"
+                        },
+                        "evidence_citation": {
+                            "description": "Optional citation (URL, quote, anchor)",
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                            ]
+                        },
+                        "causal_certainty": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "How certain is this causal step given the previous one"
+                        },
+                        "logical_directness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "How direct is the causal connection vs requiring intermediate steps"
+                        },
+                        "market_consensus_on_causality": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "How much does the market agree this causal step makes sense"
+                        },
+                        "regime_alignment": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "How much this aligns with current market regime expectations"
+                        },
+                        "reframing_potential": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "How easily can this be reframed to fit dominant narrative"
+                        },
+                        "narrative_disruption": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "How much this challenges current market narrative"
+                        },
+                        "belief": {
+                            "type": "object",
+                            "properties": {
+                                "market_perception": {
+                                    "type": "object",
+                                    "description": "What investors and the market believe",
+                                    "properties": {
+                                        "intensity": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "Market attention and emotional buzz level"
+                                        },
+                                        "hope_vs_fear": {
+                                            "type": "number",
+                                            "minimum": -1,
+                                            "maximum": 1,
+                                            "description": "Market's emotional valence about outcomes"
+                                        },
+                                        "surprise_vs_anticipated": {
+                                            "type": "number",
+                                            "minimum": -1,
+                                            "maximum": 1,
+                                            "description": "How expected vs shocking the market finds this"
+                                        },
+                                        "consensus_vs_division": {
+                                            "type": "number",
+                                            "minimum": -1,
+                                            "maximum": 1,
+                                            "description": "Market agreement level on interpretation"
+                                        },
+                                        "narrative_strength": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "How compelling the market's story is"
+                                        },
+                                        "emotional_profile": {
+                                            "type": "array",
+                                            "description": "Market emotions detected",
+                                            "items": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "anticipation",
+                                                    "excitement",
+                                                    "optimism",
+                                                    "confidence",
+                                                    "relief",
+                                                    "satisfaction",
+                                                    "interest",
+                                                    "surprise",
+                                                    "uncertainty",
+                                                    "concern",
+                                                    "skepticism",
+                                                    "disappointment",
+                                                    "fear",
+                                                    "anger",
+                                                    "disgust",
+                                                    "indifference",
+                                                    "FOMO",
+                                                    "greed",
+                                                    "euphoria",
+                                                    "panic",
+                                                    "dread",
+                                                    "complacency"
+                                                ]
+                                            }
+                                        },
+                                        "cognitive_biases": {
+                                            "type": "array",
+                                            "description": "Psychological biases influencing interpretation",
+                                            "items": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "availability_heuristic",
+                                                    "anchoring_bias",
+                                                    "confirmation_bias",
+                                                    "optimism_bias",
+                                                    "overconfidence_bias",
+                                                    "loss_aversion",
+                                                    "sunk_cost_fallacy",
+                                                    "hindsight_bias",
+                                                    "recency_bias",
+                                                    "herding_behavior",
+                                                    "authority_bias",
+                                                    "halo_effect",
+                                                    "planning_fallacy",
+                                                    "survivorship_bias",
+                                                    "dunning_kruger_effect"
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "intensity",
+                                        "hope_vs_fear",
+                                        "surprise_vs_anticipated",
+                                        "consensus_vs_division",
+                                        "narrative_strength",
+                                        "emotional_profile",
+                                        "cognitive_biases"
+                                    ],
+                                    "additionalProperties": false
+                                },
+                                "ai_assessment": {
+                                    "type": "object",
+                                    "description": "Analytical perspective on business reality",
+                                    "properties": {
+                                        "execution_risk": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "Likelihood of implementation challenges"
+                                        },
+                                        "competitive_risk": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "Risk of competitive response undermining impact"
+                                        },
+                                        "business_impact_likelihood": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "Probability of achieving claimed business impact"
+                                        },
+                                        "timeline_realism": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "Realism of proposed timeline"
+                                        },
+                                        "fundamental_strength": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "How sound the underlying business logic is"
+                                        }
+                                    },
+                                    "required": [
+                                        "execution_risk",
+                                        "competitive_risk",
+                                        "business_impact_likelihood",
+                                        "timeline_realism",
+                                        "fundamental_strength"
+                                    ],
+                                    "additionalProperties": false
+                                },
+                                "perception_gap": {
+                                    "type": "object",
+                                    "description": "Gaps between market perception and analytical assessment",
+                                    "properties": {
+                                        "optimism_bias": {
+                                            "type": "number",
+                                            "minimum": -1,
+                                            "maximum": 1,
+                                            "description": "Is market over/under-confident vs analysis"
+                                        },
+                                        "risk_awareness": {
+                                            "type": "number",
+                                            "minimum": -1,
+                                            "maximum": 1,
+                                            "description": "How well market understands real risks"
+                                        },
+                                        "correction_potential": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1,
+                                            "description": "Likelihood of perception shifting toward reality"
+                                        }
+                                    },
+                                    "required": [
+                                        "optimism_bias",
+                                        "risk_awareness",
+                                        "correction_potential"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            },
+                            "required": [
+                                "market_perception",
+                                "ai_assessment",
+                                "perception_gap"
+                            ],
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "step",
+                        "factor",
+                        "factor_synonyms",
+                        "factor_category",
+                        "factor_unit",
+                        "raw_value",
+                        "delta",
+                        "description",
+                        "movement",
+                        "magnitude",
+                        "orientation",
+                        "about_time_days",
+                        "effect_horizon_days",
+                        "evidence_level",
+                        "evidence_source",
+                        "evidence_citation",
+                        "causal_certainty",
+                        "logical_directness",
+                        "market_consensus_on_causality",
+                        "regime_alignment",
+                        "reframing_potential",
+                        "narrative_disruption",
+                        "belief"
+                    ],
+                    "additionalProperties": false
+                }
+            }
+        },
+        "required": [
+            "business_event",
+            "article",
+            "causal_chain"
+        ],
+        "additionalProperties": false
+    },
+    "strict": true
+}
