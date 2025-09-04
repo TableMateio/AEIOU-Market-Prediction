@@ -22,7 +22,9 @@ const logger = createLogger('MLDataProcessor');
 
 interface ProcessingOptions {
     mode: 'test' | 'single' | 'batch' | 'fill-gaps' | 'assign-splits' | 'create-test-data';
-    force?: boolean;           // Overwrite existing data
+    force?: boolean;           // DEPRECATED: Use --force-process and --force-overwrite instead
+    forceProcess?: boolean;    // Process records even if processing_status != 'pending'
+    forceOverwrite?: boolean;  // Overwrite existing records in ml_training_data
     limit?: number;           // Limit number to process
     causalEventId?: string;   // For single mode
     split?: 'training' | 'testing' | 'validation'; // For fill-gaps mode
@@ -98,7 +100,7 @@ export class MLDataProcessor {
      */
     async processCausalEvent(
         causalEventId: string,
-        options: { force?: boolean; ticker?: string } = {}
+        options: { force?: boolean; forceOverwrite?: boolean; ticker?: string } = {}
     ): Promise<ProcessingResult> {
         const startTime = Date.now();
 
@@ -114,8 +116,9 @@ export class MLDataProcessor {
 
             logger.info('🔄 Processing causal event', { causalEventId, ticker });
 
-            // Check if already processed (unless force)
-            if (!options.force) {
+            // Check if already processed (unless force overwrite)
+            const forceOverwrite = options.forceOverwrite || options.force; // Support legacy flag
+            if (!forceOverwrite) {
                 const existing = await this.checkExistingRecord(causalEventId);
                 if (existing) {
                     logger.info('⏭️ Already processed, skipping', { causalEventId });
@@ -1102,7 +1105,9 @@ export class MLDataProcessor {
             .from('causal_events_flat')
             .select('id, article_id, event_type, event_description, article_published_at');
 
-        if (!options.force) {
+        // Handle force processing logic
+        const forceProcess = options.forceProcess || options.force; // Support legacy flag
+        if (!forceProcess) {
             // Only process unprocessed items (check processing_status in source table)
             query = query.eq('processing_status', 'pending');
         }
@@ -1143,7 +1148,8 @@ export class MLDataProcessor {
 
             const batchResults = await Promise.all(
                 batch.map(ce => this.processCausalEvent(ce.id, {
-                    force: options.force,
+                    force: options.force, // Legacy support
+                    forceOverwrite: options.forceOverwrite,
                     ticker: options.ticker
                 }))
             );
@@ -1282,7 +1288,17 @@ async function main() {
         .option('force', {
             type: 'boolean',
             default: false,
-            description: 'Overwrite existing records'
+            description: '[DEPRECATED] Use --force-process and --force-overwrite instead'
+        })
+        .option('force-process', {
+            type: 'boolean',
+            default: false,
+            description: 'Process records even if processing_status != pending'
+        })
+        .option('force-overwrite', {
+            type: 'boolean',
+            default: false,
+            description: 'Overwrite existing records in ml_training_data'
         })
         .option('limit', {
             type: 'number',
@@ -1308,7 +1324,11 @@ async function main() {
         .argv;
 
     const processor = new MLDataProcessor();
-    const options = argv as ProcessingOptions;
+    const options: ProcessingOptions = {
+        ...argv,
+        forceProcess: argv['force-process'] || argv.force, // Support both new and legacy flags
+        forceOverwrite: argv['force-overwrite'] || argv.force // Support both new and legacy flags
+    } as ProcessingOptions;
 
     try {
         switch (options.mode) {
