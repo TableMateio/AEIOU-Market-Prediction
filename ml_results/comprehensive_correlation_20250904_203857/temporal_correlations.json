@@ -1,0 +1,24 @@
+{
+  "future_1day_spy": {
+    "target_column": "alpha_vs_spy_1day_after",
+    "mean_alpha": -0.29528663453227366,
+    "std_alpha": 0.05530139327322155,
+    "positive_rate": 0.0,
+    "correlations": {
+      "factor_magnitude": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "factor_movement": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "factor_category": {
+        "correlation": 0.19491068424787128,
+        "p_value": 0.05198202709408329,
+        "abs_correlation": 0.19491068424787128,
+        "significant": 
