@@ -1,0 +1,168 @@
+{
+  "ai": {
+    "category": "Technology",
+    "original_terms": [
+      "AI",
+      "AI_chip",
+      "AI_infrastructure",
+      "AI_investment",
+      "supply_chain"
+    ]
+  },
+  "semiconductor": {
+    "category": "Technology",
+    "original_terms": [
+      "chip_supply",
+      "semiconductor"
+    ]
+  },
+  "cloud_computing": {
+    "category": "Technology",
+    "original_terms": [
+      "cloud_services",
+      "data_center"
+    ]
+  },
+  "software": {
+    "category": "Technology",
+    "original_terms": [
+      "app_store",
+      "apple_intelligence",
+      "apple_pay",
+      "apple_tv",
+      "enterprise_software"
+    ]
+  },
+  "hardware": {
+    "category": "Technology",
+    "original_terms": [
+      "hardware"
+    ]
+  },
+  "financial_services": {
+    "category": "Business Functions",
+    "original_terms": [
+      "financial_services"
+    ]
+  },
+  "marketing": {
+    "category": "Business Functions",
+    "original_terms": [
+      "advertising"
+    ]
+  },
+  "sales": {
+    "category": "Business Functions",
+    "original_terms": [
+      "revenue_growth"
+    ]
+  },
+  "operations": {
+    "category": "Business Functions",
+    "original_terms": [
+      "manufacturing"
+    ]
+  },
+  "human_resources": {
+    "category": "Business Functions",
+    "original_terms": []
+  },
+  "consumer_market": {
+    "category": "Market Segments",
+    "original_terms": []
+  },
+  "enterprise_market": {
+    "category": "Market Segments",
+    "original_terms": [
+      "business_strategy"
+    ]
+  },
+  "international": {
+    "category": "Market Segments",
+    "original_terms": []
+  },
+  "regulatory": {
+    "category": "Regulatory",
+    "original_terms": [
+      "legal_ruling",
+      "regulatory"
+    ]
+  },
+  "privacy": {
+    "category": "Regulatory",
+    "original_terms": [
+      "privacy"
+    ]
+  },
+  "antitrust": {
+    "category": "Regulatory",
+    "original_terms": [
+      "antitrust"
+    ]
+  },
+  "earnings": {
+    "category": "Financial",
+    "original_terms": [
+      "earnings"
+    ]
+  },
+  "investment": {
+    "category": "Financial",
+    "original_terms": [
+      "capital_allocation",
+      "investment_strategy"
+    ]
+  },
+  "valuation": {
+    "category": "Financial",
+    "original_terms": [
+      "valuation"
+    ]
+  },
+  "general": {
+    "category": "General",
+    "original_terms": [
+      "acquisition",
+      "analyst_rating",
+      "autonomous_vehicle",
+      "brand_reputation",
+      "china",
+      "competitive_pressure",
+      "cost_increase",
+      "cryptocurrency",
+      "customer_demand",
+      "cybersecurity",
+      "DEI_policy",
+      "ecommerce",
+      "energy",
+      "ev_market",
+      "executive_change",
+      "export_controls",
+      "gaming",
+      "geopolitical",
+      "government_policy",
+      "india",
+      "investor_sentiment",
+      "iphone",
+      "macroeconomic",
+      "market_sentiment",
+      "market_share",
+      "metaverse",
+      "nuclear_energy",
+      "operating_margin",
+      "partnership",
+      "payment_processing",
+      "product_innovation",
+      "product_launch",
+      "production_shift",
+      "search_engine",
+      "services",
+      "space_technology",
+      "streaming",
+      "tariff",
+      "technology_integration",
+      "trade_policy",
+      "VR_AR"
+    ]
+  }
+}

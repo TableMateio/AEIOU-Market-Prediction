@@ -1,0 +1,14 @@
+article_id,article_published_at,factor_name,factor_magnitude,factor_movement,article_source_credibility,market_perception_intensity,market_perception_surprise_vs_anticipated,alpha_vs_spy_1day_after
+306ac881-7309-4cfc-b1d2-b2dcf3880e4d,2025-09-03 14:15:00+00,revenue_growth_rate,0.01,1,0.1,0.3,-0.1,0
+306ac881-7309-4cfc-b1d2-b2dcf3880e4d,2025-09-03 14:15:00+00,media_distribution_partnership,0.01,1,0.1,0.5,-0.1,0
+cc4f7b2b-cfa8-4882-a11b-beb72d6ff5e3,2025-06-05 23:10:16+00,wwdc_event_start,0,1,0.3,0.6,-0.1,0.8586481915730919
+cc4f7b2b-cfa8-4882-a11b-beb72d6ff5e3,2025-06-05 23:10:16+00,investor_sentiment_index,0.01,-1,0.3,0.5,-0.1,0.8586481915730919
+5717e683-6820-40c2-acdf-48a6db16b360,2025-06-05 21:29:07+00,competitive_advantage_erosion,0.02,-1,0.4,0.7,0.3,0.39762767056825754
+5717e683-6820-40c2-acdf-48a6db16b360,2025-06-05 21:29:07+00,market_share,0.02,-1,0.4,0.5,,0.39762767056825754
+f2af8e7e-2194-4a88-8180-d37042291708,2025-06-05 20:21:05+00,market_share,0.015,-1,0.7,0.4,-0.1,0.5086257248066293
+f2af8e7e-2194-4a88-8180-d37042291708,2025-06-05 20:21:05+00,operating_margin,0.01,-1,0.7,0.2,-0.2,0.5086257248066293
+397b098f-3edc-4426-8e24-486c81cb591b,2025-06-05 19:40:26+00,manufacturing_efficiency_index,0.015,1,0.5,0.3,-0.1,1.138489304331308
+397b098f-3edc-4426-8e24-486c81cb591b,2025-06-05 19:40:26+00,facility_investment,0.02,1,0.5,0.4,-0.2,1.138489304331308
+test-high-alpha,2025-06-04 10:00:00+00,revenue_growth_rate,0.05,1,0.8,0.8,0.3,2.5
+test-negative-alpha,2025-06-03 15:00:00+00,competitive_pressure,0.03,-1,0.6,0.7,0.2,-1.2
+test-medium-alpha,2025-06-02 12:00:00+00,market_share,0.02,1,0.5,0.5,0.0,0.5

@@ -1,0 +1,279 @@
+{
+    "ai": {
+        "category": "Technology & Innovation",
+        "original_terms": [
+            "AI",
+            "AI_chip",
+            "AI_infrastructure",
+            "AI_investment",
+            "apple_intelligence"
+        ]
+    },
+    "hardware": {
+        "category": "Technology & Innovation",
+        "original_terms": [
+            "hardware",
+            "chip_supply",
+            "semiconductor",
+            "iphone"
+        ]
+    },
+    "software": {
+        "category": "Technology & Innovation",
+        "original_terms": [
+            "software",
+            "enterprise_software"
+        ]
+    },
+    "cloud_services": {
+        "category": "Technology & Innovation",
+        "original_terms": [
+            "cloud_services",
+            "data_center"
+        ]
+    },
+    "cybersecurity": {
+        "category": "Technology & Innovation",
+        "original_terms": [
+            "cybersecurity",
+            "privacy"
+        ]
+    },
+    "vr_ar": {
+        "category": "Technology & Innovation",
+        "original_terms": [
+            "VR_AR",
+            "metaverse"
+        ]
+    },
+    "autonomous_tech": {
+        "category": "Technology & Innovation",
+        "original_terms": [
+            "autonomous_vehicle",
+            "ev_market"
+        ]
+    },
+    "payment_processing": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "apple_pay",
+            "cryptocurrency",
+            "payment_processing"
+        ]
+    },
+    "earnings": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "earnings"
+        ]
+    },
+    "revenue_growth": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "revenue_growth"
+        ]
+    },
+    "operating_margin": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "operating_margin"
+        ]
+    },
+    "valuation": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "valuation"
+        ]
+    },
+    "market_sentiment": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "market_sentiment"
+        ]
+    },
+    "investor_sentiment": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "investor_sentiment"
+        ]
+    },
+    "capital_allocation": {
+        "category": "Financial & Markets",
+        "original_terms": [
+            "capital_allocation",
+            "investment_strategy"
+        ]
+    },
+    "product_innovation": {
+        "category": "Business Operations",
+        "original_terms": [
+            "product_innovation",
+            "technology_integration"
+        ]
+    },
+    "manufacturing": {
+        "category": "Business Operations",
+        "original_terms": [
+            "manufacturing",
+            "production_shift"
+        ]
+    },
+    "supply_chain": {
+        "category": "Business Operations",
+        "original_terms": [
+            "supply_chain"
+        ]
+    },
+    "partnership": {
+        "category": "Business Operations",
+        "original_terms": [
+            "partnership"
+        ]
+    },
+    "acquisition": {
+        "category": "Business Operations",
+        "original_terms": [
+            "acquisition"
+        ]
+    },
+    "competitive_pressure": {
+        "category": "Business Operations",
+        "original_terms": [
+            "competitive_pressure"
+        ]
+    },
+    "regulatory": {
+        "category": "Regulatory & Legal",
+        "original_terms": [
+            "regulatory",
+            "government_policy",
+            "DEI_policy"
+        ]
+    },
+    "legal_ruling": {
+        "category": "Regulatory & Legal",
+        "original_terms": [
+            "legal_ruling",
+            "antitrust"
+        ]
+    },
+    "trade_policy": {
+        "category": "Regulatory & Legal",
+        "original_terms": [
+            "trade_policy",
+            "tariff",
+            "export_controls"
+        ]
+    },
+    "market_share": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "market_share"
+        ]
+    },
+    "customer_demand": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "customer_demand"
+        ]
+    },
+    "brand_reputation": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "brand_reputation"
+        ]
+    },
+    "advertising": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "advertising"
+        ]
+    },
+    "ecommerce": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "ecommerce"
+        ]
+    },
+    "financial_services": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "financial_services"
+        ]
+    },
+    "gaming": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "gaming"
+        ]
+    },
+    "streaming": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "streaming",
+            "apple_tv"
+        ]
+    },
+    "energy": {
+        "category": "Market & Industry",
+        "original_terms": [
+            "energy",
+            "nuclear_energy",
+            "space_technology"
+        ]
+    },
+    "geopolitical": {
+        "category": "Geographic & Political",
+        "original_terms": [
+            "geopolitical"
+        ]
+    },
+    "china": {
+        "category": "Geographic & Political",
+        "original_terms": [
+            "china"
+        ]
+    },
+    "india": {
+        "category": "Geographic & Political",
+        "original_terms": [
+            "india"
+        ]
+    },
+    "macroeconomic": {
+        "category": "Geographic & Political",
+        "original_terms": [
+            "macroeconomic"
+        ]
+    },
+    "executive_change": {
+        "category": "Corporate Governance",
+        "original_terms": [
+            "executive_change"
+        ]
+    },
+    "cost_increase": {
+        "category": "External Factors",
+        "original_terms": [
+            "cost_increase"
+        ]
+    },
+    "business_strategy": {
+        "category": "Business Operations",
+        "original_terms": [
+            "business_strategy"
+        ]
+    },
+    "services": {
+        "category": "Business Operations",
+        "original_terms": [
+            "services"
+        ]
+    },
+    "product_launch": {
+        "category": "Business Operations",
+        "original_terms": [
+            "product_launch"
+        ]
+    }
+}

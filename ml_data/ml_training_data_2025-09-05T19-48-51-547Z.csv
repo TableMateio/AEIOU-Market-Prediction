@@ -1,0 +1,959 @@
+{
+  "generated_at": "2025-09-05T19:48:51.554Z",
+  "source_table": "ml_training_data",
+  "record_count": 1000,
+  "data_quality_filter": 0.3,
+  "target_variables": [
+    "alpha_vs_spy_1min_after",
+    "alpha_vs_spy_5min_after",
+    "alpha_vs_spy_10min_after",
+    "alpha_vs_spy_30min_after",
+    "alpha_vs_spy_1hour_after",
+    "alpha_vs_spy_1day_after",
+    "alpha_vs_spy_1week_after",
+    "alpha_vs_spy_1month_after",
+    "alpha_vs_qqq_1day_after",
+    "volume_relative_20day",
+    "volatility_shock_ratio"
+  ],
+  "feature_count": 44,
+  "column_info": {
+    "id": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 1000
+    },
+    "article_id": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 122
+    },
+    "ticker": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 1
+    },
+    "event_timestamp": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 121
+    },
+    "alpha_vs_spy_1min_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 105,
+      "statistics": {
+        "mean": 0.0009926702264501175,
+        "median": 0,
+        "min": -0.8030433723258831,
+        "max": 2.4023666653383344,
+        "std": 0.3223391208468066
+      }
+    },
+    "alpha_vs_spy_5min_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 105,
+      "statistics": {
+        "mean": 0.010713790651495865,
+        "median": 0.007449412845057301,
+        "min": -0.7248083218223768,
+        "max": 2.3595720538854756,
+        "std": 0.328349114556303
+      }
+    },
+    "alpha_vs_spy_10min_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 105,
+      "statistics": {
+        "mean": 0.007793936771802544,
+        "median": 0,
+        "min": -0.7599067738070175,
+        "max": 2.514361698780813,
+        "std": 0.33963561459431263
+      }
+    },
+    "alpha_vs_spy_30min_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 105,
+      "statistics": {
+        "mean": -0.03036896400494292,
+        "median": 0,
+        "min": -0.773808420185032,
+        "max": 2.299507748710649,
+        "std": 0.340458918025754
+      }
+    },
+    "alpha_vs_spy_1hour_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 105,
+      "statistics": {
+        "mean": -0.059009559343832146,
+        "median": -0.03921870624993673,
+        "min": -1.3731589865962905,
+        "max": 2.5285440729547077,
+        "std": 0.44066479249536405
+      }
+    },
+    "alpha_vs_spy_1day_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 85,
+      "statistics": {
+        "mean": -0.40880417568968946,
+        "median": -0.007706725117575808,
+        "min": -2.501179063080217,
+        "max": 1.138489304331308,
+        "std": 0.8275651587354785
+      }
+    },
+    "alpha_vs_spy_1week_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 107,
+      "statistics": {
+        "mean": -0.7575243367375277,
+        "median": -0.854862188940251,
+        "min": -3.5018690315285146,
+        "max": 2.7241538225203654,
+        "std": 1.4240514284559964
+      }
+    },
+    "alpha_vs_spy_1month_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 102,
+      "statistics": {
+        "mean": -1.438104957759576,
+        "median": -2.039709400363174,
+        "min": -4.958489950694649,
+        "max": 2.6995237851400566,
+        "std": 1.8377873652476444
+      }
+    },
+    "alpha_vs_qqq_1day_after": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 85,
+      "statistics": {
+        "mean": -0.3928603343603223,
+        "median": -0.09900990099009338,
+        "min": -2.17693470484698,
+        "max": 1.304829389686284,
+        "std": 0.7626349689364311
+      }
+    },
+    "volume_relative_20day": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 1,
+      "statistics": {
+        "mean": 0,
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "std": 0
+      }
+    },
+    "volatility_shock_ratio": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 1,
+      "statistics": {
+        "mean": 0,
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "std": 0
+      }
+    },
+    "factor_name": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 443
+    },
+    "factor_category": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 13
+    },
+    "factor_magnitude": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 21,
+      "statistics": {
+        "mean": 0.016494999999999913,
+        "median": 0.015,
+        "min": 0,
+        "max": 0.25,
+        "std": 0.017518104206791386
+      }
+    },
+    "factor_movement": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3,
+      "statistics": {
+        "mean": 0.323,
+        "median": 1,
+        "min": -1,
+        "max": 1,
+        "std": 0.9266450237280904
+      }
+    },
+    "causal_certainty": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 13,
+      "statistics": {
+        "mean": 0.7963500000000018,
+        "median": 0.8,
+        "min": 0.2,
+        "max": 1,
+        "std": 0.1414714723893118
+      }
+    },
+    "logical_directness": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 10,
+      "statistics": {
+        "mean": 0.7876000000000014,
+        "median": 0.8,
+        "min": 0.3,
+        "max": 1,
+        "std": 0.13472653784611277
+      }
+    },
+    "regime_alignment": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 14,
+      "statistics": {
+        "mean": 0.20324999999999954,
+        "median": 0.2,
+        "min": -0.4,
+        "max": 0.8,
+        "std": 0.23377753848477437
+      }
+    },
+    "event_type": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 125
+    },
+    "event_orientation": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 4
+    },
+    "event_scope": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 2
+    },
+    "event_trigger": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 4
+    },
+    "event_time_horizon_days": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 20,
+      "statistics": {
+        "mean": 539.746,
+        "median": 365,
+        "min": 7,
+        "max": 4745,
+        "std": 743.6987948652339
+      }
+    },
+    "article_source": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 17
+    },
+    "article_source_credibility": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 6,
+      "statistics": {
+        "mean": 0.4199000000000003,
+        "median": 0.5,
+        "min": 0.1,
+        "max": 0.9,
+        "std": 0.20864800502281203
+      }
+    },
+    "article_author_credibility": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3,
+      "statistics": {
+        "mean": 0.24700000000000133,
+        "median": 0.3,
+        "min": 0.1,
+        "max": 0.5,
+        "std": 0.10368702908271606
+      }
+    },
+    "article_publisher_credibility": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 5,
+      "statistics": {
+        "mean": 0.6128000000000013,
+        "median": 0.7,
+        "min": 0.3,
+        "max": 0.8,
+        "std": 0.11373724104267742
+      }
+    },
+    "article_audience_split": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3
+    },
+    "article_time_lag_days": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 13,
+      "statistics": {
+        "mean": 2.5651999999999955,
+        "median": 0,
+        "min": 0,
+        "max": 364,
+        "std": 23.272966483884257
+      }
+    },
+    "article_market_regime": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3
+    },
+    "article_apple_relevance_score": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 1,
+      "statistics": {
+        "mean": 0,
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "std": 0
+      }
+    },
+    "article_published_year": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 1,
+      "statistics": {
+        "mean": 2025,
+        "median": 2025,
+        "min": 2025,
+        "max": 2025,
+        "std": 0
+      }
+    },
+    "article_published_month": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3,
+      "statistics": {
+        "mean": 5.201,
+        "median": 5,
+        "min": 5,
+        "max": 9,
+        "std": 0.5065560186198558
+      }
+    },
+    "article_published_day_of_week": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 5,
+      "statistics": {
+        "mean": 3.949,
+        "median": 4,
+        "min": 2,
+        "max": 6,
+        "std": 1.1438527003071788
+      }
+    },
+    "market_regime": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3
+    },
+    "market_hours": {
+      "type": "boolean",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 2
+    },
+    "spy_momentum_30day_pct": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 102,
+      "statistics": {
+        "mean": 7.565824963335732,
+        "median": 7.42815436547761,
+        "min": 0,
+        "max": 15.82684424219838,
+        "std": 4.136008277836467
+      }
+    },
+    "qqq_momentum_30day_pct": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 102,
+      "statistics": {
+        "mean": 10.913804101396165,
+        "median": 10.64033946734332,
+        "min": 0,
+        "max": 21.42010002647979,
+        "std": 5.7179214398424465
+      }
+    },
+    "market_perception_intensity": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 10,
+      "statistics": {
+        "mean": 0.5203000000000008,
+        "median": 0.5,
+        "min": 0.1,
+        "max": 0.9,
+        "std": 0.14461296622364048
+      }
+    },
+    "market_perception_hope_vs_fear": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 17,
+      "statistics": {
+        "mean": 0.04304999999999995,
+        "median": 0,
+        "min": -0.6,
+        "max": 0.7,
+        "std": 0.31110962296271194
+      }
+    },
+    "market_perception_surprise_vs_anticipated": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 13,
+      "statistics": {
+        "mean": 0.03165000000000001,
+        "median": 0,
+        "min": -0.5,
+        "max": 0.6,
+        "std": 0.18894649374889108
+      }
+    },
+    "market_perception_consensus_vs_division": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 10,
+      "statistics": {
+        "mean": 0.4879999999999999,
+        "median": 0.5,
+        "min": -0.1,
+        "max": 0.8,
+        "std": 0.16939893742287537
+      }
+    },
+    "market_perception_narrative_strength": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 12,
+      "statistics": {
+        "mean": 0.5405500000000011,
+        "median": 0.55,
+        "min": 0.1,
+        "max": 0.8,
+        "std": 0.12342284026872923
+      }
+    },
+    "ai_assessment_execution_risk": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 11,
+      "statistics": {
+        "mean": 0.29280000000000056,
+        "median": 0.3,
+        "min": 0.1,
+        "max": 0.7,
+        "std": 0.12850354080724802
+      }
+    },
+    "ai_assessment_competitive_risk": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 9,
+      "statistics": {
+        "mean": 0.47055000000000086,
+        "median": 0.5,
+        "min": 0.1,
+        "max": 0.8,
+        "std": 0.15464539275387432
+      }
+    },
+    "ai_assessment_business_impact_likelihood": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 16,
+      "statistics": {
+        "mean": 0.6974500000000022,
+        "median": 0.7,
+        "min": 0,
+        "max": 1,
+        "std": 0.13381329343529455
+      }
+    },
+    "ai_assessment_timeline_realism": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 10,
+      "statistics": {
+        "mean": 0.721400000000003,
+        "median": 0.7,
+        "min": 0,
+        "max": 1,
+        "std": 0.10247946135689855
+      }
+    },
+    "ai_assessment_fundamental_strength": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 15,
+      "statistics": {
+        "mean": 0.7677500000000007,
+        "median": 0.8,
+        "min": 0,
+        "max": 1,
+        "std": 0.11365490530549034
+      }
+    },
+    "perception_gap_optimism_bias": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 16,
+      "statistics": {
+        "mean": -0.0027000000000000084,
+        "median": 0.05,
+        "min": -0.4,
+        "max": 0.5,
+        "std": 0.16841232140197004
+      }
+    },
+    "perception_gap_risk_awareness": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 22,
+      "statistics": {
+        "mean": 0.38359999999999955,
+        "median": 0.5,
+        "min": -0.4,
+        "max": 1,
+        "std": 0.31997037362855757
+      }
+    },
+    "perception_gap_correction_potential": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 15,
+      "statistics": {
+        "mean": 0.3688000000000004,
+        "median": 0.4,
+        "min": 0,
+        "max": 0.9,
+        "std": 0.12100231402745938
+      }
+    },
+    "factor_about_time_days": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 29,
+      "statistics": {
+        "mean": 136.156,
+        "median": 60,
+        "min": 0,
+        "max": 1825,
+        "std": 216.64550229349317
+      }
+    },
+    "factor_effect_horizon_days": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 34,
+      "statistics": {
+        "mean": 318.281,
+        "median": 180,
+        "min": 0,
+        "max": 3650,
+        "std": 386.18084369761266
+      }
+    },
+    "evidence_level": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3
+    },
+    "evidence_source": {
+      "type": "string",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 3
+    },
+    "data_quality_score": {
+      "type": "number",
+      "non_null_count": 1000,
+      "null_rate": 0,
+      "unique_values": 9,
+      "statistics": {
+        "mean": 0.9218363636363586,
+        "median": 0.9272727272727272,
+        "min": 0.8,
+        "max": 0.9454545454545454,
+        "std": 0.01928986373656387
+      }
+    }
+  },
+  "data_distribution": {
+    "event_orientations": {
+      "predictive": 709,
+      "reflective": 255,
+      "both": 28,
+      "neutral": 8
+    },
+    "event_types": {
+      "media_distribution_partnership": 8,
+      "product_event": 4,
+      "stock_performance_update": 4,
+      "competitive_pressure": 13,
+      "trade_policy_impact": 9,
+      "regulatory_delay": 5,
+      "competitive_position_update": 13,
+      "partnership_investment": 4,
+      "facility_investment": 4,
+      "legal_ruling": 5,
+      "supply_chain_change": 4,
+      "legal_judgment": 4,
+      "analyst_rating_change": 8,
+      "joint_venture_formation": 4,
+      "executive_compensation": 4,
+      "product_feature_update": 16,
+      "dividend_policy_change": 4,
+      "business_model_evolution": 4,
+      "financial_performance_update": 20,
+      "stock_split": 5,
+      "capital_investment": 16,
+      "supplier_relationship_change": 4,
+      "market_diversification_strategy": 4,
+      "financial_strategy_update": 4,
+      "market_performance_update": 8,
+      "market_sentiment_shift": 4,
+      "market_cap_change": 4,
+      "market_valuation_change": 4,
+      "regulatory_scrutiny": 5,
+      "regulatory_pressure": 8,
+      "security_feature_response": 4,
+      "competitive_threat": 16,
+      "talent_migration": 4,
+      "earnings_performance": 8,
+      "product_launch": 26,
+      "supply_chain_cost_pressure": 5,
+      "revenue_forecast": 4,
+      "technology_development": 4,
+      "investment_strategy_recommendation": 4,
+      "market_outlook": 4,
+      "product_innovation": 16,
+      "supply_chain_strategy": 13,
+      "dividend_policy_update": 4,
+      "regulatory_risk": 32,
+      "product_monetization_challenge": 4,
+      "trade_policy_change": 24,
+      "supply_chain_adjustment": 5,
+      "regulatory_change": 61,
+      "regulatory_action": 14,
+      "industry_trend": 13,
+      "earnings_report": 28,
+      "market_condition": 5,
+      "supply_chain_risk": 5,
+      "subsidiary_bankruptcy_filing": 4,
+      "competitive_product_launch": 4,
+      "regulatory_initiative": 5,
+      "sales_performance_update": 4,
+      "competitive_pricing_action": 4,
+      "product_launch_delay": 8,
+      "market_demand_change": 4,
+      "merger_acquisition": 16,
+      "product_strategy": 4,
+      "sales_trend_update": 4,
+      "consumer_behavior_change": 4,
+      "analyst_rating_update": 4,
+      "investment_change": 4,
+      "earnings_impact": 4,
+      "executive_compensation_change": 4,
+      "business_model_transition": 4,
+      "customer_acquisition": 4,
+      "investment_disclosure": 3,
+      "business_model_strategy": 4,
+      "technology_monetization": 4,
+      "contract_renewal": 4,
+      "strategic_investment": 9,
+      "earnings_announcement": 4,
+      "earnings_forecast_update": 4,
+      "supply_chain_investment": 5,
+      "executive_leadership_change": 4,
+      "trade_policy_threat": 5,
+      "executive_appointment": 4,
+      "analyst_opinion": 5,
+      "financial_performance": 4,
+      "regulatory_impact": 5,
+      "trade_policy_announcement": 4,
+      "macroeconomic_risk_warning": 5,
+      "startup_funding": 4,
+      "regulatory_threat": 23,
+      "competitor_investment": 4,
+      "executive_departure": 4,
+      "market_environment_change": 4,
+      "market_valuation_milestone": 4,
+      "tariff_threat": 5,
+      "trade_policy_risk": 4,
+      "tariff_imposition": 5,
+      "manufacturing_strategy": 5,
+      "production_shift": 5,
+      "partnership_change": 12,
+      "tariff_announcement": 28,
+      "acquisition": 28,
+      "partnership_and_integration": 12,
+      "market_opportunity_identification": 12,
+      "production_guidance_update": 12,
+      "market_momentum_update": 12,
+      "competitive_positioning": 13,
+      "technology_integration": 12,
+      "product_announcement": 12,
+      "capacity_expansion": 12,
+      "product_development": 17,
+      "product_upgrade_cycle": 12,
+      "manufacturing_strategy_adjustment": 15,
+      "tariff_policy_change": 5,
+      "competitive_financial_capacity_assessment": 5,
+      "market_sentiment_update": 4,
+      "executive_movement": 4,
+      "talent_acquisition": 4,
+      "competitor_acquisition": 5,
+      "new_product_launch": 4,
+      "investment_sentiment_update": 4,
+      "leadership_change": 4,
+      "activist_investor_stake_increase": 5,
+      "corporate_performance_update": 5,
+      "board_nomination": 4,
+      "market_demand_forecast": 4,
+      "market_positioning": 3
+    },
+    "market_regimes": {
+      "unknown": 133,
+      "bull": 833,
+      "sideways": 34
+    },
+    "article_sources": {
+      "prnewswire.com": 8,
+      "www.cnbc.com": 129,
+      "finance.yahoo.com": 673,
+      "cnbc.com": 8,
+      "asia.nikkei.com": 4,
+      "www.theguardian.com": 17,
+      "www.aljazeera.com": 24,
+      "Reuters": 22,
+      "france24.com": 5,
+      "www.reuters.com": 13,
+      "timesofindia.indiatimes.com": 9,
+      "apnews.com": 16,
+      "www.investors.com": 22,
+      "foxbusiness.com": 16,
+      "www.theblock.co": 25,
+      "www.channelnewsasia.com": 5,
+      "Channel News Asia": 4
+    }
+  },
+  "target_statistics": {
+    "alpha_vs_spy_1min_after": {
+      "count": 1000,
+      "mean": 0.0009926702264501175,
+      "median": 0,
+      "std": 0.3223391208468066,
+      "min": -0.8030433723258831,
+      "max": 2.4023666653383344,
+      "positive_rate": 0.47,
+      "significant_moves": 0.568
+    },
+    "alpha_vs_spy_5min_after": {
+      "count": 1000,
+      "mean": 0.010713790651495865,
+      "median": 0.007449412845057301,
+      "std": 0.328349114556303,
+      "min": -0.7248083218223768,
+      "max": 2.3595720538854756,
+      "positive_rate": 0.547,
+      "significant_moves": 0.733
+    },
+    "alpha_vs_spy_10min_after": {
+      "count": 1000,
+      "mean": 0.007793936771802544,
+      "median": 0,
+      "std": 0.33963561459431263,
+      "min": -0.7599067738070175,
+      "max": 2.514361698780813,
+      "positive_rate": 0.444,
+      "significant_moves": 0.79
+    },
+    "alpha_vs_spy_30min_after": {
+      "count": 1000,
+      "mean": -0.03036896400494292,
+      "median": 0,
+      "std": 0.340458918025754,
+      "min": -0.773808420185032,
+      "max": 2.299507748710649,
+      "positive_rate": 0.399,
+      "significant_moves": 0.821
+    },
+    "alpha_vs_spy_1hour_after": {
+      "count": 1000,
+      "mean": -0.059009559343832146,
+      "median": -0.03921870624993673,
+      "std": 0.44066479249536405,
+      "min": -1.3731589865962905,
+      "max": 2.5285440729547077,
+      "positive_rate": 0.34,
+      "significant_moves": 0.854
+    },
+    "alpha_vs_spy_1day_after": {
+      "count": 1000,
+      "mean": -0.40880417568968946,
+      "median": -0.007706725117575808,
+      "std": 0.8275651587354785,
+      "min": -2.501179063080217,
+      "max": 1.138489304331308,
+      "positive_rate": 0.201,
+      "significant_moves": 0.691
+    },
+    "alpha_vs_spy_1week_after": {
+      "count": 1000,
+      "mean": -0.7575243367375277,
+      "median": -0.854862188940251,
+      "std": 1.4240514284559964,
+      "min": -3.5018690315285146,
+      "max": 2.7241538225203654,
+      "positive_rate": 0.323,
+      "significant_moves": 0.955
+    },
+    "alpha_vs_spy_1month_after": {
+      "count": 1000,
+      "mean": -1.438104957759576,
+      "median": -2.039709400363174,
+      "std": 1.8377873652476444,
+      "min": -4.958489950694649,
+      "max": 2.6995237851400566,
+      "positive_rate": 0.303,
+      "significant_moves": 0.879
+    },
+    "alpha_vs_qqq_1day_after": {
+      "count": 1000,
+      "mean": -0.3928603343603223,
+      "median": -0.09900990099009338,
+      "std": 0.7626349689364311,
+      "min": -2.17693470484698,
+      "max": 1.304829389686284,
+      "positive_rate": 0.175,
+      "significant_moves": 0.699
+    },
+    "volume_relative_20day": {
+      "count": 1000,
+      "mean": 0,
+      "median": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "positive_rate": 0,
+      "significant_moves": 0
+    },
+    "volatility_shock_ratio": {
+      "count": 1000,
+      "mean": 0,
+      "median": 0,
+      "std": 0,
+      "min": 0,
+      "max": 0,
+      "positive_rate": 0,
+      "significant_moves": 0
+    }
+  },
+  "usage_instructions": {
+    "python_command": "python train_random_forest.py ml_training_data_2025-09-05T19-48-51-547Z.csv",
+    "shap_command": "python shap_analysis.py ml_training_data_2025-09-05T19-48-51-547Z.csv models/",
+    "description": "This dataset is ready for Random Forest training with SHAP analysis"
+  }
+}

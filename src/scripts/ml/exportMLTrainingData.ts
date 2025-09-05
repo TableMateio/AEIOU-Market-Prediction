@@ -27,11 +27,11 @@ class MLDataExporter {
     constructor() {
         const config = AppConfig.getInstance();
         const supabaseConfig = config.supabaseConfig;
-        
+
         if (!supabaseConfig.projectUrl || !supabaseConfig.apiKey) {
             throw new Error('Supabase configuration not found. Check your environment variables.');
         }
-        
+
         this.supabase = createClient(supabaseConfig.projectUrl, supabaseConfig.apiKey);
     }
 
@@ -164,11 +164,12 @@ class MLDataExporter {
             ];
         }
 
-        // Export ALL records - no filtering
+        // Export ALL records - no filtering, with explicit limit
         const { data, error } = await this.supabase
             .from('ml_training_data')
             .select('*')  // Get all columns
-            .order('article_published_at', { ascending: false });
+            .order('article_published_at', { ascending: false })
+            .limit(15000);  // Ensure we get all 12K+ records
 
         if (error) {
             throw new Error(`Failed to fetch training data: ${error.message}`);
