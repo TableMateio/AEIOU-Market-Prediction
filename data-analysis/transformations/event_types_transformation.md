@@ -1,0 +1,475 @@
+# Event Types Transformation Mapping
+
+## Transformation Rules
+
+### 1. Group Similar Events
+- Consolidate variations of the same event type
+- Remove redundant descriptors
+- Focus on the core action or occurrence
+
+### 2. Remove Company-Specific References
+- Remove "apple_", "berkshire_", etc. prefixes
+- Make events universally applicable
+
+### 3. Standardize Event Categories
+- Use consistent naming patterns
+- Group related events under broader categories
+
+## Transformation Mappings
+
+### Analyst Events
+**Consolidated Term:** `analyst_update`
+**Original Terms:**
+- analyst_coverage_initiation
+- analyst_estimate_change
+- analyst_estimate_revision
+- analyst_forecast
+- analyst_forecast_update
+- analyst_opinion
+- analyst_price_target_change
+- analyst_price_target_update
+- analyst_rating_change
+- analyst_rating_update
+- analyst_recommendation_update
+
+### Investment Events
+**Consolidated Term:** `investment_change`
+**Original Terms:**
+- activist_investor_stake_increase
+- capital_allocation
+- capital_allocation_change
+- capital_allocation_decision
+- capital_allocation_strategy
+- capital_expenditure_guidance_update
+- capital_expenditure_investment
+- capital_investment
+- capital_investment_announcement
+- capital_investment_commitment
+- capital_return_program
+- equity_disposition
+- equity_holding_change
+- equity_stake_maintenance
+- equity_stake_reduction
+- investment
+- investment_activity
+- investment_change
+- investment_decision
+- investment_disclosure
+- investment_exposure
+- investment_highlight
+- investment_holding_update
+- investment_incentive
+- investment_inclusion
+- investment_increase
+- investment_performance_update
+- investment_portfolio_change
+- investment_portfolio_update
+- investment_position_change
+- investment_reassessment
+- investment_recommendation
+- investment_recommendation_update
+- investment_reduction
+- investment_sentiment_update
+- investment_strategy_advice
+- investment_strategy_announcement
+- investment_strategy_change
+- investment_strategy_recommendation
+- investment_strategy_update
+- investment_trend
+- strategic_investment
+
+### Earnings & Financial Events
+**Consolidated Term:** `earnings_report`
+**Original Terms:**
+- advertising_revenue_change
+- earnings_announcement
+- earnings_expectation_update
+- earnings_forecast
+- earnings_forecast_revision
+- earnings_forecast_update
+- earnings_guidance_update
+- earnings_impact
+- earnings_performance
+- earnings_report
+- earnings_report_expectation
+- earnings_update
+- financial_guidance
+- financial_guidance_update
+- financial_performance
+- financial_performance_analysis
+- financial_performance_update
+- financial_strategy_update
+- guidance_update
+- revenue_forecast
+- revenue_forecast_update
+- revenue_growth
+- revenue_guidance
+- revenue_guidance_update
+- revenue_impact_forecast
+- revenue_projection
+- revenue_risk
+
+### Product Events
+**Consolidated Term:** `product_launch`
+**Original Terms:**
+- content_launch
+- content_release
+- digital_platform_launch
+- feature_expansion
+- new_product_launch
+- product_announcement
+- product_availability_change
+- product_delay
+- product_development
+- product_development_delay
+- product_development_issue
+- product_development_timeline
+- product_event
+- product_feature_change
+- product_feature_delay
+- product_feature_development_delay
+- product_feature_launch
+- product_feature_update
+- product_feature_upgrade
+- product_innovation
+- product_investment
+- product_launch
+- product_launch_and_financial_guidance
+- product_launch_delay
+- product_launch_performance
+- product_launch_timing
+- product_line_rebranding
+- product_performance_evaluation
+- product_performance_issue
+- product_performance_update
+- product_pricing_change
+- product_pricing_update
+- product_revenue_shift
+- product_roadmap_announcement
+- product_strategy
+- product_strategy_change
+- product_strategy_update
+- product_update
+- product_upgrade_cycle
+- software_release
+- software_update
+
+### Regulatory & Legal Events
+**Consolidated Term:** `regulatory_action`
+**Original Terms:**
+- antitrust_testimony
+- app_store_policy_change
+- app_store_policy_enforcement
+- export_controls
+- government_engagement
+- government_incentive_program
+- government_intervention
+- government_policy
+- government_policy_change
+- government_policy_change_request
+- government_policy_pause
+- government_pressure
+- legal_and_regulatory_outcome
+- legal_appeal
+- legal_judgment
+- legal_resolution
+- legal_risk
+- legal_risk_update
+- legal_ruling
+- legal_settlement_rejection
+- litigation_update
+- policy_change
+- regulatory_action
+- regulatory_and_trade_policy_impact
+- regulatory_and_trade_risk
+- regulatory_announcement
+- regulatory_challenge
+- regulatory_change
+- regulatory_clarity
+- regulatory_compliance
+- regulatory_compliance_change
+- regulatory_compliance_dispute
+- regulatory_compliance_requirement
+- regulatory_compliance_update
+- regulatory_delay
+- regulatory_enforcement
+- regulatory_environment
+- regulatory_fine
+- regulatory_impact
+- regulatory_initiative
+- regulatory_intervention
+- regulatory_investigation
+- regulatory_legal_action
+- regulatory_penalty
+- regulatory_policy_discussion
+- regulatory_pressure
+- regulatory_risk
+- regulatory_ruling
+- regulatory_scrutiny
+- regulatory_threat
+- regulatory_update
+
+### Market Events
+**Consolidated Term:** `market_update`
+**Original Terms:**
+- index_fund_composition_change
+- macroeconomic_data_release
+- macroeconomic_environment_update
+- macroeconomic_forecast_update
+- macroeconomic_indicator_update
+- macroeconomic_policy_change
+- macroeconomic_risk
+- macroeconomic_risk_update
+- macroeconomic_risk_warning
+- macroeconomic_update
+- market_analysis
+- market_cap_change
+- market_cap_milestone
+- market_comparison
+- market_competition
+- market_competition_update
+- market_condition
+- market_correction
+- market_demand_change
+- market_demand_forecast
+- market_demand_shift
+- market_demand_trend
+- market_demand_update
+- market_diversification_strategy
+- market_downturn
+- market_environment_change
+- market_expansion
+- market_forecast
+- market_forecast_revision
+- market_growth
+- market_growth_forecast
+- market_impact
+- market_inclusion
+- market_index_composition_analysis
+- market_index_fluctuation
+- market_index_performance
+- market_momentum_update
+- market_opportunity_identification
+- market_opportunity_projection
+- market_outlook
+- market_outlook_update
+- market_ownership_analysis
+- market_perception
+- market_performance_decline
+- market_performance_update
+- market_position_update
+- market_positioning
+- market_positioning_update
+- market_reaction
+- market_research
+- market_risk_assessment
+- market_risk_factor
+- market_risk_update
+- market_rotation
+- market_sentiment_analysis
+- market_sentiment_change
+- market_sentiment_shift
+- market_sentiment_update
+- market_share_change
+- market_technical_indicator
+- market_trend
+- market_trend_analysis
+- market_trend_change
+- market_trend_shift
+- market_trend_update
+- market_valuation_adjustment
+- market_valuation_change
+- market_valuation_comparison
+- market_valuation_milestone
+- market_valuation_update
+- market_volatility
+- market_volatility_forecast
+- market_volatility_impact
+- market_volatility_increase
+- monetary_policy_expectation
+- monetary_policy_expectation_change
+- stock_performance_highlight
+- stock_performance_update
+- stock_price_movement
+- stock_price_volatility
+- stock_rating_change
+- stock_split
+- stock_valuation_change
+
+### Partnership & Acquisition Events
+**Consolidated Term:** `partnership_deal`
+**Original Terms:**
+- acquisition
+- contract_award
+- contract_renewal
+- joint_venture_formation
+- media_distribution_partnership
+- merger_acquisition
+- partnership
+- partnership_agreement
+- partnership_and_integration
+- partnership_announcement
+- partnership_change
+- partnership_deal
+- partnership_development
+- partnership_expansion
+- partnership_investment
+- partnership_negotiation
+- strategic_partnership
+- supplier_customer_relationship
+- supplier_relationship_change
+- supply_agreement
+
+### Executive & Leadership Events
+**Consolidated Term:** `leadership_change`
+**Original Terms:**
+- board_nomination
+- executive_appointment
+- executive_change
+- executive_commitment
+- executive_communication
+- executive_compensation
+- executive_compensation_change
+- executive_departure
+- executive_leadership_change
+- executive_movement
+- executive_reorganization
+- executive_transition
+- leadership_change
+- leadership_performance
+- management_change
+- shareholder_vote
+- shareholder_vote_outcome
+
+### Operational Events
+**Consolidated Term:** `operational_change`
+**Original Terms:**
+- business_diversification
+- business_mission_participation
+- business_model_evolution
+- business_model_strategy
+- business_model_transition
+- business_strategy_update
+- capacity_expansion
+- corporate_governance_decision
+- corporate_investment
+- corporate_performance_update
+- corporate_turnaround
+- facility_investment
+- manufacturing_expansion
+- manufacturing_location_decision
+- manufacturing_relocation
+- manufacturing_strategy
+- manufacturing_strategy_adjustment
+- manufacturing_strategy_change
+- manufacturing_strategy_shift
+- manufacturing_strategy_update
+- operational_efficiency
+- production_adjustment
+- production_capacity_expansion
+- production_expansion
+- production_geographic_shift
+- production_guidance_update
+- production_location_change
+- production_relocation_request
+- production_shift
+- supply_chain_adjustment
+- supply_chain_change
+- supply_chain_cost_pressure
+- supply_chain_dependency
+- supply_chain_diversification
+- supply_chain_expansion
+- supply_chain_investment
+- supply_chain_management
+- supply_chain_relocation
+- supply_chain_relocation_discussion
+- supply_chain_restructuring
+- supply_chain_restructuring_challenge
+- supply_chain_risk
+- supply_chain_strategy
+- supply_chain_strategy_change
+- supply_chain_update
+
+### Trade & Tariff Events
+**Consolidated Term:** `trade_policy_change`
+**Original Terms:**
+- cost_impact_due_to_tariffs
+- cost_increase
+- cost_increase_forecast
+- cost_increase_warning
+- export_growth
+- tariff_announcement
+- tariff_avoidance_strategy
+- tariff_change
+- tariff_exclusion
+- tariff_impact
+- tariff_imposition
+- tariff_policy_change
+- tariff_policy_update
+- tariff_threat
+- trade_investigation
+- trade_negotiation
+- trade_negotiation_update
+- trade_policy_announcement
+- trade_policy_change
+- trade_policy_exemption_expectation
+- trade_policy_impact
+- trade_policy_investigation
+- trade_policy_risk
+- trade_policy_threat
+- trade_policy_update
+
+### Technology Events
+**Consolidated Term:** `technology_update`
+**Original Terms:**
+- cybersecurity_threat
+- industry_innovation
+- security_feature_adoption
+- security_feature_response
+- security_policy_update
+- security_threat
+- security_threat_warning
+- technology_adoption
+- technology_development
+- technology_development_and_regulatory_approval
+- technology_innovation
+- technology_integration
+- technology_investment
+- technology_investment_trend
+- technology_monetization
+- user_behavior_advisory
+- user_growth
+
+### Competitive Events
+**Consolidated Term:** `competitive_action`
+**Original Terms:**
+- competitive_dynamics
+- competitive_financial_capacity_assessment
+- competitive_initiative
+- competitive_performance_update
+- competitive_position_update
+- competitive_positioning
+- competitive_pressure
+- competitive_pricing_action
+- competitive_product_launch
+- competitive_response
+- competitive_risk
+- competitive_threat
+- competitive_threat_assessment
+- competitor_acquisition
+- competitor_earnings_report
+- competitor_financial_performance
+- competitor_investment
+- competitor_investment_expansion
+- competitor_product_expansion
+- competitor_profitability_achievement
+- industry_acquisition
+- industry_competition
+- industry_performance_comparison
+- industry_performance_update
+- industry_risk
+- industry_trend
+
+## Next Steps
+1. Create enum list of consolidated event types
+2. Apply similar process to event tags and factor synonyms

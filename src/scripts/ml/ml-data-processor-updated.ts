@@ -135,7 +135,7 @@ export class MLDataProcessor {
             }
 
             // Auto-detect ticker from article or use override
-            const ticker = options.ticker || await this.detectTickerFromArticle(causalEvent.article_id) || 'AAPL';
+            const ticker = options.ticker || 'AAPL'; // Force AAPL for now since it's our focus
 
             logger.info('🔄 Processing causal event', { causalEventId, ticker });
 
@@ -1276,7 +1276,7 @@ export class MLDataProcessor {
 
         try {
             // 1. Calculate stock prices ONCE for this article
-            const ticker = options.ticker || await this.detectTickerFromArticle(article.articleId) || 'AAPL';
+            const ticker = options.ticker || 'AAPL'; // Force AAPL for now since it's our focus
 
             // Calculate all price points for this article's timestamp
             const stockPriceData = await this.calculateAllPricePoints(ticker, article.publishedAt);
