@@ -26,7 +26,13 @@ class MLDataExporter {
 
     constructor() {
         const config = AppConfig.getInstance();
-        this.supabase = createClient(config.supabaseUrl, config.supabaseKey);
+        const supabaseConfig = config.supabaseConfig;
+        
+        if (!supabaseConfig.projectUrl || !supabaseConfig.apiKey) {
+            throw new Error('Supabase configuration not found. Check your environment variables.');
+        }
+        
+        this.supabase = createClient(supabaseConfig.projectUrl, supabaseConfig.apiKey);
     }
 
     /**
@@ -161,8 +167,6 @@ class MLDataExporter {
         const { data, error } = await this.supabase
             .from('ml_training_data')
             .select(selectColumns.join(','))
-            .eq('processing_status', 'completed') // Only completed records
-            .not('alpha_vs_spy_1day_after', 'is', null) // Must have at least 1-day alpha
             .order('created_at', { ascending: false });
 
         if (error) {
@@ -170,10 +174,10 @@ class MLDataExporter {
         }
 
         if (!data || data.length === 0) {
-            throw new Error('No completed ML training data found');
+            throw new Error('No ML training data found');
         }
 
-        logger.info(`✅ Fetched ${data.length} completed records`);
+        logger.info(`✅ Fetched ${data.length} records`);
         return data;
     }
 
@@ -322,7 +326,7 @@ class MLDataExporter {
             }).join(',')
         );
 
-        return [csvHeaders, ...csvRows].join('\\n');
+        return [csvHeaders, ...csvRows].join('\n');
     }
 
     /**

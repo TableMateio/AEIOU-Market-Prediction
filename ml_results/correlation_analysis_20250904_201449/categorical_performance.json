@@ -1,0 +1,1366 @@
+{
+  "factor_name": {
+    "stock_performance_highlight": {
+      "count": 100,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.042300078895315806,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531576,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.14230007889531576,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.19230007889531575,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531577,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.29528663453227366,
+          "median": -0.29356198844823056,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.29827319016923143,
+          "median": -0.2948238980011454,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.30125974580618936,
+          "median": -0.2960858075540602,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.0376999211046841,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.052300078895315814,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.10230007889531585,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531577,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531582,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.2523000788953159,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.30230007889531574,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.35230007889531584,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.40230007889531577,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    }
+  },
+  "factor_category": {
+    "product": {
+      "count": 21,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.042300078895315806,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531582,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.14230007889531576,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.19230007889531583,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531568,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.2884082691510785,
+          "median": -0.289840387971893,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.28451645940684106,
+          "median": -0.2873806970484703,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.2806246496626037,
+          "median": -0.2849210061250475,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.037699921104684106,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.05230007889531581,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.1023000788953158,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531583,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531582,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.25230007889531586,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953158,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.40230007889531577,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "regulatory": {
+      "count": 18,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.042300078895315806,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531582,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.1423000788953158,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.19230007889531583,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531574,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.2671197600193553,
+          "median": -0.2546558959005004,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.24193944114339472,
+          "median": -0.21701171290568494,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.2167591222674341,
+          "median": -0.1793675299108695,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.0376999211046841,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.05230007889531581,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.10230007889531581,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531583,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.2023000788953158,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.2523000788953158,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953158,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.40230007889531577,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "competitive": {
+      "count": 22,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.04230007889531581,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531583,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.14230007889531576,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.1923000788953158,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531568,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.3039314994353935,
+          "median": -0.3078410357009904,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.3155629199754713,
+          "median": -0.32338199250666494,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.32719434051554896,
+          "median": -0.33892294931233957,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.037699921104684106,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.05230007889531581,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.1023000788953158,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531583,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531584,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.25230007889531586,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953157,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.4023000788953157,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "financial": {
+      "count": 22,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.04230007889531581,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531583,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.14230007889531576,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.1923000788953158,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531568,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.29465801463961383,
+          "median": -0.29171261257021497,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.2970159503839118,
+          "median": -0.29112514624511404,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.2993738861282098,
+          "median": -0.2905376799200132,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.037699921104684106,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.05230007889531581,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.1023000788953158,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531583,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531584,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.25230007889531586,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953157,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.4023000788953157,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "market": {
+      "count": 17,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.0423000788953158,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.0923000788953158,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.1423000788953158,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.1923000788953158,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531577,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.3232332241797741,
+          "median": -0.3381678808289924,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.3541663694642325,
+          "median": -0.384035682762669,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.385099514748691,
+          "median": -0.4299034846963455,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.0376999211046841,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.0523000788953158,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.1023000788953158,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.1523000788953158,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.2023000788953158,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.2523000788953158,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953158,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.4023000788953158,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    }
+  },
+  "factor_orientation": {
+    "predictive": {
+      "count": 34,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.047699921104684094,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.0423000788953158,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.0923000788953158,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.1423000788953158,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.19230007889531578,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531577,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.2834398466890412,
+          "median": -0.29270844211350766,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.27457961448276663,
+          "median": -0.29311680533169954,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.26571938227649206,
+          "median": -0.2935251685498914,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.03769992110468409,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.0523000788953158,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.10230007889531578,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531577,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531582,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.25230007889531575,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.35230007889531584,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.4023000788953158,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "reflective": {
+      "count": 27,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.047699921104684094,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.042300078895315806,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531582,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.14230007889531576,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.19230007889531578,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531574,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.28807796871419084,
+          "median": -0.2846295829763782,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.2838558585330659,
+          "median": -0.2769590870574406,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.27963374835194094,
+          "median": -0.269288591138503,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.0376999211046841,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.05230007889531581,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.10230007889531578,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.1523000788953158,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531584,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.2523000788953158,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953159,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.40230007889531577,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "neutral": {
+      "count": 39,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.04769992110468409,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.042300078895315806,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531582,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.14230007889531576,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.19230007889531575,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.2423000788953157,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.3106052182183798,
+          "median": -0.3085046326140505,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.32891035754144365,
+          "median": -0.3247091863327851,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.34721549686450753,
+          "median": -0.3409137400515197,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.037699921104684085,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.0523000788953158,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.10230007889531577,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531574,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531587,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.2523000788953157,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.35230007889531595,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.40230007889531577,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    }
+  },
+  "event_orientation": {
+    "reflective": {
+      "count": 35,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.047699921104684094,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.042300078895315806,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.09230007889531582,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.1423000788953158,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.19230007889531578,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.24230007889531577,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.3015078604337282,
+          "median": -0.2982991653619121,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.31071564197214047,
+          "median": -0.3042982518285084,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.31992342351055286,
+          "median": -0.3102973382951046,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.03769992110468409,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.05230007889531581,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.10230007889531578,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.15230007889531577,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.20230007889531582,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.25230007889531575,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.35230007889531584,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.40230007889531577,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "predictive": {
+      "count": 33,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.0423000788953158,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.0923000788953158,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.1423000788953158,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.1923000788953158,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.2423000788953158,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.28458368151317454,
+          "median": -0.2846295829763782,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.2768672841310334,
+          "median": -0.2769590870574406,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.2691508867488921,
+          "median": -0.269288591138503,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.0376999211046841,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.0523000788953158,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.1023000788953158,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.1523000788953158,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.2023000788953158,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.2523000788953158,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953158,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.4023000788953158,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    },
+    "neutral": {
+      "count": 32,
+      "performance": {
+        "alpha_vs_spy_1min_after": {
+          "mean": 0.0476999211046841,
+          "median": 0.0476999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_spy_5min_after": {
+          "mean": -0.0423000788953158,
+          "median": -0.0423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_10min_after": {
+          "mean": -0.0923000788953158,
+          "median": -0.0923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_30min_after": {
+          "mean": -0.1423000788953158,
+          "median": -0.1423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1hour_after": {
+          "mean": -0.1923000788953158,
+          "median": -0.1923000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_4hour_after": {
+          "mean": -0.2423000788953158,
+          "median": -0.2423000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1day_after": {
+          "mean": -0.2995195890035037,
+          "median": -0.31479131177208464,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1week_after": {
+          "mean": -0.3067390991116915,
+          "median": -0.33728254464885354,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_spy_1month_after": {
+          "mean": -0.3139586092198794,
+          "median": -0.3597737775256224,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1min_after": {
+          "mean": 0.0376999211046841,
+          "median": 0.0376999211046841,
+          "positive_ratio": 1.0,
+          "negative_ratio": 0.0
+        },
+        "alpha_vs_qqq_5min_after": {
+          "mean": -0.0523000788953158,
+          "median": -0.0523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_10min_after": {
+          "mean": -0.1023000788953158,
+          "median": -0.1023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_30min_after": {
+          "mean": -0.1523000788953158,
+          "median": -0.1523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1hour_after": {
+          "mean": -0.2023000788953158,
+          "median": -0.2023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_4hour_after": {
+          "mean": -0.2523000788953158,
+          "median": -0.2523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1day_after": {
+          "mean": -0.3023000788953158,
+          "median": -0.3023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1week_after": {
+          "mean": -0.3523000788953158,
+          "median": -0.3523000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        },
+        "alpha_vs_qqq_1month_after": {
+          "mean": -0.4023000788953158,
+          "median": -0.4023000788953158,
+          "positive_ratio": 0.0,
+          "negative_ratio": 1.0
+        }
+      }
+    }
+  }
+}

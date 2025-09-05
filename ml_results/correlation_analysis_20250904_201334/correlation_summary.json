@@ -1,0 +1,11 @@
+[
+  {
+    "field_name": "{",
+    "data_type": "float64",
+    "unique_values": 0,
+    "strongest_correlation": 0,
+    "strongest_target": null,
+    "abs_correlation": 0,
+    "significant": false
+  }
+]

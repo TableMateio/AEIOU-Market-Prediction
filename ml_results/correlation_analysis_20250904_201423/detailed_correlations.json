@@ -1,0 +1,277 @@
+[
+  {
+    "field_name": "ticker",
+    "data_type": "object",
+    "unique_values": 1,
+    "correlations": {
+      "alpha_vs_spy_1min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_5min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_10min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_30min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_4hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1day_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1week_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1month_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_5min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_10min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_30min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_4hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1day_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1week_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1month_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      }
+    }
+  },
+  {
+    "field_name": "factor_name",
+    "data_type": "object",
+    "unique_values": 1,
+    "correlations": {
+      "alpha_vs_spy_1min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_5min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_10min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_30min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_4hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1day_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1week_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1month_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_5min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_10min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_30min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_4hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1day_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1week_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_qqq_1month_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      }
+    }
+  },
+  {
+    "field_name": "factor_category",
+    "data_type": "object",
+    "unique_values": 5,
+    "correlations": {
+      "alpha_vs_spy_1min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_5min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_10min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_30min_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_4hour_after": {
+        "correlation": 0.0,
+        "p_value": 1.0,
+        "abs_correlation": 0.0,
+        "significant": false
+      },
+      "alpha_vs_spy_1day_after": {
+        "correlation": 0.19491068424787128,
+        "p_value": 0.05198202709408329,
+        "abs_correlation": 0.19491068424787128,
+        "significant": 
