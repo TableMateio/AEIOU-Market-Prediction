@@ -1,0 +1,6 @@
+Factor,Correlation,Positive_Rate,Mean_Alpha,Confidence
+magnitude_high,0.42,0.65,0.65,High
+category_external,0.31,0.42,0.08,High
+regime_sideways,0.38,0.45,0.15,Medium
+orientation_predictive,0.15,0.32,-0.15,Medium
+credibility_high,0.22,0.41,-0.08,Medium

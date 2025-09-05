@@ -40,7 +40,7 @@ class MLDataExporter {
      */
     async exportTrainingData(config: Partial<ExportConfig> = {}): Promise<string> {
         const fullConfig: ExportConfig = {
-            includeAllColumns: false,
+            includeAllColumns: true,
             targetColumns: [
                 'alpha_vs_spy_1min_after',
                 'alpha_vs_spy_5min_after',
@@ -117,7 +117,7 @@ class MLDataExporter {
                 'evidence_level',
                 'evidence_source'
             ],
-            minDataQuality: 0.3, // Minimum non-null rate
+            minDataQuality: 0.0, // No quality filtering - get all records
             outputFormat: 'csv',
             ...config
         };
@@ -164,10 +164,11 @@ class MLDataExporter {
             ];
         }
 
+        // Export ALL records - no filtering
         const { data, error } = await this.supabase
             .from('ml_training_data')
-            .select(selectColumns.join(','))
-            .order('created_at', { ascending: false });
+            .select('*')  // Get all columns
+            .order('article_published_at', { ascending: false });
 
         if (error) {
             throw new Error(`Failed to fetch training data: ${error.message}`);
