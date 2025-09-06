@@ -97,12 +97,10 @@ class FeatureConfig:
             'technology_obsolescence_risk', 'regulatory_risk'
         ]
         
-        # Categorical Features
+        # Categorical Features (single value per record)
         self.categorical_features = [
             'consolidated_event_type',       # 12 event types (matches self.consolidated_event_types)
             'consolidated_factor_name',      # 76 factor names (matches self.consolidated_factor_names)
-            'consolidated_event_tags',       # Event tags from above list
-            'event_tag_category',           # Event tag categories 
             'factor_category',              # Factor categories from factor_names_categories
             
             # Additional categorical features from schema
@@ -113,22 +111,32 @@ class FeatureConfig:
             'market_regime',                # bull, bear, neutral, unknown
             'article_audience_split',       # institutional, retail, both, neither
             'event_trigger',                # press_release, earnings_call, filing, etc.
-            'market_perception_emotional_profile',  # Array of emotions (will need special handling)
-            'market_perception_cognitive_biases'    # Array of biases (will need special handling)
         ]
+        
+        # Event Tag Categories (can have multiples - binary flags)
+        self.event_tag_categories = [
+            'Business Functions', 'Financial', 'General', 'Regulatory', 'Technology', 'unknown'
+        ]
+        
+        # NOTE: These are now handled as BINARY FLAGS, not categorical:
+        # - 'consolidated_event_tags' -> converted to binary flags (ai_tag_present, etc.)
+        # - 'market_perception_emotional_profile' -> converted to binary flags (emotion_optimism_present, etc.)
+        # - 'market_perception_cognitive_biases' -> converted to binary flags (bias_confirmation_bias_present, etc.)
+        # - 'event_tag_category' -> converted to binary flags (category_technology_present, etc.)
         
         # Core Numerical Features (always available)
         self.core_numerical_features = [
-            'factor_magnitude',            # Business impact (0-1)
             'factor_movement',             # Direction: +1, -1, 0
-            'signed_magnitude',             # Directional business impact
-            'causal_certainty',           # Causal confidence (0-1)
-            'article_source_credibility',  # Source reliability (0-1)
-            'market_perception_intensity', # Market buzz (0-1)
+            'signed_magnitude_scaled'      # Directional business impact (scaled × 100)
         ]
+        # Note: Removed 'factor_magnitude' as it's redundant with signed_magnitude
         
         # Extended Numerical Features (from schema - check availability)
         self.extended_numerical_features = [
+            'causal_certainty',           # Causal confidence (0-1)
+            'article_source_credibility',  # Source reliability (0-1)
+            'market_perception_intensity', # Market buzz (0-1)
+
             # Market Perception
             'market_perception_hope_vs_fear',
             'market_perception_surprise_vs_anticipated', 
@@ -232,12 +240,17 @@ class FeatureConfig:
         """Get binary flag feature names for cognitive biases"""
         return [f"bias_{bias}_present" for bias in self.cognitive_biases_values]
     
+    def get_event_tag_category_flags(self) -> List[str]:
+        """Get event tag category binary flag features"""
+        return [f"category_{cat.lower().replace(' ', '_')}_present" for cat in self.event_tag_categories]
+    
     def get_all_binary_flags(self) -> List[str]:
-        """Get all binary flag features (event tags + emotions + biases)"""
+        """Get all binary flag features (event tags + emotions + biases + categories)"""
         return (
             self.get_binary_flag_features() +
             self.get_emotional_profile_flags() +
-            self.get_cognitive_bias_flags()
+            self.get_cognitive_bias_flags() +
+            self.get_event_tag_category_flags()
         )
     
     def get_all_features(self) -> List[str]:

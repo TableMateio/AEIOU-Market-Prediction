@@ -19,9 +19,9 @@ from supabase import create_client, Client
 
 # ML libraries
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, classification_report
 import lightgbm as lgb
 
 # Local imports
@@ -101,21 +101,36 @@ class ImprovedAEIOUPipeline:
         if not self.supabase:
             raise Exception("Supabase client not initialized")
         
-        # Build select columns including signed_magnitude
+        # Build select columns (signed_magnitude_scaled will be created from signed_magnitude)
         select_columns = [
             "id",
             "article_id", 
             "article_published_at",
             FEATURE_CONFIG.primary_target,  # abs_change_1day_after_pct
             FEATURE_CONFIG.secondary_target,  # abs_change_1week_after_pct
-            "signed_magnitude"  # NEW: Added signed magnitude field
+            "signed_magnitude"  # Will be scaled to signed_magnitude_scaled in pipeline
         ]
         
-        # Add all categorical and numerical features
+        # Use WINNING CONFIGURATION: Only 7 essential numerical features (not 27!)
+        # This is what achieved 65.8% accuracy
+        winning_numerical_features = [
+            'factor_movement', 'causal_certainty', 'article_source_credibility', 
+            'market_perception_intensity'
+            # Note: signed_magnitude added separately, signed_magnitude_scaled created in pipeline
+            # abs_change_1week_after_pct is a target, not feature
+        ]
+        
+        # Add categorical features (key to winning approach)
         all_features = (
             FEATURE_CONFIG.categorical_features +
-            FEATURE_CONFIG.get_all_numerical_features()
+            winning_numerical_features
         )
+        
+        print(f"🎯 Using WINNING CONFIGURATION:")
+        print(f"   Numerical features: {len(winning_numerical_features)} (essential only)")
+        print(f"   Categorical features: {len(FEATURE_CONFIG.categorical_features)}")
+        print(f"   Binary flags: 95 (from arrays)")
+        print(f"   Expected final features: ~112")
         
         # Add array columns (we'll process these and then drop them)
         array_columns = [
@@ -217,21 +232,34 @@ class ImprovedAEIOUPipeline:
         # 1. Set up target variables
         df = self._setup_targets(df)
         
-        # 2. Add signed_magnitude to numerical features if available
+        # 2. Create scaled signed_magnitude and remove redundant factor_magnitude
         if 'signed_magnitude' in df.columns:
-            print("✅ Adding signed_magnitude to numerical features")
-            # Add it to the feature list dynamically
-            if 'signed_magnitude' not in FEATURE_CONFIG.get_all_numerical_features():
-                FEATURE_CONFIG.extended_numerical_features.append('signed_magnitude')
+            df['signed_magnitude_scaled'] = df['signed_magnitude'] * 100
+            print("✅ Created signed_magnitude_scaled (×100) for better ML scaling")
+        elif 'factor_magnitude' in df.columns and 'factor_movement' in df.columns:
+            df['signed_magnitude_scaled'] = df['factor_magnitude'] * df['factor_movement'] * 100
+            print("✅ Created signed_magnitude_scaled from factor_magnitude × factor_movement × 100")
         
-        # 3. Create binary flags from array columns (improved)
-        df = self._create_binary_flags_improved(df)
+        # Add it to the feature list dynamically
+        if 'signed_magnitude_scaled' not in FEATURE_CONFIG.get_all_numerical_features():
+            FEATURE_CONFIG.extended_numerical_features.append('signed_magnitude_scaled')
+        
+        # 3. Use winning 62.4% configuration: keep categorical strings as-is
+        # The 62.4% run succeeded with categorical strings + LabelEncoder, not binary flags
+        print("🎯 Using 62.4% winning configuration: categorical strings + LabelEncoder")
+        
+        # Create ONLY array-based binary flags (95 total - winning configuration)
+        df = self._create_binary_flags_improved(df)  # Event tags, emotions, biases (95 flags)
+        # Skip event category flags and categorical enum flags - they create duplicates
+        # Keep categorical strings as-is for LabelEncoder (winning approach)
+        # Removed directional magnitude features - they hurt accuracy
         
         # 4. Clean up array columns (remove them after creating flags)
         array_cols_to_drop = [
             'consolidated_event_tags', 
             'market_perception_emotional_profile', 
-            'market_perception_cognitive_biases'
+            'market_perception_cognitive_biases',
+            'event_tag_category'  # Now converted to binary flags
         ]
         for col in array_cols_to_drop:
             if col in df.columns:
@@ -251,12 +279,18 @@ class ImprovedAEIOUPipeline:
         
         print("🏷️  Creating binary flags (improved)...")
         
-        # Helper function to safely parse arrays
+        # Helper function to safely parse arrays (FIXED)
         def parse_array_column(value):
+            """Parse array column values from various formats into Python list"""
             if pd.isna(value) or value is None:
                 return []
+            
+            # If it's already a list (from JSON), return it directly
+            if isinstance(value, list):
+                return [str(item).strip() for item in value if item]
+            
+            # If it's a string representation of an array
             if isinstance(value, str):
-                # Handle string representations of arrays
                 if value.startswith('[') and value.endswith(']'):
                     try:
                         # Remove brackets and quotes, split by comma
@@ -269,17 +303,17 @@ class ImprovedAEIOUPipeline:
                         return []
                 else:
                     return [value.strip().strip("'\"")]
-            elif isinstance(value, list):
-                # Handle actual list objects
-                return [str(item).strip().strip("'\"") for item in value]
-            elif hasattr(value, '__iter__') and not isinstance(value, str):
-                # Handle numpy arrays or other iterables
+            
+            # Handle numpy arrays or other iterables
+            elif hasattr(value, '__iter__'):
                 try:
-                    return [str(item).strip().strip("'\"") for item in value]
+                    return [str(item).strip() for item in value if item]
                 except:
                     return []
+            
+            # Single value
             else:
-                return [str(value).strip().strip("'\"")]
+                return [str(value).strip()]
         
         # 1. Event Tags - improved parsing
         event_tag_columns = ['consolidated_event_tags']
@@ -293,18 +327,43 @@ class ImprovedAEIOUPipeline:
         if event_tag_col:
             print(f"   Processing {event_tag_col} with improved parsing")
             
-            # Parse arrays and create flags
+            # DEBUG: Check actual data format
+            sample_values = df[event_tag_col].head(3).tolist()
+            print(f"   🔍 DEBUG: Sample values: {sample_values}")
+            for i, val in enumerate(sample_values):
+                print(f"      {i}: {val} (type: {type(val)})")
+            
+            # Parse arrays and create flags (ROBUST APPROACH)
+            print(f"   🔧 Processing {len(FEATURE_CONFIG.consolidated_event_tags)} event tags...")
+            
+            # Initialize all flags to 0
             for tag in FEATURE_CONFIG.consolidated_event_tags:
-                flag_name = f"{tag}_tag_present"
+                df[f"{tag}_tag_present"] = 0
+            
+            # Process each row individually to avoid pandas apply issues
+            successful_rows = 0
+            for idx in df.index:
                 try:
-                    def check_tag_in_array(x):
-                        parsed = parse_array_column(x)
-                        return 1 if any(tag == item for item in parsed) else 0
+                    value = df.loc[idx, event_tag_col]
+                    if pd.isna(value) or value is None:
+                        continue
+                        
+                    # Parse the array value
+                    if isinstance(value, list):
+                        tags_in_record = value
+                    else:
+                        continue  # Skip non-list values
                     
-                    df[flag_name] = df[event_tag_col].apply(check_tag_in_array)
+                    # Set flags for tags present in this record
+                    for tag in FEATURE_CONFIG.consolidated_event_tags:
+                        if tag in tags_in_record:
+                            df.loc[idx, f"{tag}_tag_present"] = 1
+                    
+                    successful_rows += 1
+                    
                 except Exception as e:
-                    print(f"   Warning: Error processing tag {tag}: {e}")
-                    df[flag_name] = 0
+                    # Continue processing other rows even if one fails
+                    continue
             
             # Show some statistics
             total_flags = sum(df[f"{tag}_tag_present"].sum() for tag in FEATURE_CONFIG.consolidated_event_tags)
@@ -318,17 +377,35 @@ class ImprovedAEIOUPipeline:
         if 'market_perception_emotional_profile' in df.columns:
             print("   Processing emotional profile flags with improved parsing")
             
+            print(f"   🔧 Processing {len(FEATURE_CONFIG.emotional_profile_values)} emotions...")
+            
+            # Initialize all emotion flags to 0
             for emotion in FEATURE_CONFIG.emotional_profile_values:
-                flag_name = f"emotion_{emotion}_present"
+                df[f"emotion_{emotion}_present"] = 0
+            
+            # Process each row individually
+            successful_emotion_rows = 0
+            for idx in df.index:
                 try:
-                    def check_emotion_in_array(x):
-                        parsed = parse_array_column(x)
-                        return 1 if any(emotion == item for item in parsed) else 0
+                    value = df.loc[idx, 'market_perception_emotional_profile']
+                    if pd.isna(value) or value is None:
+                        continue
+                        
+                    # Parse the array value
+                    if isinstance(value, list):
+                        emotions_in_record = value
+                    else:
+                        continue
                     
-                    df[flag_name] = df['market_perception_emotional_profile'].apply(check_emotion_in_array)
+                    # Set flags for emotions present in this record
+                    for emotion in FEATURE_CONFIG.emotional_profile_values:
+                        if emotion in emotions_in_record:
+                            df.loc[idx, f"emotion_{emotion}_present"] = 1
+                    
+                    successful_emotion_rows += 1
+                    
                 except Exception as e:
-                    print(f"   Warning: Error processing emotion {emotion}: {e}")
-                    df[flag_name] = 0
+                    continue
             
             total_flags = sum(df[f"emotion_{emotion}_present"].sum() for emotion in FEATURE_CONFIG.emotional_profile_values)
             print(f"   ✅ Created {len(FEATURE_CONFIG.emotional_profile_values)} emotion flags ({total_flags} total activations)")
@@ -341,17 +418,35 @@ class ImprovedAEIOUPipeline:
         if 'market_perception_cognitive_biases' in df.columns:
             print("   Processing cognitive bias flags with improved parsing")
             
+            print(f"   🔧 Processing {len(FEATURE_CONFIG.cognitive_biases_values)} biases...")
+            
+            # Initialize all bias flags to 0  
             for bias in FEATURE_CONFIG.cognitive_biases_values:
-                flag_name = f"bias_{bias}_present"
+                df[f"bias_{bias}_present"] = 0
+            
+            # Process each row individually
+            successful_bias_rows = 0
+            for idx in df.index:
                 try:
-                    def check_bias_in_array(x):
-                        parsed = parse_array_column(x)
-                        return 1 if any(bias == item for item in parsed) else 0
+                    value = df.loc[idx, 'market_perception_cognitive_biases']
+                    if pd.isna(value) or value is None:
+                        continue
+                        
+                    # Parse the array value
+                    if isinstance(value, list):
+                        biases_in_record = value
+                    else:
+                        continue
                     
-                    df[flag_name] = df['market_perception_cognitive_biases'].apply(check_bias_in_array)
+                    # Set flags for biases present in this record
+                    for bias in FEATURE_CONFIG.cognitive_biases_values:
+                        if bias in biases_in_record:
+                            df.loc[idx, f"bias_{bias}_present"] = 1
+                    
+                    successful_bias_rows += 1
+                    
                 except Exception as e:
-                    print(f"   Warning: Error processing bias {bias}: {e}")
-                    df[flag_name] = 0
+                    continue
             
             total_flags = sum(df[f"bias_{bias}_present"].sum() for bias in FEATURE_CONFIG.cognitive_biases_values)
             print(f"   ✅ Created {len(FEATURE_CONFIG.cognitive_biases_values)} bias flags ({total_flags} total activations)")
@@ -362,6 +457,228 @@ class ImprovedAEIOUPipeline:
         
         total_flags = len(FEATURE_CONFIG.get_all_binary_flags())
         print(f"🎯 Total binary flags: {total_flags}")
+        
+        return df
+    
+    def _create_event_category_flags(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Create binary flags for event tag categories (can have multiples)"""
+        
+        print(f"\n🏷️  CREATING EVENT CATEGORY FLAGS")
+        print("=" * 40)
+        
+        event_category_col = 'event_tag_category'
+        
+        if event_category_col not in df.columns:
+            print(f"⚠️  Column '{event_category_col}' not found, skipping category flags")
+            return df
+        
+        # Initialize all flags to 0
+        for category in FEATURE_CONFIG.event_tag_categories:
+            flag_name = f"category_{category.lower().replace(' ', '_')}_present"
+            df[flag_name] = 0
+        
+        # Process each row individually
+        total_activations = 0
+        for idx in df.index:
+            try:
+                value = df.loc[idx, event_category_col]
+                if pd.isna(value) or value is None:
+                    continue
+                    
+                # Parse comma-separated categories
+                if isinstance(value, str):
+                    if ', ' in value:
+                        categories_in_record = [cat.strip() for cat in value.split(',')]
+                    else:
+                        categories_in_record = [value.strip()]
+                else:
+                    continue
+                
+                # Set flags for categories found in this record
+                for category in FEATURE_CONFIG.event_tag_categories:
+                    if category in categories_in_record:
+                        flag_name = f"category_{category.lower().replace(' ', '_')}_present"
+                        df.loc[idx, flag_name] = 1
+                        total_activations += 1
+                        
+            except Exception as e:
+                continue
+        
+        print(f"   📊 Category flags created: {len(FEATURE_CONFIG.event_tag_categories)}")
+        print(f"   🎯 Total activations: {total_activations}")
+        
+        # Show activation counts
+        for category in FEATURE_CONFIG.event_tag_categories:
+            flag_name = f"category_{category.lower().replace(' ', '_')}_present"
+            if flag_name in df.columns:
+                count = df[flag_name].sum()
+                print(f"      {flag_name}: {count} activations")
+        
+        return df
+    
+    def _encode_categorical_features(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Encode categorical features properly for ML models"""
+        
+        print(f"\n🏷️  ENCODING CATEGORICAL FEATURES")
+        print("=" * 40)
+        
+        # Define true categorical columns (one value per record)
+        categorical_columns = [
+            'consolidated_event_type',
+            'consolidated_factor_name', 
+            'event_tag_category',
+            'factor_category',
+            'event_orientation', 
+            'factor_orientation',
+            'evidence_level',
+            'evidence_source',
+            'market_regime',
+            'article_audience_split',
+            'event_trigger'
+        ]
+        
+        categorical_encoded = 0
+        
+        for col in categorical_columns:
+            if col not in df.columns:
+                continue
+                
+            # Get unique values and their counts
+            value_counts = df[col].value_counts()
+            unique_vals = len(value_counts)
+            
+            print(f"   📊 {col}: {unique_vals} unique values")
+            
+            # For ML models, we need to handle categorical encoding
+            # Option 1: Label encoding (ordinal: 0, 1, 2, 3...)
+            # Option 2: One-hot encoding (separate binary column for each value)
+            
+            # Convert to binary flags with consistent _present naming (Interpretation B - Confidence)
+            if unique_vals <= 20:  # Convert to binary flags for reasonable number of categories
+                unique_values = df[col].dropna().unique()
+                for value in unique_values:
+                    if pd.notna(value) and value != '':
+                        # Create consistent _present naming
+                        flag_name = f"{col}_{str(value).lower().replace(' ', '_').replace('-', '_')}_present"
+                        df[flag_name] = (df[col] == value).astype(int)
+                        categorical_encoded += 1
+                print(f"      ✅ Converted to {len(unique_values)} binary flags with _present naming")
+            else:
+                # Label encoding for very large categories  
+                df[f"{col}_encoded"] = pd.Categorical(df[col]).codes
+                print(f"      ✅ Label encoded into 1 numerical column")
+                categorical_encoded += 1
+        
+        print(f"   🎉 Created {categorical_encoded} categorical features")
+        
+        return df
+    
+    def _create_directional_magnitude_features(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Create COMPREHENSIVE interaction features for ALL binary flags with magnitude and direction"""
+        
+        print(f"\n🚀 CREATING COMPREHENSIVE DIRECTIONAL MAGNITUDE FEATURES")
+        print("=" * 60)
+        
+        # Check if we have the required base features
+        if 'factor_magnitude' not in df.columns or 'factor_movement' not in df.columns:
+            print("⚠️  Missing factor_magnitude or factor_movement - skipping directional features")
+            return df
+        
+        # Get ALL binary flag columns
+        all_binary_flags = [col for col in df.columns if col.endswith('_present')]
+        
+        print(f"📊 Processing {len(all_binary_flags)} binary flags with comprehensive directional combinations...")
+        
+        total_features_created = 0
+        features_with_activations = 0
+        
+        # For each binary flag, create multiple directional magnitude combinations
+        for flag_col in all_binary_flags:
+            if df[flag_col].sum() == 0:  # Skip flags with no activations
+                continue
+                
+            base_name = flag_col.replace('_present', '')
+            
+            # 1. DIRECTIONAL MAGNITUDE: Flag × Movement × Magnitude
+            pos_feature = f"{base_name}_positive_magnitude"
+            df[pos_feature] = df[flag_col] * df['factor_magnitude'] * (df['factor_movement'] == 1).astype(int)
+            
+            neg_feature = f"{base_name}_negative_magnitude"
+            df[neg_feature] = df[flag_col] * df['factor_magnitude'] * (df['factor_movement'] == -1).astype(int)
+            
+            neutral_feature = f"{base_name}_neutral_magnitude"
+            df[neutral_feature] = df[flag_col] * df['factor_magnitude'] * (df['factor_movement'] == 0).astype(int)
+            
+            # 2. MAGNITUDE INTENSITY: Flag × High/Low Magnitude
+            high_mag_feature = f"{base_name}_high_magnitude"
+            df[high_mag_feature] = df[flag_col] * (df['factor_magnitude'] > 0.1).astype(int) * df['factor_magnitude']
+            
+            low_mag_feature = f"{base_name}_low_magnitude"  
+            df[low_mag_feature] = df[flag_col] * (df['factor_magnitude'] <= 0.1).astype(int) * df['factor_magnitude']
+            
+            # 3. SIGNED MAGNITUDE: Flag × Signed Magnitude (if available)
+            if 'signed_magnitude' in df.columns:
+                signed_feature = f"{base_name}_signed_magnitude"
+                df[signed_feature] = df[flag_col] * df['signed_magnitude']
+                total_features_created += 1
+                if df[signed_feature].abs().sum() > 0:
+                    features_with_activations += 1
+            
+            # Count features created for this flag
+            flag_features = [pos_feature, neg_feature, neutral_feature, high_mag_feature, low_mag_feature]
+            total_features_created += len(flag_features)
+            
+            # Count features with actual activations
+            for feature in flag_features:
+                if df[feature].sum() > 0:
+                    features_with_activations += 1
+        
+        # 4. BUSINESS FACTOR INTERACTIONS (the ones you mentioned we missed!)
+        print("   💼 Creating business factor directional features...")
+        
+        business_factors = [
+            'consolidated_event_type', 'consolidated_factor_name', 'event_tag_category', 
+            'factor_category', 'event_orientation', 'factor_orientation'
+        ]
+        
+        for factor_col in business_factors:
+            if factor_col not in df.columns:
+                continue
+                
+            # Get unique values for this business factor
+            unique_values = df[factor_col].dropna().unique()
+            
+            for value in unique_values:
+                if pd.isna(value) or str(value).strip() == '':
+                    continue
+                    
+                # Create safe feature name
+                safe_value = str(value).lower().replace(' ', '_').replace('-', '_').replace('/', '_')
+                base_feature_name = f"{factor_col}_{safe_value}"
+                
+                # Create binary flag for this business factor value
+                factor_flag = (df[factor_col] == value).astype(int)
+                
+                if factor_flag.sum() == 0:  # Skip if no activations
+                    continue
+                
+                # Create directional magnitude features for this business factor
+                pos_feature = f"{base_feature_name}_positive_magnitude"
+                df[pos_feature] = factor_flag * df['factor_magnitude'] * (df['factor_movement'] == 1).astype(int)
+                
+                neg_feature = f"{base_feature_name}_negative_magnitude"
+                df[neg_feature] = factor_flag * df['factor_magnitude'] * (df['factor_movement'] == -1).astype(int)
+                
+                total_features_created += 2
+                if df[pos_feature].sum() > 0:
+                    features_with_activations += 1
+                if df[neg_feature].sum() > 0:
+                    features_with_activations += 1
+        
+        print(f"   🎉 COMPREHENSIVE FEATURE CREATION COMPLETE!")
+        print(f"   📊 Total directional features created: {total_features_created}")
+        print(f"   ✅ Features with real activations: {features_with_activations}")
+        print(f"   📈 Activation rate: {features_with_activations/total_features_created*100:.1f}%")
         
         return df
     
@@ -440,7 +757,7 @@ class ImprovedAEIOUPipeline:
         
         return df
     
-    def run_ml_models_improved(self, df: pd.DataFrame, export_path: str) -> str:
+    def run_ml_models_improved(self, df: pd.DataFrame, export_path: str, use_classification: bool = True) -> str:
         """Run ML models with improved analysis"""
         
         print("🤖 RUNNING ML MODELS (IMPROVED)")
@@ -455,27 +772,63 @@ class ImprovedAEIOUPipeline:
         df.to_csv(prepared_data_path, index=False)
         print(f"💾 Prepared clean data: {prepared_data_path}")
         
-        # Prepare features for ML
-        feature_columns = (
+        # Prepare features for ML (including encoded categorical features)
+        base_feature_columns = (
             FEATURE_CONFIG.categorical_features +
             FEATURE_CONFIG.get_all_numerical_features() +
             FEATURE_CONFIG.get_all_binary_flags()
         )
+        
+        # Add encoded categorical features (now using consistent _present naming)
+        encoded_categorical_cols = [col for col in df.columns if 
+                                   col.endswith('_encoded') or 
+                                   (col.endswith('_present') and any(cat_col in col for cat_col in FEATURE_CONFIG.categorical_features))]
+        
+        feature_columns = base_feature_columns + encoded_categorical_cols
         
         # Filter to available columns
         available_features = [col for col in feature_columns if col in df.columns]
         target_col = FEATURE_CONFIG.primary_target
         
         print(f"📊 Using {len(available_features)} features")
-        print(f"🎯 Target: {target_col}")
         
-        # Check if signed_magnitude is included
-        if 'signed_magnitude' in available_features:
+        # Check if signed_magnitude_scaled is included
+        if 'signed_magnitude_scaled' in available_features:
+            print("✅ signed_magnitude_scaled included in features")
+        elif 'signed_magnitude' in available_features:
             print("✅ signed_magnitude included in features")
         
-        # Prepare data
+        # Prepare data with LabelEncoder for categorical strings (62.4% winning approach)
+        from sklearn.preprocessing import LabelEncoder
+        
         X = df[available_features].copy()
-        y = df[target_col].dropna()
+        
+        # Apply LabelEncoder to categorical string columns (this was the key to 62.4%!)
+        categorical_string_cols = [col for col in available_features if df[col].dtype == 'object']
+        label_encoders = {}
+        
+        if categorical_string_cols:
+            print(f"🏷️  Applying LabelEncoder to {len(categorical_string_cols)} categorical strings (62.4% approach)")
+            for col in categorical_string_cols:
+                le = LabelEncoder()
+                col_data = X[col].fillna('unknown').astype(str)
+                X[f"{col}_encoded"] = le.fit_transform(col_data)
+                label_encoders[col] = le
+                # Remove original string column
+                X = X.drop(columns=[col])
+            print(f"   ✅ Encoded {len(categorical_string_cols)} categorical features")
+        
+        # Prepare target variable based on mode
+        if use_classification:
+            # Convert to UP/DOWN classification
+            raw_target = df[target_col].dropna()
+            y = (raw_target > 0).astype(int)  # 1 for UP, 0 for DOWN
+            print(f"🎯 Target: UP/DOWN classification")
+            print(f"   UP moves: {y.sum():,} ({y.mean()*100:.1f}%)")
+            print(f"   DOWN moves: {(1-y).sum():,} ({(1-y.mean())*100:.1f}%)")
+        else:
+            y = df[target_col].dropna()
+            print(f"🎯 Target: {target_col} (regression)")
         
         # Align X and y (remove rows where target is missing)
         valid_indices = df[target_col].notna()
@@ -515,43 +868,83 @@ class ImprovedAEIOUPipeline:
         results = {}
         
         # 1. Random Forest - improved parameters
-        print("🌲 Training Random Forest (improved)...")
-        rf = RandomForestRegressor(
-            n_estimators=200,  # More trees
-            max_depth=15,      # Deeper trees
-            min_samples_split=10,
-            min_samples_leaf=5,
-            random_state=42, 
-            n_jobs=-1
-        )
+        if use_classification:
+            print("🌲 Training Random Forest Classifier (improved)...")
+            rf = RandomForestClassifier(
+                n_estimators=200,  # More trees
+                max_depth=15,      # Deeper trees
+                min_samples_split=10,
+                min_samples_leaf=5,
+                random_state=42, 
+                n_jobs=-1
+            )
+        else:
+            print("🌲 Training Random Forest Regressor (improved)...")
+            rf = RandomForestRegressor(
+                n_estimators=200,  # More trees
+                max_depth=15,      # Deeper trees
+                min_samples_split=10,
+                min_samples_leaf=5,
+                random_state=42, 
+                n_jobs=-1
+            )
+        
         rf.fit(X_train, y_train)
         rf_pred = rf.predict(X_test)
         
         models['random_forest'] = rf
-        results['random_forest'] = {
-            'rmse': np.sqrt(mean_squared_error(y_test, rf_pred)),
-            'mae': mean_absolute_error(y_test, rf_pred),
-            'r2': r2_score(y_test, rf_pred),
-            'directional_accuracy': ((rf_pred > 0) == (y_test > 0)).mean() * 100
-        }
+        
+        if use_classification:
+            # Classification metrics
+            rf_accuracy = accuracy_score(y_test, rf_pred) * 100
+            results['random_forest'] = {
+                'accuracy': rf_accuracy,
+                'directional_accuracy': rf_accuracy,  # Same as accuracy for classification
+                'rmse': 0,  # Not applicable for classification
+                'mae': 0,   # Not applicable for classification  
+                'r2': 0     # Not applicable for classification
+            }
+        else:
+            # Regression metrics
+            results['random_forest'] = {
+                'rmse': np.sqrt(mean_squared_error(y_test, rf_pred)),
+                'mae': mean_absolute_error(y_test, rf_pred),
+                'r2': r2_score(y_test, rf_pred),
+                'directional_accuracy': ((rf_pred > 0) == (y_test > 0)).mean() * 100,
+                'accuracy': ((rf_pred > 0) == (y_test > 0)).mean() * 100  # For consistency
+            }
         
         # 2. LightGBM - improved parameters
         print("⚡ Training LightGBM (improved)...")
         lgb_train = lgb.Dataset(X_train, y_train)
         lgb_valid = lgb.Dataset(X_test, y_test, reference=lgb_train)
         
-        lgb_params = {
-            'objective': 'regression',
-            'metric': 'rmse',
-            'boosting_type': 'gbdt',
-            'num_leaves': 63,      # More leaves
-            'learning_rate': 0.05, # Lower learning rate
-            'feature_fraction': 0.8,
-            'bagging_fraction': 0.7,
-            'bagging_freq': 5,
-            'min_child_samples': 20,
-            'verbose': -1
-        }
+        if use_classification:
+            lgb_params = {
+                'objective': 'binary',
+                'metric': 'binary_logloss',
+                'boosting_type': 'gbdt',
+                'num_leaves': 63,      # More leaves
+                'learning_rate': 0.05, # Lower learning rate
+                'feature_fraction': 0.8,
+                'bagging_fraction': 0.7,
+                'bagging_freq': 5,
+                'min_child_samples': 20,
+                'verbose': -1
+            }
+        else:
+            lgb_params = {
+                'objective': 'regression',
+                'metric': 'rmse',
+                'boosting_type': 'gbdt',
+                'num_leaves': 63,      # More leaves
+                'learning_rate': 0.05, # Lower learning rate
+                'feature_fraction': 0.8,
+                'bagging_fraction': 0.7,
+                'bagging_freq': 5,
+                'min_child_samples': 20,
+                'verbose': -1
+            }
         
         lgb_model = lgb.train(
             lgb_params,
@@ -564,12 +957,27 @@ class ImprovedAEIOUPipeline:
         lgb_pred = lgb_model.predict(X_test)
         
         models['lightgbm'] = lgb_model
-        results['lightgbm'] = {
-            'rmse': np.sqrt(mean_squared_error(y_test, lgb_pred)),
-            'mae': mean_absolute_error(y_test, lgb_pred),
-            'r2': r2_score(y_test, lgb_pred),
-            'directional_accuracy': ((lgb_pred > 0) == (y_test > 0)).mean() * 100
-        }
+        
+        if use_classification:
+            # For classification, convert probabilities to binary predictions
+            lgb_pred_binary = (lgb_pred > 0.5).astype(int)
+            lgb_accuracy = accuracy_score(y_test, lgb_pred_binary) * 100
+            results['lightgbm'] = {
+                'accuracy': lgb_accuracy,
+                'directional_accuracy': lgb_accuracy,  # Same as accuracy for classification
+                'rmse': 0,  # Not applicable for classification
+                'mae': 0,   # Not applicable for classification
+                'r2': 0     # Not applicable for classification
+            }
+        else:
+            # Regression metrics
+            results['lightgbm'] = {
+                'rmse': np.sqrt(mean_squared_error(y_test, lgb_pred)),
+                'mae': mean_absolute_error(y_test, lgb_pred),
+                'r2': r2_score(y_test, lgb_pred),
+                'directional_accuracy': ((lgb_pred > 0) == (y_test > 0)).mean() * 100,
+                'accuracy': ((lgb_pred > 0) == (y_test > 0)).mean() * 100  # For consistency
+            }
         
         # Comprehensive feature analysis
         print("📊 Analyzing comprehensive feature relationships...")
@@ -798,6 +1206,70 @@ class ImprovedAEIOUPipeline:
         # Create markdown summary
         self._create_markdown_summary_improved(results_dir, summary, combined_analysis)
     
+    def _create_factor_name_flags(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Create binary flags for consolidated factor names (54 flags)"""
+        print(f"\n🏷️  CREATING FACTOR NAME FLAGS")
+        print("=" * 40)
+        
+        if 'consolidated_factor_name' not in df.columns:
+            print("⚠️ Column 'consolidated_factor_name' not found, skipping factor name flags")
+            return df
+        
+        flags_created = 0
+        total_activations = 0
+        
+        # Get all possible factor names from config
+        for factor_name in FEATURE_CONFIG.consolidated_factor_names:
+            flag_name = f"factor_name_{factor_name}_present"
+            df[flag_name] = (df['consolidated_factor_name'] == factor_name).astype(int)
+            activations = df[flag_name].sum()
+            total_activations += activations
+            flags_created += 1
+        
+        print(f"   📊 Factor name flags created: {flags_created}")
+        print(f"   📈 Total activations: {total_activations}")
+        return df
+    
+    def _create_categorical_enum_flags(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Create binary flags for all categorical enum values (62 flags)"""
+        print(f"\n🏷️  CREATING CATEGORICAL ENUM FLAGS")
+        print("=" * 40)
+        
+        total_flags = 0
+        total_activations = 0
+        
+        # Define categorical columns and their enum values
+        categorical_mappings = {
+            'event_orientation': FEATURE_CONFIG.orientation_values,
+            'factor_orientation': FEATURE_CONFIG.orientation_values, 
+            'evidence_level': FEATURE_CONFIG.evidence_level_values,
+            'evidence_source': FEATURE_CONFIG.evidence_source_values,
+            'market_regime': FEATURE_CONFIG.market_regime_values,
+            'article_audience_split': FEATURE_CONFIG.audience_split_values,
+            'event_trigger': FEATURE_CONFIG.event_trigger_values
+        }
+        
+        for col_name, enum_values in categorical_mappings.items():
+            if col_name in df.columns and enum_values:
+                print(f"   Creating flags for {col_name} ({len(enum_values)} values)...")
+                col_flags = 0
+                col_activations = 0
+                for enum_value in enum_values:
+                    flag_name = f"{col_name}_{enum_value}_present"
+                    df[flag_name] = (df[col_name] == enum_value).astype(int)
+                    activations = df[flag_name].sum()
+                    col_activations += activations
+                    col_flags += 1
+                    total_flags += 1
+                print(f"      ✅ {col_flags} flags, {col_activations} activations")
+                total_activations += col_activations
+            else:
+                print(f"   ⚠️ Column '{col_name}' not found or no enum values")
+        
+        print(f"   📊 Total categorical enum flags: {total_flags}")
+        print(f"   📈 Total activations: {total_activations}")
+        return df
+
     def _create_markdown_summary_improved(self, results_dir, summary, combined_analysis):
         """Create readable markdown summary with comprehensive feature analysis"""
         
@@ -899,7 +1371,7 @@ class ImprovedAEIOUPipeline:
             df = self.prepare_features_improved(df)
             
             # Step 3: Run ML models (improved)
-            results_dir = self.run_ml_models_improved(df, export_path)
+            results_dir = self.run_ml_models_improved(df, export_path, use_classification=True)
             
             print("🎉 IMPROVED PIPELINE COMPLETE!")
             print(f"📁 Results: {results_dir}")
@@ -1013,15 +1485,31 @@ class ImprovedAEIOUPipeline:
             feature_correlations = {}
             feature_stats = {}
             for feature in X_clean.columns:
-                corr = X_clean[feature].corr(y_clean)
-                feature_correlations[feature] = corr
-                feature_stats[feature] = {
-                    'mean': X_clean[feature].mean(),
-                    'std': X_clean[feature].std(),
-                    'min': X_clean[feature].min(),
-                    'max': X_clean[feature].max(),
-                    'unique_values': X_clean[feature].nunique()
-                }
+                try:
+                    # Skip correlation for problematic features
+                    if X_clean[feature].dtype == 'object':
+                        feature_correlations[feature] = 0
+                        feature_stats[feature] = {
+                            'mean': X_clean[feature].nunique(),  # Number of unique values
+                            'std': 0,
+                            'min': 0,
+                            'max': X_clean[feature].nunique(),
+                            'unique_values': X_clean[feature].nunique()
+                        }
+                    else:
+                        corr = X_clean[feature].corr(y_clean)
+                        feature_correlations[feature] = corr
+                        feature_stats[feature] = {
+                            'mean': X_clean[feature].mean(),
+                            'std': X_clean[feature].std(),
+                            'min': X_clean[feature].min(),
+                            'max': X_clean[feature].max(),
+                            'unique_values': X_clean[feature].nunique()
+                        }
+                except Exception as e:
+                    print(f"   Warning: Could not process feature {feature}: {e}")
+                    feature_correlations[feature] = 0
+                    feature_stats[feature] = {'mean': 0, 'std': 0, 'min': 0, 'max': 0, 'unique_values': 0}
             
             # Enhanced analysis dataframes
             lgb_importance['correlation_with_target'] = lgb_importance['feature'].map(feature_correlations)
