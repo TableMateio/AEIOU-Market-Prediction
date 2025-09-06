@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-09-06_14-47",
+  "configuration": "enhanced_with_ai_fixes",
+  "performance": {
+    "lightgbm_accuracy": 55.88659298414223,
+    "randomforest_accuracy": 54.973570398846704
+  },
+  "improvements_applied": {
+    "target_leakage_removed": true,
+    "constant_flags_removed": true,
+    "features_scaled": true,
+    "signed_magnitude_split": true,
+    "time_series_cv": true
+  },
+  "data_stats": {
+    "total_records": 10401,
+    "features_after_cleanup": 47,
+    "target_distribution": {
+      "up_moves": 4857,
+      "down_moves": 5544
+    }
+  }
+}

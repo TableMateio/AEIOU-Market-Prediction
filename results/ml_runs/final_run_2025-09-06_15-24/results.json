@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-09-06_15-24",
+  "configuration": "final_working_no_leakage",
+  "performance": {
+    "lightgbm_accuracy": 55.88659298414223,
+    "randomforest_accuracy": 55.7424315233061,
+    "majority_baseline": 55.88659298414225,
+    "improvement": -1.4210854715202004e-14
+  },
+  "validation": {
+    "method": "time_series_split",
+    "target_leakage_removed": true,
+    "array_parsing_working": true
+  },
+  "data_stats": {
+    "total_records": 10401,
+    "total_features": 46,
+    "binary_flags": 30,
+    "flag_activations": 10337,
+    "up_moves": 4857,
+    "down_moves": 5544
+  }
+}

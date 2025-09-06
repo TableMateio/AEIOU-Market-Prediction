@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-09-06_15-08",
+  "performance": {
+    "lightgbm_accuracy": 81.54733301297453,
+    "randomforest_accuracy": 97.59730898606439
+  },
+  "configuration": "optimized_winning_config",
+  "data_stats": {
+    "total_records": 10401,
+    "features": 111,
+    "up_moves": 4881,
+    "down_moves": 5520
+  }
+}
