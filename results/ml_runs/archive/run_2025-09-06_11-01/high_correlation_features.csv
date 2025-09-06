@@ -1,0 +1,2 @@
+feature,specific_feature,feature_category,rf_importance,lgb_importance,combined_rank,correlation_with_target,correlation_direction,abs_correlation,feature_mean,feature_std,feature_range,technical_category
+market_regime,market_regime,Core Categorical,0.02755336613721144,1,11,-0.15079914609120237,negative,0.15079914609120237,0.9141734003057436,0.9008108109580144,3.0,categorical

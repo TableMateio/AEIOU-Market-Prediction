@@ -1,0 +1,7 @@
+feature_category,count,avg_rf_importance,avg_lgb_importance,avg_abs_correlation,top_feature
+Core Categorical,11,0.04024114698649192,2.090909090909091,0.039373103235414514,consolidated_event_type
+Core Numerical,6,0.02872282763159749,2.0,0.014792447237565821,article_source_credibility
+Extended Numerical,22,0.017500473516318355,1.2272727272727273,0.02659145668655906,article_publisher_credibility
+Event Tags,58,0.0,0.0,,cost_increase
+Emotional Profile,22,0.0,0.0,,excitement
+Cognitive Biases,15,0.0,0.0,,herding_behavior

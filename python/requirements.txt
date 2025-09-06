@@ -1,4 +1,7 @@
-# AEIOU Random Forest ML Pipeline Requirements
+# AEIOU ML Pipeline Requirements
+
+# Database Connection
+supabase>=2.0.0
 
 # Core ML Libraries
 scikit-learn>=1.3.0
@@ -30,3 +33,6 @@ scipy>=1.10.0
 
 # Progress Bars
 tqdm>=4.65.0
+
+# Excel export
+openpyxl>=3.1.0

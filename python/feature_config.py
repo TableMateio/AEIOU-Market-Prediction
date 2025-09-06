@@ -99,8 +99,8 @@ class FeatureConfig:
         
         # Categorical Features
         self.categorical_features = [
-            'consolidated_event_types',      # 12 event types (matches self.consolidated_event_types)
-            'consolidated_factor_names',     # 76 factor names (matches self.consolidated_factor_names)
+            'consolidated_event_type',       # 12 event types (matches self.consolidated_event_types)
+            'consolidated_factor_name',      # 76 factor names (matches self.consolidated_factor_names)
             'consolidated_event_tags',       # Event tags from above list
             'event_tag_category',           # Event tag categories 
             'factor_category',              # Factor categories from factor_names_categories
@@ -121,6 +121,7 @@ class FeatureConfig:
         self.core_numerical_features = [
             'factor_magnitude',            # Business impact (0-1)
             'factor_movement',             # Direction: +1, -1, 0
+            'signed_magnitude',             # Directional business impact
             'causal_certainty',           # Causal confidence (0-1)
             'article_source_credibility',  # Source reliability (0-1)
             'market_perception_intensity', # Market buzz (0-1)
@@ -238,6 +239,12 @@ class FeatureConfig:
             self.get_emotional_profile_flags() +
             self.get_cognitive_bias_flags()
         )
+    
+    def get_all_features(self) -> List[str]:
+        """Get all feature names (categorical + numerical + binary flags)"""
+        return (self.categorical_features + 
+                self.get_all_numerical_features() + 
+                self.get_all_binary_flags())
     
     def get_total_feature_count(self) -> int:
         """Get total feature count"""

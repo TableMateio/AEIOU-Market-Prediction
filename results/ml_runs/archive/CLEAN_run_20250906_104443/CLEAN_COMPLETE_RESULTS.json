@@ -1,0 +1,171 @@
+{
+  "run_info": {
+    "timestamp": "20250906_104443",
+    "export_path": "/Users/scottbergman/Dropbox/Projects/AEIOU/data/exports/CLEAN_apple_training_data_20250906_104443.csv",
+    "prepared_data_path": "/Users/scottbergman/Dropbox/Projects/AEIOU/results/ml_runs/CLEAN_run_20250906_104443/prepared_clean_data.csv",
+    "results_dir": "/Users/scottbergman/Dropbox/Projects/AEIOU/results/ml_runs/CLEAN_run_20250906_104443",
+    "improvements": [
+      "Filtered out zero target values",
+      "Excluded months with missing data",
+      "Improved array parsing for binary flags",
+      "Added signed_magnitude feature",
+      "Better model parameters"
+    ]
+  },
+  "data_stats": {
+    "total_records": 9158,
+    "target_variable": "abs_change_1day_after_pct",
+    "available_features": 134,
+    "has_signed_magnitude": true
+  },
+  "target_distribution": {
+    "mean": -0.39151093142137655,
+    "std": 2.958537815628548,
+    "min": -8.694104560622911,
+    "max": 14.456790834244925,
+    "positive_moves": 4141,
+    "negative_moves": 5017,
+    "positive_pct": 45.21729635291548,
+    "zero_values": 0
+  },
+  "model_performance": {
+    "random_forest": {
+      "rmse": 1.705872240161463,
+      "mae": 1.3316421533807379,
+      "r2": -0.7206766995689675,
+      "directional_accuracy": 59.06113537117904
+    },
+    "lightgbm": {
+      "rmse": 1.3092160369195196,
+      "mae": 0.9856567324198401,
+      "r2": -0.013512027284578787,
+      "directional_accuracy": 59.55240174672489
+    }
+  },
+  "top_features": {
+    "random_forest": [
+      {
+        "feature": "consolidated_event_type",
+        "importance": 0.16349841139523874
+      },
+      {
+        "feature": "article_source_credibility",
+        "importance": 0.14467895098581507
+      },
+      {
+        "feature": "event_tag_category",
+        "importance": 0.08632806308025835
+      },
+      {
+        "feature": "article_publisher_credibility",
+        "importance": 0.07066670993421942
+      },
+      {
+        "feature": "article_audience_split",
+        "importance": 0.058739586338408714
+      },
+      {
+        "feature": "market_perception_hope_vs_fear",
+        "importance": 0.058177761025428903
+      },
+      {
+        "feature": "event_orientation",
+        "importance": 0.05705919180728372
+      },
+      {
+        "feature": "article_time_lag_days",
+        "importance": 0.05126790725592237
+      },
+      {
+        "feature": "article_author_credibility",
+        "importance": 0.04575803818575437
+      },
+      {
+        "feature": "regime_alignment",
+        "importance": 0.04117792304389457
+      },
+      {
+        "feature": "event_trigger",
+        "importance": 0.031023945997561028
+      },
+      {
+        "feature": "market_regime",
+        "importance": 0.02755336613721144
+      },
+      {
+        "feature": "perception_gap_risk_awareness",
+        "importance": 0.02136270882281011
+      },
+      {
+        "feature": "market_perception_surprise_vs_anticipated",
+        "importance": 0.015510222425799126
+      },
+      {
+        "feature": "signed_magnitude",
+        "importance": 0.01469004282482995
+      }
+    ],
+    "lightgbm": [
+      {
+        "feature": "article_source_credibility",
+        "importance": 10
+      },
+      {
+        "feature": "consolidated_event_type",
+        "importance": 7
+      },
+      {
+        "feature": "event_tag_category",
+        "importance": 7
+      },
+      {
+        "feature": "article_publisher_credibility",
+        "importance": 7
+      },
+      {
+        "feature": "article_time_lag_days",
+        "importance": 6
+      },
+      {
+        "feature": "market_perception_hope_vs_fear",
+        "importance": 3
+      },
+      {
+        "feature": "event_orientation",
+        "importance": 2
+      },
+      {
+        "feature": "regime_alignment",
+        "importance": 2
+      },
+      {
+        "feature": "article_audience_split",
+        "importance": 2
+      },
+      {
+        "feature": "ai_assessment_business_impact_likelihood",
+        "importance": 2
+      },
+      {
+        "feature": "market_perception_surprise_vs_anticipated",
+        "importance": 2
+      },
+      {
+        "feature": "reframing_potential",
+        "importance": 1
+      },
+      {
+        "feature": "perception_gap_correction_potential",
+        "importance": 1
+      },
+      {
+        "feature": "perception_gap_optimism_bias",
+        "importance": 1
+      },
+      {
+        "feature": "market_perception_consensus_vs_division",
+        "importance": 1
+      }
+    ]
+  }
+}

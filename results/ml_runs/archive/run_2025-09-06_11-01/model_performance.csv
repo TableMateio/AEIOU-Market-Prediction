@@ -1,0 +1,12 @@
+Model Performance,,,,
+Random Forest,RMSE: 1.7059,MAE: 1.3316,R²: -0.7207,Directional Accuracy: 59.1%
+LightGBM,RMSE: 1.3092,MAE: 0.9857,R²: -0.0135,Directional Accuracy: 59.6%
+,,,,
+Data Summary,,,,
+Total Records,"9,158",,,
+Available Features,134,,,
+Target Variable,abs_change_1day_after_pct,,,
+Target Mean,-0.392%,,,
+Target Std,2.959%,,,
+Positive Moves,4141 (45.2%),,,
+Negative Moves,5017 (54.8%),,,

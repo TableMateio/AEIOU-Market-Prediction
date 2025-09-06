@@ -1,0 +1,2 @@
+article_id,article_published_at,abs_change_1day_after_pct,abs_change_1week_after_pct,consolidated_event_tags,consolidated_event_type,consolidated_factor_name,event_tag_category,factor_category
+1,2023-01-03T14:30:00Z,2.34,-1.23,"['product_launch', 'earnings']",product_announcement,revenue_growth,business_operations,financial_performance

@@ -1,0 +1,11 @@
+feature,specific_feature,feature_category,rf_importance,lgb_importance,combined_rank,correlation_with_target,correlation_direction,abs_correlation,feature_mean,feature_std,feature_range,technical_category
+cost_increase_tag_present,cost_increase,Event Tags,0.0,0,50,,neutral,,0.0,0.0,0.0,event_tag_flag
+economic_conditions_tag_present,economic_conditions,Event Tags,0.0,0,52,,neutral,,0.0,0.0,0.0,event_tag_flag
+regulatory_change_tag_present,regulatory_change,Event Tags,0.0,0,53,,neutral,,0.0,0.0,0.0,event_tag_flag
+supply_disruption_tag_present,supply_disruption,Event Tags,0.0,0,54,,neutral,,0.0,0.0,0.0,event_tag_flag
+corporate_strategy_tag_present,corporate_strategy,Event Tags,0.0,0,55,,neutral,,0.0,0.0,0.0,event_tag_flag
+shareholder_relations_tag_present,shareholder_relations,Event Tags,0.0,0,56,,neutral,,0.0,0.0,0.0,event_tag_flag
+leadership_tag_present,leadership,Event Tags,0.0,0,57,,neutral,,0.0,0.0,0.0,event_tag_flag
+executive_change_tag_present,executive_change,Event Tags,0.0,0,58,,neutral,,0.0,0.0,0.0,event_tag_flag
+currency_tag_present,currency,Event Tags,0.0,0,59,,neutral,,0.0,0.0,0.0,event_tag_flag
+tariff_tag_present,tariff,Event Tags,0.0,0,69,,neutral,,0.0,0.0,0.0,event_tag_flag

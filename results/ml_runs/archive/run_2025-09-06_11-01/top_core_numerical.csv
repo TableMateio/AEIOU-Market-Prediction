@@ -1,0 +1,7 @@
+feature,specific_feature,feature_category,rf_importance,lgb_importance,combined_rank,correlation_with_target,correlation_direction,abs_correlation,feature_mean,feature_std,feature_range,technical_category
+article_source_credibility,article_source_credibility,Core Numerical,0.14467895098581507,10,2,0.025225578650092985,positive,0.025225578650092985,0.4405001091941471,0.2183731957599057,0.8,numerical
+signed_magnitude,signed_magnitude,Core Numerical,0.01469004282482995,1,13,0.03338198972602075,positive,0.03338198972602075,0.004823323869840576,0.02429176367544856,0.5,numerical
+factor_magnitude,factor_magnitude,Core Numerical,0.004800252868025033,1,20,-0.007631312681898866,negative,0.007631312681898866,0.015266542913299848,0.019591488014322353,0.25,numerical
+factor_movement,factor_movement,Core Numerical,0.003613767884476504,0,31,-0.0025882493899809333,negative,0.0025882493899809333,0.24252020091723084,0.9494348418513792,2.0,numerical
+market_perception_intensity,market_perception_intensity,Core Numerical,0.002657138482366936,0,32,-0.015742152943897816,negative,0.015742152943897816,0.508402489626556,0.1515278126203704,0.95,numerical
+causal_certainty,causal_certainty,Core Numerical,0.0018968127440714521,0,36,0.004185400033503565,positive,0.004185400033503565,0.7894736842105262,0.1453645679404901,0.8,numerical

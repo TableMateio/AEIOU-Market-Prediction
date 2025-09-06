@@ -1,0 +1,11 @@
+feature,specific_feature,feature_category,rf_importance,lgb_importance,combined_rank,correlation_with_target,correlation_direction,abs_correlation,feature_mean,feature_std,feature_range,technical_category
+emotion_excitement_present,excitement,Emotional Profile,0.0,0,40,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_concern_present,concern,Emotional Profile,0.0,0,41,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_uncertainty_present,uncertainty,Emotional Profile,0.0,0,42,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_skepticism_present,skepticism,Emotional Profile,0.0,0,43,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_surprise_present,surprise,Emotional Profile,0.0,0,44,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_interest_present,interest,Emotional Profile,0.0,0,45,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_satisfaction_present,satisfaction,Emotional Profile,0.0,0,46,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_relief_present,relief,Emotional Profile,0.0,0,47,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_confidence_present,confidence,Emotional Profile,0.0,0,48,,neutral,,0.0,0.0,0.0,emotion_flag
+emotion_optimism_present,optimism,Emotional Profile,0.0,0,49,,neutral,,0.0,0.0,0.0,emotion_flag

@@ -1,0 +1,11 @@
+feature,specific_feature,feature_category,rf_importance,lgb_importance,combined_rank,correlation_with_target,correlation_direction,abs_correlation,feature_mean,feature_std,feature_range,technical_category
+article_publisher_credibility,article_publisher_credibility,Extended Numerical,0.07066670993421942,7,4,0.02104563235290301,positive,0.02104563235290301,0.60329766324525,0.12991895667317424,0.6000000000000001,numerical
+market_perception_hope_vs_fear,market_perception_hope_vs_fear,Extended Numerical,0.058177761025428903,3,6,0.016425642913321378,positive,0.016425642913321378,0.038512775715221666,0.29643536630382,1.4,numerical
+article_time_lag_days,article_time_lag_days,Extended Numerical,0.05126790725592237,6,7,0.037086821055656735,positive,0.037086821055656735,0.955055689015069,8.582389639065633,364.0,numerical
+regime_alignment,regime_alignment,Extended Numerical,0.04117792304389457,2,9,0.06553089836770973,positive,0.06553089836770973,0.19893535706486132,0.22760441508078408,1.5,numerical
+market_perception_surprise_vs_anticipated,market_perception_surprise_vs_anticipated,Extended Numerical,0.015510222425799126,2,10,-0.09468011242580765,negative,0.09468011242580765,-0.025611487224284784,0.15797061449994151,1.2,numerical
+ai_assessment_business_impact_likelihood,ai_assessment_business_impact_likelihood,Extended Numerical,0.00922620919554293,2,12,-0.012482833315065925,negative,0.012482833315065925,0.7012065953264904,0.16555827076943047,1.0,numerical
+perception_gap_optimism_bias,perception_gap_optimism_bias,Extended Numerical,0.009689660055580909,1,14,0.003584959684177106,positive,0.003584959684177106,-0.015549246560384361,0.17597628184924496,1.6,numerical
+perception_gap_correction_potential,perception_gap_correction_potential,Extended Numerical,0.008316953997600402,1,15,0.022824355208465232,positive,0.022824355208465232,0.3675584188687486,0.12703153395847547,0.9,numerical
+market_perception_consensus_vs_division,market_perception_consensus_vs_division,Extended Numerical,0.008034682411250766,1,16,0.03699132831390858,positive,0.03699132831390858,0.4969316444638567,0.1772910158882004,1.1,numerical
+article_author_credibility,article_author_credibility,Extended Numerical,0.04575803818575437,0,17,0.06336511196677162,positive,0.06336511196677162,0.21359467132561694,0.104969593885512,0.5,numerical

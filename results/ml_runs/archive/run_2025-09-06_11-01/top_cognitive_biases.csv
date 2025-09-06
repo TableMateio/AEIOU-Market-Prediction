@@ -1,0 +1,11 @@
+feature,specific_feature,feature_category,rf_importance,lgb_importance,combined_rank,correlation_with_target,correlation_direction,abs_correlation,feature_mean,feature_std,feature_range,technical_category
+bias_herding_behavior_present,herding_behavior,Cognitive Biases,0.0,0,62,,neutral,,0.0,0.0,0.0,bias_flag
+bias_survivorship_bias_present,survivorship,Cognitive Biases,0.0,0,65,,neutral,,0.0,0.0,0.0,bias_flag
+bias_planning_fallacy_present,planning_fallacy,Cognitive Biases,0.0,0,66,,neutral,,0.0,0.0,0.0,bias_flag
+bias_halo_effect_present,halo_effect,Cognitive Biases,0.0,0,67,,neutral,,0.0,0.0,0.0,bias_flag
+bias_authority_bias_present,authority,Cognitive Biases,0.0,0,68,,neutral,,0.0,0.0,0.0,bias_flag
+bias_recency_bias_present,recency,Cognitive Biases,0.0,0,70,,neutral,,0.0,0.0,0.0,bias_flag
+bias_hindsight_bias_present,hindsight,Cognitive Biases,0.0,0,71,,neutral,,0.0,0.0,0.0,bias_flag
+bias_sunk_cost_fallacy_present,sunk_cost_fallacy,Cognitive Biases,0.0,0,72,,neutral,,0.0,0.0,0.0,bias_flag
+bias_loss_aversion_present,loss_aversion,Cognitive Biases,0.0,0,73,,neutral,,0.0,0.0,0.0,bias_flag
+bias_overconfidence_bias_present,overconfidence,Cognitive Biases,0.0,0,74,,neutral,,0.0,0.0,0.0,bias_flag
