@@ -1,0 +1,57 @@
+{
+  "target_variable": "alpha_vs_spy_1day_after",
+  "mean_alpha": -0.213,
+  "total_records": 12688,
+  "event_types": {
+    "market_update": {
+      "count": 6209,
+      "avg_alpha": -0.12,
+      "avg_magnitude": 0.015
+    },
+    "regulatory_change": {
+      "count": 2026,
+      "avg_alpha": -0.025,
+      "avg_magnitude": 0.013
+    },
+    "earnings_report": {
+      "count": 965,
+      "avg_alpha": -0.598,
+      "avg_magnitude": 0.012
+    },
+    "product_launch": {
+      "count": 662,
+      "avg_alpha": -0.558,
+      "avg_magnitude": 0.012
+    },
+    "supply_chain_event": {
+      "count": 559,
+      "avg_alpha": -0.149,
+      "avg_magnitude": 0.013
+    },
+    "analyst_update": {
+      "count": 539,
+      "avg_alpha": 0.161,
+      "avg_magnitude": 0.017
+    },
+    "partnership": {
+      "count": 283,
+      "avg_alpha": -0.724,
+      "avg_magnitude": 0.017
+    },
+    "strategy_announcement": {
+      "count": 281,
+      "avg_alpha": -0.246,
+      "avg_magnitude": 0.014
+    },
+    "guidance_update": {
+      "count": 256,
+      "avg_alpha": -0.021,
+      "avg_magnitude": 0.018
+    },
+    "operational_change": {
+      "count": 209,
+      "avg_alpha": -0.452,
+      "avg_magnitude": 0.017
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "target_variable": "abs_change_1day_after_pct",
+  "description": "Apple stock percentage change 1 day after event",
+  "total_records": 12688,
+  "factor_performance": {
+    "revenue_growth_rate": {
+      "count": 1661,
+      "avg_change": -0.48
+    },
+    "market_perception": {
+      "count": 811,
+      "avg_change": -0.45
+    },
+    "cost_level": {
+      "count": 767,
+      "avg_change": -0.342
+    },
+    "operating_margin": {
+      "count": 668,
+      "avg_change": -0.501
+    },
+    "analyst_rating_change": {
+      "count": 512,
+      "avg_change": -0.037
+    },
+    "production_capacity": {
+      "count": 388,
+      "avg_change": -0.46
+    },
+    "tariff_impact": {
+      "count": 383,
+      "avg_change": -0.11
+    },
+    "product_innovation_rate": {
+      "count": 344,
+      "avg_change": -0.499
+    },
+    "stock_price": {
+      "count": 343,
+      "avg_change": -0.066
+    },
+    "market_share": {
+      "count": 342,
+      "avg_change": -0.868
+    },
+    "supply_availability": {
+      "count": 339,
+      "avg_change": -0.037
+    },
+    "investment_level": {
+      "count": 308,
+      "avg_change": -0.084
+    },
+    "customer_sentiment": {
+      "count": 286,
+      "avg_change": -0.421
+    },
+    "technology_advancement_rate": {
+      "count": 272,
+      "avg_change": -0.409
+    },
+    "brand_value": {
+      "count": 259,
+      "avg_change": -0.403
+    }
+  },
+  "event_performance": {
+    "analyst_update": {
+      "count": 539,
+      "avg_change": 0.161
+    },
+    "guidance_update": {
+      "count": 256,
+      "avg_change": -0.021
+    },
+    "regulatory_change": {
+      "count": 2026,
+      "avg_change": -0.025
+    },
+    "market_update": {
+      "count": 6209,
+      "avg_change": -0.12
+    },
+    "supply_chain_event": {
+      "count": 559,
+      "avg_change": -0.149
+    },
+    "strategy_announcement": {
+      "count": 281,
+      "avg_change": -0.246
+    },
+    "operational_change": {
+      "count": 209,
+      "avg_change": -0.452
+    },
+    "product_launch": {
+      "count": 662,
+      "avg_change": -0.558
+    },
+    "earnings_report": {
+      "count": 965,
+      "avg_change": -0.598
+    },
+    "partnership": {
+      "count": 283,
+      "avg_change": -0.724
+    }
+  },
+  "key_insights": {
+    "best_factor": "analyst_rating_change",
+    "worst_factor": "market_share",
+    "directional_accuracy": 49.1,
+    "baseline_needed": true
+  }
+}

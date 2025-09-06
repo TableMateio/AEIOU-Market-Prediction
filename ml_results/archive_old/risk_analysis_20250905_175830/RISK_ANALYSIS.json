@@ -1,0 +1,24 @@
+{
+  "real_data_stats": {
+    "total_records": 9819,
+    "avg_change": -0.365,
+    "std_change": 2.859,
+    "min_change": -8.694,
+    "max_change": 14.457,
+    "positive_days": 4141,
+    "negative_days": 5017
+  },
+  "strategy_analysis": {
+    "always_buy": {
+      "return_per_event": -0.365,
+      "annual_return": -91.25
+    },
+    "perfect_prediction": {
+      "return_per_event": 0.632600061106019,
+      "annual_return": 158.15001527650475
+    }
+  },
+  "profitability_threshold": 0.6,
+  "current_ml_accuracy": 0.57,
+  "recommendation": "Need to improve accuracy above 60% for profitability"
+}

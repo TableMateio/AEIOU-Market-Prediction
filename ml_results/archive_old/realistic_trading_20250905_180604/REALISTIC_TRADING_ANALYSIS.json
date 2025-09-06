@@ -1,0 +1,32 @@
+{
+  "apple_stats": {
+    "total_events": 9819,
+    "avg_change": -0.365,
+    "positive_events": 4141,
+    "negative_events": 5017,
+    "neutral_events": 661
+  },
+  "realistic_baselines": {
+    "always_hold": 0,
+    "buy_and_hold": -0.365,
+    "contrarian_short": 0.2757510948161726
+  },
+  "required_accuracy_for_profit": 0.65,
+  "current_ml_accuracy": 0.57,
+  "optimal_strategy": "contrarian_short_bias",
+  "position_constraints": {
+    "from_cash": [
+      "BUY",
+      "SHORT",
+      "HOLD"
+    ],
+    "from_long": [
+      "SELL",
+      "HOLD"
+    ],
+    "from_short": [
+      "COVER",
+      "HOLD"
+    ]
+  }
+}

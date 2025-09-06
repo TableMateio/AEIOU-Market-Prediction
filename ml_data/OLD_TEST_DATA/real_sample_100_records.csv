@@ -1,0 +1,11 @@
+article_id,consolidated_event_tags,consolidated_event_type,consolidated_factor_name,event_tag_category,factor_magnitude,factor_movement,article_source_credibility,market_perception_intensity,alpha_vs_spy_1day_after,alpha_vs_spy_1week_after,alpha_vs_qqq_1day_after
+9037effb-84e5-499a-9558-d1d2c5d1b152,,supply_chain_event,supply_chain_risk,,0.02,-1,0.5,0.3,-0.3558081245804867,-1.5025156408123062,-1.2846503977072399
+063b13cb-bb4d-45ea-8fd3-65ad717746a4,,market_update,customer_sentiment,,0.005,1,0.1,0.2,1.208914588416993,-3.641354385530944,1.3752595765501057
+0ad126b6-2f4a-4f4a-b308-260c3a3e0b10,"[""software""]",regulatory_change,market_share,Technology,0.005,-1,0.9,0.3,2.9183920246519235,3.051672985458852,2.8008121291665575
+68537b7a-fd67-444c-a404-e5bbb7450db2,,market_update,market_perception,,0.01,0,0.1,0.4,2.539658682906524,3.394200280927304,2.7535546289980175
+324ea8d4-64a9-477f-a6dd-51d8635237b8,"[""hardware""]",product_launch,investment_level,Technology,0.01,1,0.3,0.4,0,0,0
+e7751eb5-00ce-465f-ac1d-4828535686f9,"[""general""]",market_update,revenue_growth_rate,General,0.015,1,0.5,0.5,-0.20723731135168066,-7.531058552478024,-0.07613403430335175
+32e0a03d-95ca-49df-957d-b97277c81b49,,analyst_update,market_perception,,0,1,0.5,0.6,1.2970918759559011,-2.3826077247960162,1.9335892342575938
+707bdbaa-9a08-45bf-a23f-fc858ac645b1,"[""semiconductor""]",market_update,operating_margin,Technology,0,1,0.5,0.7,0.3682597129260136,-1.6463575432329134,1.0739697938191488
+f378244d-2067-4e53-8560-7e413984e0b7,,market_update,cost_level,,0.01,-1,0.5,0.6,0.058925573429011724,2.7073580128013504,-0.8251483077061366
+1072f6d5-4769-46ba-ac4d-7b4cca245441,"[""operations""]",guidance_update,market_perception,Business Functions,0.02,1,0.7,0.7,0.34620051423848586,2.7140154818932873,0.1743800985482894

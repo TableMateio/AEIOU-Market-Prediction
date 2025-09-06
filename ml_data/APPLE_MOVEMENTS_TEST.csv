@@ -1,0 +1,5 @@
+article_id,consolidated_event_tags,consolidated_event_type,consolidated_factor_name,event_tag_category,factor_magnitude,factor_movement,article_source_credibility,market_perception_intensity,causal_certainty,ai_assessment_business_impact_likelihood,ai_assessment_competitive_risk,ai_assessment_execution_risk,abs_change_1day_after_pct,abs_change_1week_after_pct,article_published_at
+cc4f7b2b-cfa8-4882-a11b-beb72d6ff5e3,"[""ai"", ""hardware""]",market_update,product_innovation_rate,technology,0.02,1,0.3,0.7,0.8,0.6,0.2,0.3,1.9615149706624617,3.2,2025-06-05 23:10:16+00
+cc4f7b2b-cfa8-4882-a11b-beb72d6ff5e3,"[""software""]",market_update,digital_engagement_level,technology,0.01,1,0.3,0.5,0.7,0.5,0.1,0.2,1.9615149706624617,3.2,2025-06-05 23:10:16+00
+5717e683-6820-40c2-acdf-48a6db16b360,"[""regulatory""]",regulatory_change,competitive_pressure,market,0.02,-1,0.4,0.7,0.6,0.4,0.8,0.5,1.6341350440036089,2.1,2025-06-05 21:29:07+00
+5717e683-6820-40c2-acdf-48a6db16b360,"[""market""]",market_update,revenue_growth_rate,financial,0.02,-1,0.4,0.5,0.5,0.3,0.4,0.3,1.6341350440036089,2.1,2025-06-05 21:29:07+00
